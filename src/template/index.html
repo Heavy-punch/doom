@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      media="screen"
+      href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    />
+    <title>simple home page</title>
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <div class="header">
+        <div class="logo">
+          <img src="./images/logo.png" alt="mng" />
+        </div>
+        <div class="logout">
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar">
+          <ul class="menu">
+            <li><a href="./index.html">trang chủ</a></li>
+            <li><a href="#">thống kê</a></li>
+            <li><a href="#">xuất hàng</a></li>
+            <li><a href="./import/import.html">nhập hàng</a></li>
+            <li><a href="#">quản lý</a></li>
+          </ul>
+        </div>
+        <div class="content-wraper">
+          <div class="search-product">
+            <div class="form-group">
+              <!-- <label for="input" class="col-sm-2 control-label"></label> -->
+              <div class="col-sm-12 ml15">
+                <input
+                  type="search"
+                  name=""
+                  id="input"
+                  class="form-control"
+                  value=""
+                  required="required"
+                  placeholder="tim kiem"
+                />
+              </div>
+            </div>
+
+            <table class="table table-bordered table-hover mt15">
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>anh</th>
+                  <th>ten</th>
+                  <th>nganh hang</th>
+                  <th>gia ban</th>
+                  <th>hanh dong</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td></td>
+                  <td>mi tom</td>
+                  <td>thuc pham</td>
+                  <td>3000</td>
+                  <td>
+                    <button type="button" class="btn btn-primary">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="invoice">
+            <div class="invoice-info">
+              <h1>hoa don</h1>
+              <p class="invoice-date">01/01/2021</p>
+              <p class="invoice-mng">nhan vien: nguyen van a - 192</p>
+              <p class="invoice-custom-name">khach hang: A</p>
+              <hr />
+            </div>
+            <div class="invoice-detail">
+              <table class="table table-hover mt15">
+                <thead>
+                  <tr>
+                    <th>stt</th>
+                    <th>ten sp</th>
+                    <th>so luong</th>
+                    <th>don gia</th>
+                    <th>giam gia</th>
+                    <th>thanh tien</th>
+                    <th>xoa san pham</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>mi tom</td>
+                    <td>
+                      <div class="quantity">
+                        <button class="minus-btn" type="button" name="button">
+                          <i class="fa fa-minus" aria-hidden="true"></i>
+                        </button>
+                        <input type="text" name="name" value="1" />
+                        <button class="plus-btn" type="button" name="button">
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td>3000</td>
+                    <td>0</td>
+                    <td>3000</td>
+                    <td>
+                      <button type="button" class="btn btn-primary">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr>
+              <div class="total">
+                <p class="total-raw"><b>tong cong: 3000</b></p>
+                <button type="button" class="btn btn-success">tao don hang</button>
+                <button type="button" class="btn btn-warning">huy</button>
+              </div>
+              <!-- <ul class="cart-products">
+                <li class="cart-product">
+                    <div class="cart-item">
+                        <img src="./images/i1.jpg" alt="">
+                        <p class="item-name">mi tom abc</p>
+                        <p class="item-unit">mi tom abc</p>
+                        <p class="item-qty"></p>
+                    </div>
+                </li>
+              </ul> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">this is footer</div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+  <script>
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById("clock").innerHTML = h + ":" + m + ":" + s;
+      var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      } // add zero in front of numbers < 10
+      return i;
+    }
+
+    function dropFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+      if (!event.target.matches(".dropbtn")) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+      }
+    };
+  </script>
+</html>

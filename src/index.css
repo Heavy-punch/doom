@@ -1,13 +1,273 @@
+html {
+  font-size: 62.5%; /* 10px = 1rem*/
+  box-sizing: border-box;
+}
 body {
+  font-size: 1.3rem;
+  font: 1.3rem Helvetica;
+  height: 100vh;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  height: 100%;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  grid-template-columns: 1fr;
+  grid-template-rows: 5rem 1fr 5rem;
+  height: 100%;
+}
+.header {
+  display: flex;
+  grid-area: header;
+  background-color: #203040;
+  justify-content: space-between;
+}
+
+.main {
+  grid-area: main;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: row;
+}
+.footer {
+  grid-area: footer;
+  background-color: #203040;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+}
+
+/* header */
+.logo {
+  margin: 0.5rem;
+  margin-left: 2rem;
+  cursor: pointer;
+}
+.logo img {
+  max-width: 4rem;
+  max-height: 4rem;
+  border-radius: 50%;
+}
+.logout {
+  color: white;
+  max-width: 4rem;
+  max-height: 4rem;
+  font-size: 2rem;
+  margin: 1rem;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+/* main */
+
+.sidebar {
+  width: 200px;
+  background-color: white;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.menu a.active {
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+}
+
+.menu a:hover:not(.active) {
+  background-color: #203040;
+  color: white;
+}
+
+.menu a {
+  display: block;
+  padding: 8px 16px;
+  color: black;
+}
+
+.menu a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+.user {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.user img {
+  max-width: 7rem;
+  max-height: 7rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.content-wraper {
+  width: 100%;
+  height: calc(100vh - 100px);
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.content-wraper div {
+  background-color: white;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+}
+.row {
+  background-color: #f1f1f1;
+}
+
+.invoice {
+  margin: 0;
+  padding: 0;
+}
+
+.quantity {
+  display: inline-flex;
+}
+.quantity input {
+  -webkit-appearance: none;
+  border: none;
+  text-align: center;
+  width: 32px;
+  font-size: 16px;
+  color: #43484d;
+  font-weight: 300;
+}
+
+.cart-item {
+  display: inline-flex;
+  flex-direction: row;
+}
+.cart-item img {
+  width: 4rem;
+  height: 4rem;
+  min-width: 3rem;
+  min-height: 3rem;
+}
+
+.total {
+  text-align: end;
+}
+.total p {
+  text-align: end;
+}
+/* footer */
+
+.center {
+  text-align: center;
+}
+
+.m-10 {
+  margin: 1rem;
+}
+.mt-15 {
+  margin-top: 15px;
+}
+
+.fr {
+  float: right;
+}
+
+.mr-10 {
+  margin-right: 1rem;
+}
+
+.mt-3 {
+  margin-top: 3px;
+}
+.ml-3 {
+  margin-left: 3px;
+}
+.mr-3 {
+  margin-right: 3px;
+}
+.text-al-center {
+  text-align: center;
+}
+.mg-0 {
+  margin: 0;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.loading {
+  display: block !important;
+}
+.success {
+  color: #20a020;
+}
+.danger {
+  color: #a02020;
+}
+
+.alert-info {
+  color: #2020a0;
+  background-color: #e0e0ff;
+}
+
+.mng-entity {
+  display: flex;
+  justify-content: space-around;
+}
+
+.mng-entity a {
+  display: block;
+  color: black;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  width: 15rem;
+}
+.mng-entity a:hover {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cat-img {
+  max-height: 5rem;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+.product-img {
+  max-height: 5rem;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.discount-description {
+  width: 30rem;
+}
+.invoice-info h1 {
+  text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+  .mng-entity {
+    display: block;
+    align-items: center;
+    text-align: center;
+  }
+  .mng-entity a {
+    margin-bottom: 0.5rem;
+  }
 }
