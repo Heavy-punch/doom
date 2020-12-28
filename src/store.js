@@ -1,18 +1,29 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { productListReducer } from "./reducers/productReducers";
-import { categoryListReducer } from "./reducers/categoryReducers";
+import { categoryDeleteReducer, categoryListReducer } from "./reducers/categoryReducers";
 import { userSigninReducer } from "./reducers/userReducers";
-import { shelfListReducer } from "./reducers/shelfReducers";
+import { shelfCreateReducer, shelfDeleteReducer, shelfDetailsReducer, shelfListReducer, shelfUpdateReducer } from "./reducers/shelfReducers";
 import { supplierListReducer } from "./reducers/supplierReducers";
 import { discountListReducer } from "./reducers/discountLabelReducers";
 import { invoiceListReducer } from "./reducers/invoiceReducers";
 
-const initialstate = {};
+const initialstate = {
+    // userSignin: {
+    //     userInfo: localStorage.getItem('userInfo')
+    //         ? JSON.parse(localStorage.getItem('userInfo'))
+    //         : null,
+    // },
+};
 const reducer = combineReducers({
     productList: productListReducer,
     categoryList: categoryListReducer,
+    categoryDelete: categoryDeleteReducer,
     shelfList: shelfListReducer,
+    shelfDetails: shelfDetailsReducer,
+    shelfDelete: shelfDeleteReducer,
+    shelfCreate: shelfCreateReducer,
+    shelfUpdate: shelfUpdateReducer,
     supplierList: supplierListReducer,
     discountList: discountListReducer,
     invoiceList: invoiceListReducer,

@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { listProducts } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import ReactPaginate from 'react-paginate';
+import Pagination from '../components/Pagination';
 
 // import { Container } from './styles';
 
@@ -12,10 +15,27 @@ function ProductScreen() {
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.productList);
     const { loading, error, products } = productList;
+    // if (products !== undefined && products.length !== 0 && loading === false) {
+    //     var tmp = products;
+    //     console.log(tmp);
+    // }
     useEffect(() => {
         dispatch(listProducts());
     }, [dispatch]);
-    // console.log(products);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage, setProductsPerPage] = useState(5);
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products !== undefined ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+
+    console.log(currentProducts);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -67,7 +87,7 @@ function ProductScreen() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {products.map((product, index) => (
+                                            {currentProducts.map((product, index) => (
                                                 <tr key={product.PID}>
                                                     <td>{index + 1}</td>
                                                     <td>{product.PID}</td>
@@ -86,9 +106,9 @@ function ProductScreen() {
                                             ))}
                                         </tbody>
                                     </table>
+                                    <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination>
                                 </>
                             )}
-
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <button

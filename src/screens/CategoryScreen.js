@@ -1,21 +1,46 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { listCategories } from '../actions/categoryActions';
+import { deleteCategory, listCategories } from '../actions/categoryActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { CATEGORY_DELETE_RESET } from '../constants/categoryConstants';
 
 // import { Container } from './styles';
 
-function CategoryScreen() {
+function CategoryScreen(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     const categoryList = useSelector((state) => state.categoryList);
     const { loading, error, categories } = categoryList;
+    const categoryDelete = useSelector((state) => state.categoryDelete);
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = categoryDelete;
     useEffect(() => {
+        if (successDelete) {
+            dispatch({ type: CATEGORY_DELETE_RESET });
+        }
         dispatch(listCategories());
-    }, [dispatch]);
-    // console.log(categoryList);
+    }, [dispatch, successDelete]);
+
+    // console.log(categoryDelete);
+
+    const deleteHandler = (delCategory) => {
+        if (window.confirm('Are you sure to delete?')) {
+            var delList = [];
+            delList.push(delCategory.CID);
+            dispatch(deleteCategory(delList));
+            // console.log(delList);
+        }
+    };
+
+    const editHandler = (editCategory) => {
+        props.history.push(`/categories/${editCategory.CID}/edit`)
+    };
+
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -44,6 +69,8 @@ function CategoryScreen() {
                     </div>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
+                    {loadingDelete && <LoadingBox></LoadingBox>}
+                    {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
                     {loading ? (
                         <LoadingBox></LoadingBox>
                     ) : error ? (
@@ -75,8 +102,20 @@ function CategoryScreen() {
                                                         ))}</ul>
                                                     </td>
                                                     <td>
-                                                        <button type="button" className="btn btn-warning m-10">sửa</button>
-                                                        <button type="button" className="btn btn-danger m-10">xóa</button>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-warning m-10"
+                                                            onClick={() => editHandler(category)}
+                                                        >
+                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-danger m-10"
+                                                            onClick={() => deleteHandler(category)}
+                                                        >
+                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -95,3 +134,4 @@ function CategoryScreen() {
 }
 
 export default CategoryScreen;
+

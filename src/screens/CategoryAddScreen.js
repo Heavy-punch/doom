@@ -1,13 +1,17 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 // import { Container } from './styles';
 
-function CategoryAddScreen() {
+function CategoryAddScreen(props) {
+    const history = useHistory();
+    const categoryId = props.match.params.id;
+    console.log(categoryId);
     return (
         <div className="container-fluid">
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Thêm Ngành Hàng</h2>
+                    {categoryId ? <h2>Sửa Ngành Hàng</h2> : <h2>Thêm Ngành Hàng</h2>}
                 </div>
             </div>
             <hr></hr>
@@ -32,7 +36,7 @@ function CategoryAddScreen() {
                         </div>
 
                         <button type="submit" className="btn btn-primary fr">thêm ngành hàng</button>
-                        <button type="submit" className="btn btn-warning fr mr-3">hủy bỏ</button>
+                        <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
                     </form>
                 </div>
             </div>

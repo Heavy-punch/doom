@@ -6,11 +6,15 @@ import SignInScreen from '../screens/SignInScreen';
 
 function PublicLayout() {
     return (
-        <div>
-            <p>public</p>
-            <Route path="/" component={SignInScreen}></Route>
+        <div className="container-fluid">
+            <div className="signin-wraper">
+                <Route path="/" component={SignInScreen}></Route>
+            </div>
         </div>
     );
 }
 
 export default PublicLayout;
+
+
+

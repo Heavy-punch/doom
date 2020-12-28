@@ -1,8 +1,51 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { createShelf } from '../actions/shelfActions';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { SHELF_CREATE_RESET } from '../constants/shelfConstants';
 
 // import { Container } from './styles';
 
-function ShelfAddScreen() {
+function ShelfAddScreen(props) {
+    const history = useHistory();
+    const [name, setName] = useState('');
+    const [type, setType] = useState('small');
+    const [location, setLocation] = useState('warehouse');
+    const [status, setStatus] = useState('available');
+
+    // console.log(type);
+    const dispatch = useDispatch();
+
+    const shelfCreate = useSelector((state) => state.shelfCreate);
+    const {
+        loading: loadingCreate,
+        error: errorCreate,
+        success: successCreate,
+    } = shelfCreate;
+
+
+    useEffect(() => {
+        if (successCreate) {
+            dispatch({ type: SHELF_CREATE_RESET });
+            props.history.push('/shelves');
+        }
+    }, [successCreate, dispatch, props.history]);
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        dispatch(
+            createShelf({
+                name,
+                type,
+                location,
+                state: status,
+            })
+        );
+    };
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -16,25 +59,63 @@ function ShelfAddScreen() {
 
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <form >
+                    {loadingCreate && <LoadingBox></LoadingBox>}
+                    {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
+                    {/* {successCreate && <MessageBox >thêm thành công</MessageBox>} */}
+                    <form onSubmit={submitHandler}>
                         <div className="form-group">
                             <label className="form-label">tên kệ hàng:</label>
-                            <input type="text" className="form-control" id="" placeholder="tên kệ hàng" />
+                            <input
+                                type="text"
+                                className="form-control"
+                                // placeholder="tên kệ hàng"
+                                name="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </div>
                         <div className="form-group">
                             <label className="form-label" >kiểu kệ hàng:</label>
-                            <input type="text" className="form-control" id="" placeholder="kiểu kệ hàng" />
+                            <select
+                                type="text"
+                                className="form-control"
+                                name="type"
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                            >
+                                <option value="small">nhỏ</option>
+                                <option value="medium">vừa</option>
+                                <option value="large">lớn</option>
+                            </select>
                         </div>
                         <div className="form-group">
                             <label className="form-label" >vị trí đặt:</label>
-                            <input type="text" className="form-control" id="" placeholder="vị trí đặt" />
+                            <select
+                                type="text"
+                                className="form-control"
+                                name="location"
+                                value={location}
+                                onChange={(e) => setLocation(e.target.value)}
+                            >
+                                <option value="warehouse">kho</option>
+                                <option value="store">cửa hàng</option>
+                            </select>
                         </div>
                         <div className="form-group">
                             <label className="form-label" >trạng thái:</label>
-                            <input type="text" className="form-control" id="" placeholder="trạng thái" />
+                            <select
+                                type="text"
+                                className="form-control"
+                                name="status"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                            >
+                                <option value="available">còn trống</option>
+                                <option value="full">đầy</option>
+                            </select>
                         </div>
-                        <button type="submit" className="btn btn-primary fr">thêm kệ hàng</button>
-                        <button type="submit" className="btn btn-warning fr mr-3">hủy bỏ</button>
+                        <button type="submit" className="btn btn-primary fr">Thêm kệ hàng</button>
+                        <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
                     </form>
                 </div>
             </div>

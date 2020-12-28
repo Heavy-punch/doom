@@ -15,6 +15,29 @@ body {
   height: 100%;
 }
 
+.signin-wraper {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background-color: #55bbff;
+}
+.signin-form-wraper {
+  width: 30rem;
+}
+
+.page-item p {
+  display: inline-block;
+}
+
+.form h1 {
+  padding: 5rem;
+  text-align: center;
+}
+
+.ali-end {
+  text-align: end;
+}
+
 .grid-container {
   display: grid;
   grid-template-areas:

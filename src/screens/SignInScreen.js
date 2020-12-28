@@ -18,10 +18,10 @@ function SignInScreen(props) {
     const userSignin = useSelector((state) => state.userSignin);
     const { loading, error } = userSignin;
     return (
-        <div>
+        <div className="signin-form-wraper">
             <form className="form" onSubmit={submitHandler}>
                 <div>
-                    <h1>Sign In</h1>
+                    <h1><b>Sign In</b></h1>
                 </div>
                 {loading && <LoadingBox></LoadingBox>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
@@ -29,15 +29,17 @@ function SignInScreen(props) {
                     <label htmlFor="account">Account:</label>
                     <input
                         type="text"
+                        className="form-control"
                         id="account"
                         placeholder="Enter account"
                         required
                         onChange={(e) => setAccount(e.target.value)}
                     ></input>
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
+                <div className="mt-3">
+                    <label htmlFor="password">Password:</label>
                     <input
+                        className="form-control"
                         type="password"
                         id="password"
                         placeholder="Enter password"
@@ -45,11 +47,10 @@ function SignInScreen(props) {
                         onChange={(e) => setPassword(e.target.value)}
                     ></input>
                 </div>
-                <div>
-                    <label />
-                    <button className="primary" type="submit">
+                <div className="ali-end">
+                    <button className="btn btn-primary mt-3" type="submit">
                         Sign In
-          </button>
+                    </button>
                 </div>
             </form>
         </div>
@@ -57,3 +58,7 @@ function SignInScreen(props) {
 }
 
 export default SignInScreen;
+
+
+
+

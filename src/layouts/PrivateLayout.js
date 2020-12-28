@@ -16,12 +16,13 @@ import ShelfScreen from '../screens/ShelfScreen';
 import ShelfAddScreen from '../screens/ShelfAddScreen';
 import SupplierScreen from '../screens/SupplierScreen';
 import SupplierAddScreen from '../screens/SupplierAddScreen';
+import ShelfEditScreen from '../screens/ShelfEditScreen';
 
 // import { Container } from './styles';
 
 function PrivateLayout() {
     const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo, loading, error } = userSignin;
+    const { userInfo } = userSignin;
     const dispatch = useDispatch();
     const signoutHandler = () => {
         dispatch(signout());
@@ -59,8 +60,10 @@ function PrivateLayout() {
                     <PrivateRoute path="/products" exact component={ProductScreen}></PrivateRoute>
                     <PrivateRoute path="/categories" exact component={CategoryScreen}></PrivateRoute>
                     <PrivateRoute path="/categories/add" component={CategoryAddScreen}></PrivateRoute>
+                    <PrivateRoute path="/categories/:id/edit" component={CategoryAddScreen}></PrivateRoute>
                     <PrivateRoute path="/shelves" exact component={ShelfScreen}></PrivateRoute>
                     <PrivateRoute path="/shelves/add" component={ShelfAddScreen}></PrivateRoute>
+                    <PrivateRoute path="/shelves/:id/edit" component={ShelfEditScreen}></PrivateRoute>
                     <PrivateRoute path="/suppliers" exact component={SupplierScreen}></PrivateRoute>
                     <PrivateRoute path="/suppliers/add" component={SupplierAddScreen}></PrivateRoute>
                     <PrivateRoute path="/discounts" exact component={DiscountLabelScreen}></PrivateRoute>
