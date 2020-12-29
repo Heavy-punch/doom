@@ -6,7 +6,7 @@ export const signin = (account, password) => async (dispatch) => {
     try {
         const { data } = await Axios.post('/api/auth/login', { account, password });
         dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.data });
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem('userInfo', JSON.stringify(data.data));
     } catch (error) {
         dispatch({
             type: USER_SIGNIN_FAIL,

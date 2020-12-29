@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { deleteCategory, listCategories } from '../actions/categoryActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { CATEGORY_DELETE_RESET } from '../constants/categoryConstants';
+import Pagination from '../components/Pagination';
 
 // import { Container } from './styles';
 
@@ -26,19 +27,32 @@ function CategoryScreen(props) {
         dispatch(listCategories());
     }, [dispatch, successDelete]);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [categoriesPerPage] = useState(5);
+
+    const indexOfLastProduct = currentPage * categoriesPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - categoriesPerPage;
+    const currentCategories = categories !== undefined ? categories.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+
+    // console.log(currentCategories);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     // console.log(categoryDelete);
 
-    const deleteHandler = (delCategory) => {
+    const deleteHandler = (delItem) => {
         if (window.confirm('Are you sure to delete?')) {
             var delList = [];
-            delList.push(delCategory.CID);
+            delList.push(delItem);
             dispatch(deleteCategory(delList));
-            // console.log(delList);
+            console.log(delList);
         }
     };
 
-    const editHandler = (editCategory) => {
-        props.history.push(`/categories/${editCategory.CID}/edit`)
+    const editHandler = (editItem) => {
+        props.history.push(`/categories/${editItem}/edit`)
     };
 
     return (
@@ -90,7 +104,7 @@ function CategoryScreen(props) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {categories.map((category, index) => (
+                                            {currentCategories.map((category, index) => (
                                                 <tr key={category.CID}>
                                                     <td>{index + 1}</td>
                                                     <td>{category.CID}</td>
@@ -105,14 +119,14 @@ function CategoryScreen(props) {
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(category)}
+                                                            onClick={() => editHandler(category.CID)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button>
                                                         <button
                                                             type="button"
                                                             className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(category)}
+                                                            onClick={() => deleteHandler(category.CID)}
                                                         >
                                                             <i className="fa fa-trash" aria-hidden="true"></i> xóa
                                                         </button>
@@ -121,6 +135,7 @@ function CategoryScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
+                                    <Pagination itemsPerPage={categoriesPerPage} totalItems={categories.length} paginate={paginate}></Pagination>
                                 </>
                             )}
                 </div>

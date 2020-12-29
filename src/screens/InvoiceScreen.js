@@ -1,20 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listInvoices } from '../actions/invoiceActions';
+import { useHistory } from 'react-router-dom';
+import { deleteInvoice, listInvoices } from '../actions/invoiceActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { INVOICE_DELETE_RESET } from '../constants/invoiceConstants';
+import Pagination from '../components/Pagination';
+
 
 // import { Container } from './styles';
 
-function InvoiceScreen() {
+function InvoiceScreen(props) {
     const [isUp, setIsUp] = useState(false);
+    const history = useHistory();
     const dispatch = useDispatch();
     const invoiceList = useSelector((state) => state.invoiceList);
     const { loading, error, invoices } = invoiceList;
+    const invoiceDelete = useSelector((state) => state.invoiceDelete);
+    const {
+        loading: loadingDelete,
+        error: errorDelete,
+        success: successDelete,
+    } = invoiceDelete;
+
     useEffect(() => {
+        if (successDelete) {
+            dispatch({ type: INVOICE_DELETE_RESET });
+        }
         dispatch(listInvoices());
-    }, [dispatch]);
-    console.log(invoices);
+    }, [dispatch, successDelete]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [invoicesPerPage] = useState(5);
+
+    const indexOfLastProduct = currentPage * invoicesPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - invoicesPerPage;
+    const currentInvoices = invoices !== undefined ? invoices.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+
+    // console.log(currentInvoices);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const deleteHandler = (delItem) => {
+        if (window.confirm('Are you sure to delete?')) {
+            var delList = [];
+            delList.push(delItem);
+            dispatch(deleteInvoice(delList));
+            // console.log(delList);
+        }
+    };
+
+    const editHandler = (editItem) => {
+        props.history.push(`/bills/${editItem}/edit`)
+    };
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -44,6 +84,8 @@ function InvoiceScreen() {
                     </div>
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
+                    {loadingDelete && <LoadingBox></LoadingBox>}
+                    {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
                     {loading ? (
                         <LoadingBox></LoadingBox>
                     ) : error ? (
@@ -83,15 +125,31 @@ function InvoiceScreen() {
                                                     <td>{invoice.manager.LName + invoice.manager.FName + " - " + invoice.MngID}</td>
                                                     <td>{invoice.total}</td>
                                                     <td>
-                                                        <button type="button" className="btn btn-warning m-10">sửa</button>
-                                                        <button type="button" className="btn btn-danger m-10">xóa</button>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-warning m-10"
+                                                            onClick={() => editHandler(invoice.BID)}
+                                                        >
+                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-danger m-10"
+                                                            onClick={() => deleteHandler(invoice.BID)}
+                                                        >
+                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
+                                    <Pagination itemsPerPage={invoicesPerPage} totalItems={invoices.length} paginate={paginate}></Pagination>
                                 </>
                             )}
+                </div>
+                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/`))}>tạo đơn hàng mới</button>
                 </div>
             </div>
         </div>
