@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { listProducts } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import ReactPaginate from 'react-paginate';
 import Pagination from '../components/Pagination';
 
 // import { Container } from './styles';
@@ -24,13 +23,13 @@ function ProductScreen() {
     }, [dispatch]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage, setProductsPerPage] = useState(5);
+    const [productsPerPage] = useState(5);
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = products !== undefined ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
-    console.log(currentProducts);
+    // console.log(currentProducts);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);

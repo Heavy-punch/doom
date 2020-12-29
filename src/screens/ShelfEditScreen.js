@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { detailsShelf, updateShelf } from '../actions/shelfActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { SHELF_DETAILS_RESET, SHELF_UPDATE_RESET } from '../constants/shelfConstants';
+import { SHELF_UPDATE_RESET } from '../constants/shelfConstants';
 
 // import { Container } from './styles';
 
@@ -31,7 +31,7 @@ function ShelfEditScreen(props) {
 
     const dispatch = useDispatch();
 
-    console.log(shelf);
+    // console.log(shelf);
 
     useEffect(() => {
         if (successUpdate) {
@@ -41,12 +41,6 @@ function ShelfEditScreen(props) {
             dispatch({ type: SHELF_UPDATE_RESET });
             dispatch(detailsShelf(shelfId));
         }
-        // if (!loading) {
-        //     setName(shelf.name);
-        //     setType(shelf.type);
-        //     setLocation(shelf.location);
-        //     setStatus(shelf.state);
-        // }
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
@@ -149,8 +143,6 @@ function ShelfEditScreen(props) {
                                     </form>
                                 </>
                             )}
-
-
                 </div>
             </div>
         </div>

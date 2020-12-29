@@ -19,11 +19,36 @@ export const listCategories = () => async (dispatch, getState) => {
     }
 };
 
-export const detailsCategory = (categoryId) => async (dispatch) => {
+// export const detailsCategory = (categoryId) => async (dispatch) => {
+//     dispatch({ type: CATEGORY_DETAILS_REQUEST, payload: categoryId });
+//     const {
+//         userSignin: { userInfo },
+//     } = getState();
+//     try {
+//         const { data } = await Axios.get(`/api/categories/${categoryId}`,
+//             { headers: { 'x-access-token': `${userInfo.token}` } }
+//         );
+//         dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data.data });
+//     } catch (error) {
+//         dispatch({
+//             type: CATEGORY_DETAILS_FAIL,
+//             payload:
+//                 error.response && error.response.data.message
+//                     ? error.response.data.message
+//                     : error.message,
+//         });
+//     }
+// };
+export const detailsCategory = (categoryId) => async (dispatch, getState) => {
     dispatch({ type: CATEGORY_DETAILS_REQUEST, payload: categoryId });
+    const {
+        userSignin: { userInfo },
+    } = getState();
     try {
-        const { data } = await Axios.get(`/api/categories/${categoryId}`);
-        dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data });
+        const { data } = await Axios.get(`/api/categories/${categoryId}`,
+            { headers: { 'x-access-token': `${userInfo.token}` } }
+        );
+        dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data.data });
     } catch (error) {
         dispatch({
             type: CATEGORY_DETAILS_FAIL,
@@ -35,7 +60,7 @@ export const detailsCategory = (categoryId) => async (dispatch) => {
     }
 };
 
-export const createcategory = () => async (dispatch, getState) => {
+export const createCategory = (category) => async (dispatch, getState) => {
     dispatch({ type: CATEGORY_CREATE_REQUEST });
     const {
         userSignin: { userInfo },
@@ -43,14 +68,14 @@ export const createcategory = () => async (dispatch, getState) => {
     try {
         const { data } = await Axios.post(
             '/api/categories',
-            {},
+            category,
             {
                 headers: { 'x-access-token': `${userInfo.token}` },
             }
         );
         dispatch({
             type: CATEGORY_CREATE_SUCCESS,
-            payload: data.category,
+            payload: data,
         });
     } catch (error) {
         const message =
@@ -60,16 +85,19 @@ export const createcategory = () => async (dispatch, getState) => {
         dispatch({ type: CATEGORY_CREATE_FAIL, payload: message });
     }
 };
-export const updatecategory = (category) => async (dispatch, getState) => {
+export const updateCategory = (category, categoryId) => async (dispatch, getState) => {
     dispatch({ type: CATEGORY_UPDATE_REQUEST, payload: category });
     const {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.put(`/api/categories/${category._id}`, category, {
-            headers: { 'x-access-token': `${userInfo.token}` },
+        const { data } = await Axios.put(`/api/categories/${categoryId}`, category, {
+            headers: {
+                "Content-Type": "application/json",
+                'x-access-token': `${userInfo.token}`
+            },
         });
-        dispatch({ type: CATEGORY_UPDATE_SUCCESS, payload: data });
+        dispatch({ type: CATEGORY_UPDATE_SUCCESS, payload: data.data });
     } catch (error) {
         const message =
             error.response && error.response.data.message
@@ -100,3 +128,4 @@ export const deleteCategory = (categoryId) => async (dispatch, getState) => {
         dispatch({ type: CATEGORY_DELETE_FAIL, payload: message });
     }
 };
+
