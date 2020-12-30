@@ -8,6 +8,7 @@ import CategoryAddScreen from '../screens/CategoryAddScreen';
 import CategoryEditScreen from '../screens/CategoryEditScreen';
 import DiscountLabelScreen from '../screens/DiscountLabelScreen';
 import DiscountLabelAddScreen from '../screens/DiscountLabelAddScreen';
+import DiscountLabelEditScreen from '../screens/DiscountLabelEditScreen';
 import InvoiceScreen from '../screens/InvoiceScreen';
 import ManagementScreen from '../screens/ManagementScreen';
 import ProductAddScreen from '../screens/ProductAddScreen';
@@ -81,6 +82,7 @@ function PrivateLayout() {
 
                     <PrivateRoute path="/discounts" exact component={DiscountLabelScreen}></PrivateRoute>
                     <PrivateRoute path="/discounts/add" component={DiscountLabelAddScreen}></PrivateRoute>
+                    <PrivateRoute path="/discounts/:id/edit" component={DiscountLabelEditScreen}></PrivateRoute>
 
                     <PrivateRoute path="/invoices" exact component={InvoiceScreen}></PrivateRoute>
 

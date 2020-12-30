@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { listProducts } from '../actions/productAction';
+import MessageBox from '../components/MessageBox';
+import LoadingBox from '../components/LoadingBox';
+import Pagination from '../components/Pagination';
+import AdjustQuantity from '../components/AdjustQuantity';
 
-function SellingScreen() {
+function SellingScreen(props) {
     const [count, setCount] = useState(1);
+    const [name, setName] = useState('');
+    const [cusName, setCusName] = useState('');
+    const [cart, setCart] = useState([]);
+
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
     const getCurrentDate = () => { let date = new Date(); return date };
@@ -10,107 +19,261 @@ function SellingScreen() {
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.productList);
     const { loading, error, products } = productList;
+
+    useEffect(() => {
+        dispatch(listProducts());
+    }, []);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage] = useState(5);
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products !== undefined ? products.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+
+    const onSearchHandler = (e) => {
+        e.preventDefault();
+        dispatch(listProducts(name));
+        setName('');
+    };
+
+    const addToCart = (product, quantity) => {
+        var index = findProductInCart([...cart], product);
+        if (index === -1) {
+            console.log("can't find");
+            let newArr = [...cart];
+            newArr.push({ product, qty: quantity });
+            setCart(newArr);
+        }
+        else {
+            console.log("finded");
+            let newArr = [...cart];
+            newArr[index].qty += quantity;
+            setCart(newArr);
+        }
+    };
+    console.log(cart);
+
+    const findProductInCart = (fcart, fproduct) => {
+        var index = -1;
+        if (fcart.length > 0) {
+            for (let i = 0; i < fcart.length; i++) {
+                if (fcart[i].product.PID === fproduct.PID) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        return index;
+    };
+
+    const deleteHandler = (index) => {
+        console.log("delete");
+        let newArr = [...cart];
+        newArr.splice(index, 1);
+        setCart(newArr);
+        // console.log(newArr);
+    };
+
+    const onChangeQty = (event, index) => {
+        console.log("change qty");
+        let newArr = [...cart];
+        newArr[index].qty = parseInt(event.target.value, 10);
+        setCart(newArr);
+    };
+
+    const subQty = (index) => {
+        console.log("sub 1 qty");
+        let newArr = [...cart];
+        newArr[index].qty -= 1;
+        setCart(newArr);
+    };
+
+    const addQty = (index) => {
+        console.log("add 1 qty");
+        let newArr = [...cart];
+        newArr[index].qty += 1;
+        setCart(newArr);
+    };
+
+    const total = (a, b) => {
+        return a + b.product.sell_price * b.qty;
+    };
+
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                    <div className="form-group">
-                        <div className="col-sm-12 ml15">
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <form onSubmit={onSearchHandler}>
+                        <div className="input-group">
                             <input
-                                type="search"
-                                name=""
-                                id="input"
                                 className="form-control"
-                                required="required"
-                                placeholder="tim kiem"
+                                type="text"
+                                name="search-bar"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
+                            <span className="input-group-btn">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                >
+                                    <i className="fa fa-search mr-3" aria-hidden="true"></i>
+                                tìm kiếm
+                            </button>
+                            </span>
                         </div>
-                    </div>
+                    </form>
 
-                    <table className="table table-bordered table-hover mt15">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>ảnh</th>
-                                <th>tên</th>
-                                <th>giá bán</th>
-                                <th>thêm</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td>mi tom</td>
-                                <td>3000</td>
-                                <td>
-                                    <button type="button" className="btn btn-primary">
-                                        <i className="fa fa-plus" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    {loading ? (
+                        <LoadingBox></LoadingBox>
+                    ) : error ? (
+                        <MessageBox variant="danger">{error}</MessageBox>
+                    ) : (
+                                <>
+                                    {products.length === 0 && <MessageBox>No product Found</MessageBox>}
+                                    <table className="table table-bordered table-hover mt15">
+                                        <thead>
+                                            <tr>
+                                                <th className="col-md-1">id</th>
+                                                <th className="col-md-2">ảnh</th>
+                                                <th className="col-md-4">tên</th>
+                                                <th className="col-md-3">giá bán</th>
+                                                <th className="col-md-2">thêm</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {currentProducts.map((product, index) => (
+                                                <tr key={product.PID}>
+                                                    <td>{product.PID}</td>
+                                                    <td><img src={product.img_url} alt={product.name} className="product-img"></img></td>
+                                                    <td>{product.name}</td>
+                                                    <td>{product.sell_price}</td>
+                                                    <td>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-primary"
+                                                            onClick={() => addToCart(product, 1)}
+                                                        >
+                                                            <i className="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    {products.length > productsPerPage ? <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination> : ""}
+                                </>
+                            )}
                 </div>
-                <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <div className="invoice">
-                        <div className="invoice-info">
-                            <h1>Hóa Đơn</h1>
-                            <p className="invoice-date">Ngày: {getCurrentDate().toDateString()}</p>
-                            <p className="invoice-mng">Nhân viên bán hàng: {userInfo.FName + " " + userInfo.LName + " - " + userInfo.MngID}</p>
-                            <p className="invoice-custom-name">Khách hàng: A</p>
-                            <hr />
-                        </div>
-                        <div className="invoice-detail">
-                            <table className="table table-hover mt15">
-                                <thead>
-                                    <tr>
-                                        <th>stt</th>
-                                        <th>ten sp</th>
-                                        <th>so luong</th>
-                                        <th>don gia</th>
-                                        <th>giam gia</th>
-                                        <th>thanh tien</th>
-                                        <th>xoa san pham</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>mi tom</td>
-                                        <td>
-                                            <div className="quantity">
-                                                <button className="minus-btn" type="button" name="button" onClick={() => count > 0 ? setCount(count - 1) : setCount(count)}>
-                                                    <i className="fa fa-minus" aria-hidden="true"></i>
-                                                </button>
-                                                <input type="text" name="name" value={count} onChange={(e) => setCount(e.target.value)} />
-                                                <button className="plus-btn" type="button" name="button" onClick={() => setCount(count + 1)}>
-                                                    <i className="fa fa-plus" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td>3000</td>
-                                        <td>0</td>
-                                        <td>3000</td>
-                                        <td>
-                                            <button type="button" className="btn btn-primary">
-                                                <i className="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr />
-                            <div className="total">
-                                <p className="total-raw"><b>tong cong: 3000</b></p>
+
+                <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                    <form>
+                        <div className="invoice">
+                            <div className="invoice-info">
+                                <h1>Hóa Đơn</h1>
+                                <p className="invoice-date">Ngày: {getCurrentDate().toDateString()}</p>
+                                <p className="invoice-mng">Nhân viên bán hàng: {userInfo.FName + " " + userInfo.LName + " - " + userInfo.MngID}</p>
+
+                                <div className="form-group mg-0 cus-name">
+                                    <label className="col-sm-2 form-label pd-0">tên khách hàng:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control col-sm-10"
+                                        value={cusName}
+                                        onChange={(e) => setCusName(e.target.value)}
+                                    />
+                                </div>
                                 <hr />
-                                <button type="reset" className="btn btn-warning mr-3">hủy</button>
-                                <button type="button" className="btn btn-success">
-                                    tạo đơn hàng
-                                </button>
+                            </div>
+                            <div className="invoice-detail">
+                                <table className="table table-hover mt15">
+                                    <thead>
+                                        <tr>
+                                            <th className="col-md-1">stt</th>
+                                            <th className="col-md-2">tên sp</th>
+                                            <th className="col-md-2">số lượng</th>
+                                            <th className="col-md-2">đơn giá</th>
+                                            <th className="col-md-2">giảm giá</th>
+                                            <th className="col-md-2">thành tiền</th>
+                                            <th className="col-md-1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {cart.map((cartItem, index) => (
+                                            <tr key={cartItem.product.PID}>
+                                                <td>{index + 1}</td>
+                                                <td>{cartItem.product.name}</td>
+                                                <td>
+                                                    <div className="quantity">
+                                                        <button
+                                                            className="minus-btn"
+                                                            type="button"
+                                                            disabled={cartItem.qty < 2}
+                                                            onClick={() => subQty(index)}
+                                                        >
+                                                            <i className="fa fa-minus" aria-hidden="true"></i>
+                                                        </button>
+                                                        <input
+                                                            type="number"
+                                                            value={cartItem.qty}
+                                                            onChange={(e) => onChangeQty(e, index)}
+                                                        />
+                                                        <button
+                                                            className="plus-btn"
+                                                            type="button"
+                                                            onClick={() => addQty(index)}
+                                                        >
+                                                            <i className="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                {/* <td><AdjustQuantity qty={cartItem.qty}></AdjustQuantity></td> */}
+                                                <td>{cartItem.product.sell_price}</td>
+                                                {/* <td>{cartItem.product.end_date}</td> */}
+                                                <td>0</td>
+                                                <td>{cartItem.product.sell_price * cartItem.qty}</td>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-danger m-10"
+                                                        onClick={() => deleteHandler(index)}
+                                                    >
+                                                        <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                                <hr />
+                                <div className="total">
+                                    <p className="total-raw">
+                                        {/* <b>tong cong: {cart.length < 1 ? 0 : cart.length < 2 ? cart[0].product.sell_price * cart[0].qty : cart.reduce(total)}</b> */}
+                                        <b>tong cong: {cart.reduce(total, 0)}</b>
+                                    </p>
+                                    <hr />
+                                    <button
+                                        type="reset"
+                                        className="btn btn-warning mr-3"
+                                    >
+                                        hủy
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn btn-success"
+                                    >
+                                        tạo đơn hàng
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

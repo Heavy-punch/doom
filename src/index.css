@@ -219,13 +219,21 @@ body {
   text-align: center;
 }
 .mg-0 {
-  margin: 0;
+  margin: 0 !important;
+}
+.pd-0 {
+  padding: 0 !important;
 }
 
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+}
+
+.cus-name {
+  display: flex;
+  align-items: center;
 }
 
 .loading {
@@ -283,6 +291,12 @@ body {
 .invoice-info h1 {
   text-align: center;
 }
+.invoice-date {
+  text-align: center;
+}
+.invoice-mng {
+  text-align: center;
+}
 
 @media screen and (max-width: 700px) {
   .mng-entity {
@@ -293,4 +307,16 @@ body {
   .mng-entity a {
     margin-bottom: 0.5rem;
   }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

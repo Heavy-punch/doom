@@ -28,7 +28,9 @@ function InvoiceScreen(props) {
             dispatch({ type: INVOICE_DELETE_RESET });
         }
         dispatch(listInvoices());
-    }, [dispatch, successDelete]);
+    }, [dispatch, successDelete,]);
+
+    console.log(invoices);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [invoicesPerPage] = useState(5);
@@ -116,7 +118,7 @@ function InvoiceScreen(props) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {invoices.map((invoice, index) => (
+                                            {currentInvoices.map((invoice, index) => (
                                                 <tr key={invoice.BID}>
                                                     <td>{index + 1}</td>
                                                     <td>{invoice.BID}</td>

@@ -21,6 +21,7 @@ function DiscountLabelScreen(props) {
         success: successDelete,
     } = discountDelete;
 
+    // console.log(discountList);
     useEffect(() => {
         if (successDelete) {
             dispatch({ type: DISCOUNT_DELETE_RESET });
