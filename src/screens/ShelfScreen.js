@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { deleteShelf, listShelves } from '../actions/shelfActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { SHELF_DELETE_RESET } from '../constants/shelfConstants';
+import Pagination from '../components/Pagination';
+
 
 // import { Container } from './styles';
 
@@ -27,6 +29,20 @@ function ShelfScreen(props) {
         dispatch(listShelves());
     }, [dispatch, successDelete]);
     // console.log(shelves);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [shelvesPerPage] = useState(5);
+
+    const indexOfLastProduct = currentPage * shelvesPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - shelvesPerPage;
+    const currentShelves = shelves !== undefined ? shelves.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+
+    // console.log(currentShelves);
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     const deleteHandler = (delItem) => {
         if (window.confirm('Are you sure to delete?')) {
             var delList = [];
@@ -90,7 +106,7 @@ function ShelfScreen(props) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {shelves.map((shelf, index) => (
+                                            {currentShelves.map((shelf, index) => (
                                                 <tr key={shelf.ShID}>
                                                     <td>{index + 1}</td>
                                                     <td>{shelf.ShID}</td>
@@ -118,6 +134,7 @@ function ShelfScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
+                                    <Pagination itemsPerPage={shelvesPerPage} totalItems={shelves.length} paginate={paginate}></Pagination>
                                 </>
                             )}
                 </div>
