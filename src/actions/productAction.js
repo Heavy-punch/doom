@@ -65,13 +65,13 @@ export const createProduct = (product) => async (dispatch, getState) => {
         dispatch({ type: PRODUCT_CREATE_FAIL, payload: message });
     }
 };
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateProduct = (product, productId) => async (dispatch, getState) => {
     dispatch({ type: PRODUCT_UPDATE_REQUEST, payload: product });
     const {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.put(`/api/products/${product.PID}`, product, {
+        const { data } = await Axios.put(`/api/products/${productId}`, product, {
             headers: {
                 "Content-Type": "application/json",
                 'x-access-token': `${userInfo.token}`

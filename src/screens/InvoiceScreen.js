@@ -30,7 +30,7 @@ function InvoiceScreen(props) {
         dispatch(listInvoices());
     }, [dispatch, successDelete,]);
 
-    console.log(invoices);
+    // console.log(invoices);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [invoicesPerPage] = useState(5);
@@ -54,9 +54,9 @@ function InvoiceScreen(props) {
         }
     };
 
-    const editHandler = (editItem) => {
-        props.history.push(`/bills/${editItem}/edit`)
-    };
+    // const editHandler = (editItem) => {
+    //     props.history.push(`/Invoices/${editItem}/edit`)
+    // };
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -66,25 +66,6 @@ function InvoiceScreen(props) {
             </div>
             <hr></hr>
             <div className="row" >
-                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div className="input-group">
-                        <input
-                            type="text"
-                            name="search-bar"
-                            className="form-control"
-                            placeholder="tìm kiếm theo id..."
-                        />
-                        <span className="input-group-btn">
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                            >
-                                <i className="fa fa-search mr-5" aria-hidden="true"></i>
-                                        tìm kiếm
-                                    </button>
-                        </span>
-                    </div>
-                </div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
                     {loadingDelete && <LoadingBox></LoadingBox>}
                     {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -103,14 +84,14 @@ function InvoiceScreen(props) {
                                                 <th>tên khách hàng</th>
                                                 <th className="flex">
                                                     <span>ngày bán</span>
-                                                    <span>
+                                                    {/* <span>
                                                         <button type="button" className="btn btn-primary" onClick={() => { isUp ? setIsUp(false) : setIsUp(true) }}>
                                                             sắp xếp
                                             <span>
                                                                 <i className={isUp ? "fa fa-arrow-up ml-3" : "fa fa-arrow-down ml-3"} aria-hidden="true"></i>
                                                             </span>
                                                         </button>
-                                                    </span>
+                                                    </span> */}
                                                 </th>
                                                 <th>nhân viên thực hiện</th>
                                                 <th>thành tiền</th>
@@ -127,13 +108,13 @@ function InvoiceScreen(props) {
                                                     <td>{invoice.manager.LName + invoice.manager.FName + " - " + invoice.MngID}</td>
                                                     <td>{invoice.total}</td>
                                                     <td>
-                                                        <button
+                                                        {/* <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
                                                             onClick={() => editHandler(invoice.BID)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
+                                                        </button> */}
                                                         <button
                                                             type="button"
                                                             className="btn btn-danger m-10"

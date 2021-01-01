@@ -4,10 +4,11 @@ import { listProducts } from '../actions/productAction';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 import Pagination from '../components/Pagination';
-import AdjustQuantity from '../components/AdjustQuantity';
+// import AdjustQuantity from '../components/AdjustQuantity';
+import { createInvoice } from '../actions/invoiceActions';
+import { INVOICE_CREATE_RESET } from '../constants/invoiceConstants';
 
 function SellingScreen(props) {
-    const [count, setCount] = useState(1);
     const [name, setName] = useState('');
     const [cusName, setCusName] = useState('');
     const [cart, setCart] = useState([]);
@@ -20,9 +21,25 @@ function SellingScreen(props) {
     const productList = useSelector((state) => state.productList);
     const { loading, error, products } = productList;
 
+    // useEffect(() => {
+    //     dispatch(listProducts());
+    //     dispatch({ type: INVOICE_CREATE_RESET });
+    // }, []);
+
+    const invoiceCreate = useSelector((state) => state.invoiceCreate);
+    const {
+        loading: loadingCreate,
+        error: errorCreate,
+        success: successCreate,
+    } = invoiceCreate;
+
     useEffect(() => {
-        dispatch(listProducts());
-    }, []);
+        if (successCreate) {
+            dispatch({ type: INVOICE_CREATE_RESET });
+            setCart([]);
+            setCusName('');
+        }
+    }, [successCreate, dispatch,]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage] = useState(5);
@@ -40,6 +57,7 @@ function SellingScreen(props) {
         e.preventDefault();
         dispatch(listProducts(name));
         setName('');
+        // setName(null);
     };
 
     const addToCart = (product, quantity) => {
@@ -101,14 +119,33 @@ function SellingScreen(props) {
         setCart(newArr);
     };
 
-    const total = (a, b) => {
+    const totalFunc = (a, b) => {
         return a + b.product.sell_price * b.qty;
     };
+
+    var total = cart.reduce(totalFunc, 0);
+
+    const submitInvoice = (e) => {
+        e.preventDefault();
+        let sellProducts = [];
+        cart.forEach(item => sellProducts.push({ PID: item.product.PID, quantity: item.qty }));
+        dispatch(
+            createInvoice({
+                cus_name: cusName ? cusName : "anonymous",
+                total,
+                sellProducts,
+            })
+        );
+    };
+
+    // const submitInvoice = (e) => {
+    //     e.preventDefault();
+    // };
 
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-4">
                     <form onSubmit={onSearchHandler}>
                         <div className="input-group">
                             <input
@@ -131,7 +168,7 @@ function SellingScreen(props) {
                     </form>
 
                     {loading ? (
-                        <LoadingBox></LoadingBox>
+                        <hr></hr>
                     ) : error ? (
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
@@ -140,11 +177,11 @@ function SellingScreen(props) {
                                     <table className="table table-bordered table-hover mt15">
                                         <thead>
                                             <tr>
-                                                <th className="col-md-1">id</th>
-                                                <th className="col-md-2">ảnh</th>
-                                                <th className="col-md-4">tên</th>
-                                                <th className="col-md-3">giá bán</th>
-                                                <th className="col-md-2">thêm</th>
+                                                <th className="col-xs-1 col-md-1">id</th>
+                                                <th className="col-xs-2 col-md-2">ảnh</th>
+                                                <th className="col-xs-4 col-md-4">tên</th>
+                                                <th className="col-xs-3 col-md-3">giá bán</th>
+                                                <th className="col-xs-2 col-md-2">thêm</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,8 +209,8 @@ function SellingScreen(props) {
                             )}
                 </div>
 
-                <div className="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                    <form>
+                <div className="col-xs-12 col-sm-12 col-md-6 col-lg-7">
+                    <form onSubmit={submitInvoice}>
                         <div className="invoice">
                             <div className="invoice-info">
                                 <h1>Hóa Đơn</h1>
@@ -191,6 +228,7 @@ function SellingScreen(props) {
                                 </div>
                                 <hr />
                             </div>
+                            {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
                             <div className="invoice-detail">
                                 <table className="table table-hover mt15">
                                     <thead>
@@ -254,22 +292,24 @@ function SellingScreen(props) {
                                 <hr />
                                 <div className="total">
                                     <p className="total-raw">
-                                        {/* <b>tong cong: {cart.length < 1 ? 0 : cart.length < 2 ? cart[0].product.sell_price * cart[0].qty : cart.reduce(total)}</b> */}
-                                        <b>tong cong: {cart.reduce(total, 0)}</b>
+                                        {/* <b>tong cong: {cart.reduce(totalFunc, 0)}</b> */}
+                                        <b>tổng cộng: {total}</b>
                                     </p>
                                     <hr />
                                     <button
                                         type="reset"
                                         className="btn btn-warning mr-3"
+                                        onClick={() => setCart([])}
                                     >
                                         hủy
                                     </button>
                                     <button
-                                        type="button"
+                                        type="submit"
                                         className="btn btn-success"
                                     >
                                         tạo đơn hàng
                                     </button>
+                                    {loadingCreate && <LoadingBox></LoadingBox>}
                                 </div>
                             </div>
                         </div>

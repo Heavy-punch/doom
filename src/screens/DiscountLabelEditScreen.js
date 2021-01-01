@@ -30,12 +30,14 @@ function DiscountLabelAddScreen(props) {
 
     useEffect(() => {
         if (successUpdate) {
+            dispatch({ type: DISCOUNT_UPDATE_RESET });
             props.history.push('/discounts');
         }
         if (!discount || discount.ShID !== discountId) {
             dispatch({ type: DISCOUNT_UPDATE_RESET });
             dispatch(detailsDiscount(discountId));
         }
+        dispatch({ type: DISCOUNT_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {

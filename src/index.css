@@ -133,8 +133,16 @@ body {
   max-width: 7rem;
   max-height: 7rem;
   border-radius: 50%;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
+.user a {
+  text-decoration: none;
+  color: black;
+}
+.user a:active {
+  text-decoration: none;
+}
+
 .content-wraper {
   width: 100%;
   height: calc(100vh - 100px);

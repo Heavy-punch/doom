@@ -10,7 +10,7 @@ import Pagination from '../components/Pagination';
 
 // import { Container } from './styles';
 
-function SupplierScreen(props) {
+function UserScreen(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     const supplierList = useSelector((state) => state.supplierList);
@@ -151,4 +151,4 @@ function SupplierScreen(props) {
     );
 }
 
-export default SupplierScreen;
+export default UserScreen;

@@ -35,12 +35,14 @@ function ShelfEditScreen(props) {
 
     useEffect(() => {
         if (successUpdate) {
+            dispatch({ type: SHELF_UPDATE_RESET });
             props.history.push('/shelves');
         }
         if (!shelf || shelf.ShID !== shelfId) {
             dispatch({ type: SHELF_UPDATE_RESET });
             dispatch(detailsShelf(shelfId));
         }
+        dispatch({ type: SHELF_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {

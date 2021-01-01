@@ -8,7 +8,7 @@ import MessageBox from '../components/MessageBox';
 
 // import { Container } from './styles';
 
-function SupplierAddScreen(props) {
+function UserEditScreen(props) {
     const history = useHistory();
     const supplierId = props.match.params.id;
 
@@ -153,4 +153,4 @@ function SupplierAddScreen(props) {
     );
 }
 
-export default SupplierAddScreen;
+export default UserEditScreen;
