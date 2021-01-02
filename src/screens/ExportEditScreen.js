@@ -3,54 +3,54 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { detailsShelf, updateShelf } from '../actions/shelfActions';
+import { detailsExport, updateExport } from '../actions/exportActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { SHELF_UPDATE_RESET } from '../constants/shelfConstants';
+import { EXPORT_UPDATE_RESET } from '../constants/exportConstants';
 
 // import { Container } from './styles';
 
-function ShelfEditScreen(props) {
+function ExportEditScreen(props) {
     const history = useHistory();
-    const shelfId = props.match.params.id;
+    const exportId = props.match.params.id;
 
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [location, setLocation] = useState('');
     const [status, setStatus] = useState('');
 
-    const shelfDetails = useSelector((state) => state.shelfDetails);
-    const { loading, error, shelf } = shelfDetails;
+    const exportDetails = useSelector((state) => state.exportDetails);
+    const { loading, error, _export } = exportDetails;
 
-    const shelfUpdate = useSelector((state) => state.shelfUpdate);
+    const exportUpdate = useSelector((state) => state.exportUpdate);
     const {
         loading: loadingUpdate,
         error: errorUpdate,
         success: successUpdate,
-    } = shelfUpdate;
+    } = exportUpdate;
 
     const dispatch = useDispatch();
 
-    // console.log(shelf);
+    // console.log(export);
 
     useEffect(() => {
         if (successUpdate) {
-            dispatch({ type: SHELF_UPDATE_RESET });
-            props.history.push('/shelves');
+            dispatch({ type: EXPORT_UPDATE_RESET });
+            props.history.push('/exports');
         }
-        if (!shelf || shelf.ShID !== shelfId) {
-            dispatch({ type: SHELF_UPDATE_RESET });
-            dispatch(detailsShelf(shelfId));
+        if (!_export || _export.ShID !== exportId) {
+            dispatch({ type: EXPORT_UPDATE_RESET });
+            dispatch(detailsExport(exportId));
         }
-        dispatch({ type: SHELF_UPDATE_RESET });
+        dispatch({ type: EXPORT_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
         if (!loading) {
-            setName(shelf.name);
-            setType(shelf.type);
-            setLocation(shelf.location);
-            setStatus(shelf.state);
+            setName(_export.name);
+            setType(_export.type);
+            setLocation(_export.location);
+            setStatus(_export.state);
         }
     }, [loading,]);
 
@@ -58,8 +58,8 @@ function ShelfEditScreen(props) {
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(
-            updateShelf({
-                ShID: shelfId,
+            updateExport({
+                ShID: exportId,
                 name,
                 type,
                 location,
@@ -151,4 +151,4 @@ function ShelfEditScreen(props) {
     );
 }
 
-export default ShelfEditScreen;
+export default ExportEditScreen;

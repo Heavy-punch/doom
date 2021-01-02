@@ -65,7 +65,7 @@ function ShelfScreen(props) {
             </div>
             <hr></hr>
             <div className="row" >
-                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                {/* <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div className="input-group">
                         <input
                             type="text"
@@ -82,7 +82,7 @@ function ShelfScreen(props) {
                             </button>
                         </span>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
                     {loadingDelete && <LoadingBox></LoadingBox>}
                     {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}

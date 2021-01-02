@@ -1,69 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteSupplier, listsuppliers } from '../actions/supplierActions';
+import { deleteExport, listExports } from '../actions/exportActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { SUPPLIER_DELETE_RESET } from '../constants/supplierConstants';
+import { EXPORT_DELETE_RESET } from '../constants/exportConstants';
 import Pagination from '../components/Pagination';
 
 
 // import { Container } from './styles';
 
-function SupplierScreen(props) {
+function ExportScreen(props) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const supplierList = useSelector((state) => state.supplierList);
-    const { loading, error, suppliers } = supplierList;
-    const supplierDelete = useSelector((state) => state.supplierDelete);
+    const exportList = useSelector((state) => state.exportList);
+    const { loading, error, exports } = exportList;
+    const exportDelete = useSelector((state) => state.exportDelete);
     const {
         loading: loadingDelete,
         error: errorDelete,
         success: successDelete,
-    } = supplierDelete;
+    } = exportDelete;
 
     useEffect(() => {
         if (successDelete) {
-            dispatch({ type: SUPPLIER_DELETE_RESET });
+            dispatch({ type: EXPORT_DELETE_RESET });
         }
-        dispatch(listsuppliers());
+        dispatch(listExports());
     }, [dispatch, successDelete]);
-    // console.log(suppliers);
+    // console.log(exports);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [suppliersPerPage] = useState(5);
+    const [exportsPerPage] = useState(5);
 
-    const indexOfLastProduct = currentPage * suppliersPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - suppliersPerPage;
-    const currentSuppliers = suppliers !== undefined ? suppliers.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const indexOfLastProduct = currentPage * exportsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - exportsPerPage;
+    const currentExports = exports !== undefined ? exports.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
-    // console.log(currentSuppliers);
+    // console.log(currentExports);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    // console.log(supplierDelete);
-
     const deleteHandler = (delItem) => {
         if (window.confirm('Are you sure to delete?')) {
             var delList = [];
             delList.push(delItem);
-            dispatch(deleteSupplier(delList));
-            console.log(delList);
+            dispatch(deleteExport(delList));
+            // console.log(delList);
         }
     };
 
     const editHandler = (editItem) => {
-        props.history.push(`/suppliers/${editItem}/edit`)
+        props.history.push(`/exports/${editItem}/edit`)
     };
-
-
     return (
         <div className="container-fluid">
+
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Nhà Cung Cấp</h2>
+                    <h2>Xuất Hàng</h2>
                 </div>
             </div>
             <hr></hr>
@@ -95,42 +92,44 @@ function SupplierScreen(props) {
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
                                 <>
-                                    {suppliers.length === 0 && <MessageBox>No supplier Found</MessageBox>}
+                                    {exports.length === 0 && <MessageBox>No export Found</MessageBox>}
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>stt</th>
-                                                <th>id</th>
-                                                <th>tên</th>
-                                                <th>email</th>
-                                                <th>địa chỉ</th>
-                                                <th>số điện thoại</th>
-                                                <th>mã số thuế</th>
-                                                <th>thao tác</th>
+                                                <th className="col-sm-1 col-md-1">stt</th>
+                                                <th className="col-sm-1 col-md-1">id</th>
+                                                <th className="col-md-2">ngày</th>
+                                                <th className="col-md-1">độ ưu tiên</th>
+                                                <th className="col-md-1">NV yêu cầu</th>
+                                                <th className="col-md-1">NV thực hiện</th>
+                                                <th className="col-md-1">NV kiểm hàng</th>
+                                                <th className="col-md-1">trạng thái</th>
+                                                <th className="col-md-2">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {currentSuppliers.map((supplier, index) => (
-                                                <tr key={supplier.SupID}>
+                                            {currentExports.map((exp, index) => (
+                                                <tr key={exp.ExID}>
                                                     <td>{index + 1}</td>
-                                                    <td>{supplier.SupID}</td>
-                                                    <td>{supplier.name}</td>
-                                                    <td>{supplier.Email}</td>
-                                                    <td>{supplier.Address}</td>
-                                                    <td>{supplier.telephoneNumber}</td>
-                                                    <td>{supplier.Tax_ID}</td>
+                                                    <td>{exp.ExID}</td>
+                                                    <td>{exp.request_export_date}</td>
+                                                    <td>{exp.urgent_level}</td>
+                                                    <td>{exp.requesterId}</td>
+                                                    <td>{exp.executorId}</td>
+                                                    <td>{exp.checkerId}</td>
+                                                    <td>{exp.state}</td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(supplier.SupID)}
+                                                            onClick={() => editHandler(exp.ExID)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button>
                                                         <button
                                                             type="button"
                                                             className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(supplier.SupID)}
+                                                            onClick={() => deleteHandler(exp.ExID)}
                                                         >
                                                             <i className="fa fa-trash" aria-hidden="true"></i> xóa
                                                         </button>
@@ -139,16 +138,18 @@ function SupplierScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <Pagination itemsPerPage={suppliersPerPage} totalItems={suppliers.length} paginate={paginate}></Pagination>
+                                    <Pagination itemsPerPage={exportsPerPage} totalItems={exports.length} paginate={paginate}></Pagination>
                                 </>
-                            )}
-                </div>
+                            )
+                    }
+                </div >
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/suppliers/add`))}>thêm nhà cung cấp</button>
+                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/exports/add`))}>tạo đơn xuất hàng</button>
                 </div>
-            </div>
-        </div>
+            </div >
+
+        </div >
     );
 }
 
-export default SupplierScreen;
+export default ExportScreen;

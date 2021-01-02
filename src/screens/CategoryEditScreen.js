@@ -30,12 +30,14 @@ function CategoryAddScreen(props) {
 
     useEffect(() => {
         if (successUpdate) {
+            dispatch({ type: CATEGORY_UPDATE_RESET });
             props.history.push('/categories');
         }
         if (!category || category.ShID !== categoryId) {
             dispatch({ type: CATEGORY_UPDATE_RESET });
             dispatch(detailsCategory(categoryId));
         }
+        dispatch({ type: CATEGORY_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
