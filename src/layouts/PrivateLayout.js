@@ -31,7 +31,17 @@ import ShelfEditScreen from '../screens/ShelfEditScreen';
 import SupplierScreen from '../screens/SupplierScreen';
 import SupplierAddScreen from '../screens/SupplierAddScreen';
 import SupplierEditScreen from '../screens/SupplierEditScreen';
+// user
 import ProfileScreen from '../screens/ProfileScreen';
+import UserScreen from '../screens/UserScreen';
+import UserAddScreen from '../screens/UserAddScreen';
+import UserEditScreen from '../screens/UserEditScreen';
+import ImportScreen from '../screens/ImportScreen';
+import ImportAddScreen from '../screens/ImportAddScreen';
+import ImportEditScreen from '../screens/ImportEditScreen';
+import ExportScreen from '../screens/ExportScreen';
+import ExportAddScreen from '../screens/ExportAddScreen';
+import ExportEditScreen from '../screens/ExportEditScreen';
 // import LoadingBox from '../components/LoadingBox';
 
 
@@ -72,8 +82,8 @@ function PrivateLayout() {
                     <div className="menu">
                         <NavLink to="/" exact activeClassName="active">Trang Chủ</NavLink>
                         <NavLink to="/statistic" activeClassName="active">Thống Kê</NavLink>
-                        <NavLink to="/export" activeClassName="active">Xuất Hàng</NavLink>
-                        <NavLink to="/import" activeClassName="active">Nhập Hàng</NavLink>
+                        <NavLink to="/exports" activeClassName="active">Xuất Hàng</NavLink>
+                        <NavLink to="/imports" activeClassName="active">Nhập Hàng</NavLink>
                         <NavLink to="/management" activeClassName="active">Quản Lý</NavLink>
                     </div>
                 </div>
@@ -92,11 +102,19 @@ function PrivateLayout() {
                     </Switch>
 
 
-                    <PrivateRoute path="/users" exact component={ProductScreen}></PrivateRoute>
-                    <PrivateRoute path="/users/add" exact component={ProductAddScreen}></PrivateRoute>
-                    <PrivateRoute path="/users/:id/edit" exact component={ProductEditScreen}></PrivateRoute>
+                    <PrivateRoute path="/users" exact component={UserScreen}></PrivateRoute>
+                    <PrivateRoute path="/users/add" exact component={UserAddScreen}></PrivateRoute>
+                    <PrivateRoute path="/users/:id/edit" exact component={UserEditScreen}></PrivateRoute>
                     {/* <PrivateRoute path="/users/:id" exact component={ProductDetailScreen}></PrivateRoute> */}
 
+
+                    <PrivateRoute path="/imports" exact component={ImportScreen}></PrivateRoute>
+                    <PrivateRoute path="/imports/add" component={ImportAddScreen}></PrivateRoute>
+                    <PrivateRoute path="/imports/:id/edit" component={ImportEditScreen}></PrivateRoute>
+
+                    <PrivateRoute path="/exports" exact component={ExportScreen}></PrivateRoute>
+                    <PrivateRoute path="/exports/add" component={ExportAddScreen}></PrivateRoute>
+                    <PrivateRoute path="/exports/:id/edit" component={ExportEditScreen}></PrivateRoute>
 
                     <PrivateRoute path="/categories" exact component={CategoryScreen}></PrivateRoute>
                     <PrivateRoute path="/categories/add" component={CategoryAddScreen}></PrivateRoute>

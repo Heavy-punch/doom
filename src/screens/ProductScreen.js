@@ -32,6 +32,12 @@ function ProductScreen(props) {
         dispatch(listProducts());
     }, [dispatch, successDelete]);
 
+    useEffect(() => {
+        if (!loading) {
+            setResult([...products]);
+        }
+    }, [loading,]);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage] = useState(5);
 

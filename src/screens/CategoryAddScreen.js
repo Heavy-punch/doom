@@ -39,7 +39,7 @@ function CategoryAddScreen(props) {
 
         let formData = new FormData();
         formData.append('name', name);
-        formData.append('image', image[0]);
+        formData.append('image', image[image.length - 1]);
         // formData.append('shelfIds', array);
 
         array.forEach(id => formData.append('shelfIds', id));

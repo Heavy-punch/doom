@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createSupplier, detailsSupplier, updateSupplier } from '../actions/supplierActions';
-import { SUPPLIER_CREATE_RESET, SUPPLIER_UPDATE_RESET } from '../constants/supplierConstants';
+import { detailsUser, updateUser } from '../actions/userActions';
+import { USER_UPDATE_RESET } from '../constants/userConstants';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
@@ -10,71 +10,67 @@ import MessageBox from '../components/MessageBox';
 
 function UserEditScreen(props) {
     const history = useHistory();
-    const supplierId = props.match.params.id;
+    const userId = props.match.params.id;
 
-    const [name, setName] = useState('');
-    const [Email, setEmail] = useState('');
-    const [Address, setAddress] = useState('');
-    const [telephoneNumber, setTelephoneNumber] = useState('');
-    const [Tax_ID, setTax_ID] = useState('');
+    const [avatar, setavatar] = useState([]);
+    const [gender, setGender] = useState('');
 
-    const supplierDetails = useSelector((state) => state.supplierDetails);
-    const { loading, error, supplier } = supplierDetails;
+    const userDetails = useSelector((state) => state.userDetails);
+    const { loading, error, user } = userDetails;
 
-    console.log(supplierId);
+    console.log(userId);
 
-    const supplierUpdate = useSelector((state) => state.supplierUpdate);
+    const userUpdate = useSelector((state) => state.userUpdate);
     const {
         loading: loadingUpdate,
         error: errorUpdate,
         success: successUpdate,
-    } = supplierUpdate;
+    } = userUpdate;
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (successUpdate) {
-            dispatch({ type: SUPPLIER_UPDATE_RESET });
-            props.history.push('/suppliers');
+            dispatch({ type: USER_UPDATE_RESET });
+            props.history.push('/users');
         }
-        if (!supplier || supplier.ShID !== supplierId) {
-            dispatch({ type: SUPPLIER_UPDATE_RESET });
-            dispatch(detailsSupplier(supplierId));
+        if (!user || user.ShID !== userId) {
+            dispatch({ type: USER_UPDATE_RESET });
+            dispatch(detailsUser(userId));
         }
-        dispatch({ type: SUPPLIER_UPDATE_RESET });
+        dispatch({ type: USER_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
         if (!loading) {
-            setName(supplier.name);
-            setEmail(supplier.Email);
-            setAddress(supplier.Address);
-            setTelephoneNumber(supplier.telephoneNumber);
-            setTax_ID(supplier.Tax_ID);
-
+            setGender(user.gender);
         }
     }, [loading,]);
 
     const submitHandler = (e) => {
         e.preventDefault();
+        let formData = new FormData();
+        if (avatar.length > 0) {
+            formData.append('avatar', avatar[avatar.length - 1]);
+        }
+        formData.append('gender', gender)
         dispatch(
-            updateSupplier({
-                SupID: supplierId,
-                name,
-                Address,
-                Tax_ID,
-                Email,
-                telephoneNumber
-            })
+            updateUser(
+                formData,
+                userId
+            )
         );
 
+    };
+    const onChangeImage = (e) => {
+        setavatar([...avatar, e.target.files[0]]);
     };
 
     return (
         <div className="container-fluid">
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Sửa Nhà Cung Cấp</h2>
+                    <h2>Sửa Thông Tin Người Dùng</h2>
                 </div>
             </div>
             <hr></hr>
@@ -93,56 +89,38 @@ function UserEditScreen(props) {
                                 <>
                                     <form onSubmit={submitHandler}>
                                         <div className="form-group">
-                                            <label className="form-label">tên nhà cung cấp:</label>
+                                            <label className="form-label" >hình ảnh:</label>
                                             <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="tên nhà cung cấp"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
+                                                type="file"
+                                                className="form-control-file border"
+                                                name="image"
+                                                onChange={onChangeImage}
+                                            // onChange={(e) => setImage(e.target.files[0])}
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label className="form-label">địa chỉ:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                placeholder="địa chỉ"
-                                                value={Address}
-                                                onChange={(e) => setAddress(e.target.value)}
-                                            />
+                                            <label className="form-label">giới tính:</label>
+                                            <div className="radio">
+                                                <label>
+                                                    <input type="radio" name="gender" value="male" onChange={(e) => setGender(e.target.value)} checked={gender === "male"} />
+                                                    nam
+                                                </label>
+                                            </div>
+                                            <div className="radio">
+                                                <label>
+                                                    <input type="radio" name="gender" value="female" onChange={(e) => setGender(e.target.value)} checked={gender === "female"} />
+                                                    nữ
+                                                </label>
+                                            </div>
+                                            <div className="radio">
+                                                <label>
+                                                    <input type="radio" name="gender" value="other" onChange={(e) => setGender(e.target.value)} checked={gender === "other"} />
+                                                    khác
+                                                </label>
+                                            </div>
                                         </div>
-                                        <div className="form-group">
-                                            <label className="form-label">email:</label>
-                                            <input
-                                                type="email"
-                                                className="form-control"
-                                                placeholder="email"
-                                                value={Email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="form-label">mã số thuế:</label>
-                                            <input
-                                                type="number"
-                                                className="form-control"
-                                                placeholder="MST"
-                                                value={Tax_ID}
-                                                onChange={(e) => setTax_ID(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="form-label">số điện thoại:</label>
-                                            <input
-                                                type="tel"
-                                                className="form-control"
-                                                placeholder="số điện thoại"
-                                                value={telephoneNumber}
-                                                onChange={(e) => setTelephoneNumber(e.target.value)}
-                                            />
-                                        </div>
-                                        <button type="submit" className="btn btn-primary fr">Sửa nhà cung cấp</button>
+
+                                        <button type="submit" className="btn btn-primary fr">sửa thông tin người dùng</button>
                                         <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
                                     </form>
                                 </>

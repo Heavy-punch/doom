@@ -17,12 +17,22 @@ export const signin = (account, password) => async (dispatch) => {
         });
     }
 };
-export const changePassword = (account, password) => async (dispatch) => {
-    dispatch({ type: USER_CHANGEPASSWORD_REQUEST, payload: { account, password } });
+export const changePassword = (passObj) => async (dispatch, getState) => {
+    dispatch({ type: USER_CHANGEPASSWORD_REQUEST });
+    const {
+        userSignin: { userInfo },
+    } = getState();
     try {
-        const { data } = await Axios.post('/api/auth/login', { account, password });
+        const { data } = await Axios.put('/api/auth/changePassword', passObj,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    'x-access-token': `${userInfo.token}`
+                },
+            }
+        );
         dispatch({ type: USER_CHANGEPASSWORD_SUCCESS, payload: data.data });
-        localStorage.setItem('userInfo', JSON.stringify(data.data));
+        // localStorage.setItem('userInfo', JSON.stringify(data.data));
     } catch (error) {
         dispatch({
             type: USER_CHANGEPASSWORD_FAIL,
@@ -111,7 +121,11 @@ export const createUser = (user) => async (dispatch, getState) => {
             '/api/managers',
             user,
             {
-                headers: { 'x-access-token': `${userInfo.token}` },
+
+                headers: {
+                    "Content-Type": "application/json",
+                    'x-access-token': `${userInfo.token}`
+                },
             }
         );
         dispatch({
@@ -126,13 +140,13 @@ export const createUser = (user) => async (dispatch, getState) => {
         dispatch({ type: USER_CREATE_FAIL, payload: message });
     }
 };
-export const updateUser = (user) => async (dispatch, getState) => {
+export const updateUser = (user, userId) => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_REQUEST, payload: user });
     const {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.put(`/api/managers/${user.ShID}`, user, {
+        const { data } = await Axios.put(`/api/managers/${userId}`, user, {
             headers: {
                 "Content-Type": "application/json",
                 'x-access-token': `${userInfo.token}`

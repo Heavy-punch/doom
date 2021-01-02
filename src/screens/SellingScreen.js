@@ -7,6 +7,7 @@ import Pagination from '../components/Pagination';
 // import AdjustQuantity from '../components/AdjustQuantity';
 import { createInvoice } from '../actions/invoiceActions';
 import { INVOICE_CREATE_RESET } from '../constants/invoiceConstants';
+import { PRODUCT_LIST_REQUEST } from '../constants/productConstants';
 
 function SellingScreen(props) {
     const [name, setName] = useState('');
@@ -21,10 +22,10 @@ function SellingScreen(props) {
     const productList = useSelector((state) => state.productList);
     const { loading, error, products } = productList;
 
-    // useEffect(() => {
-    //     dispatch(listProducts());
-    //     dispatch({ type: INVOICE_CREATE_RESET });
-    // }, []);
+    useEffect(() => {
+        // dispatch(listProducts());
+        dispatch({ type: PRODUCT_LIST_REQUEST });
+    }, []);
 
     const invoiceCreate = useSelector((state) => state.invoiceCreate);
     const {
@@ -204,7 +205,7 @@ function SellingScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
-                                    {products.length > productsPerPage ? <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination> : ""}
+                                    {products.length > productsPerPage ? <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination> : <br></br>}
                                 </>
                             )}
                 </div>
