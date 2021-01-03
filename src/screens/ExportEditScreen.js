@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { detailsExport, updateExport } from '../actions/exportActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -239,7 +239,11 @@ function ExportEditScreen(props) {
                                                             {exportProducts.map((product, index) => (
                                                                 <tr key={product.PID}>
                                                                     {/* <td>{index + 1}</td> */}
-                                                                    <td>{productId[index]}</td>
+                                                                    <td>
+                                                                        <Link to={`/products/${productId[index]}`}>
+                                                                            {productId[index]}
+                                                                        </Link>
+                                                                    </td>
                                                                     <td>
                                                                         <div className="form-group">
                                                                             <input

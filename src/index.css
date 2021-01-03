@@ -328,3 +328,10 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.large {
+  min-width: 15rem;
+  min-height: 15rem;
+  max-width: 20rem;
+  max-height: 20rem;
+}
