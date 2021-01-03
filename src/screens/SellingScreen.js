@@ -199,6 +199,7 @@ function SellingScreen(props) {
                                                         <button
                                                             type="button"
                                                             className="btn btn-primary"
+                                                            disabled={product.store_curr_qtt <= 0}
                                                             onClick={() => addToCart(product, 1)}
                                                         >
                                                             <i className="fa fa-plus" aria-hidden="true"></i>
@@ -269,6 +270,7 @@ function SellingScreen(props) {
                                                         <button
                                                             className="plus-btn"
                                                             type="button"
+                                                            disabled={cartItem.product.warehouse_curr_qtt < cartItem.qty}
                                                             onClick={() => addQty(index)}
                                                         >
                                                             <i className="fa fa-plus" aria-hidden="true"></i>
