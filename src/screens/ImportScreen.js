@@ -113,13 +113,13 @@ function ImportScreen(props) {
                                                 <tr key={imp.ImID}>
                                                     <td>{index + 1}</td>
                                                     <td>{imp.ImID}</td>
-                                                    <td>{imp.request_import_date}</td>
+                                                    <td>{imp.request_import_date.slice(0, 10)}</td>
                                                     <td>{imp.urgent_level}</td>
                                                     <td>{imp.requesterId}</td>
                                                     <td>{imp.executorId}</td>
                                                     <td>{imp.checkerId}</td>
                                                     <td>{imp.supplierId}</td>
-                                                    <td>{imp.state}</td>
+                                                    <td><span className={imp.state === "request" ? "label label-info" : imp.state === "executed" ? "label label-success" : "label label-default"}>{imp.state}</span></td>
                                                     <td>
                                                         <button
                                                             type="button"

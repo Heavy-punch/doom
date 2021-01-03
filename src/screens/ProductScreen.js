@@ -29,7 +29,7 @@ function ProductScreen(props) {
         if (successDelete) {
             dispatch({ type: PRODUCT_DELETE_RESET });
         }
-        dispatch(listProducts());
+        dispatch(listProducts({}));
     }, [dispatch, successDelete]);
 
     useEffect(() => {
@@ -130,16 +130,16 @@ function ProductScreen(props) {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>stt</th>
-                                                <th>id</th>
-                                                <th>hình ảnh</th>
-                                                <th>tên</th>
-                                                <th>ngành hàng</th>
-                                                <th>thương hiệu</th>
-                                                <th>tồn kho</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">id</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">hình ảnh</th>
+                                                <th className="col-sm-1 col-md-2 col-lg-2">tên</th>
+                                                <th className="col-sm-1 col-md-2 col-lg-2">ngành hàng</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">thương hiệu</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">tồn kho</th>
                                                 {/* <th>giá nhập</th> */}
-                                                <th>giá bán</th>
-                                                <th>thao tác</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">giá bán</th>
+                                                <th className="col-sm-1 col-md-2 col-lg-2">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>

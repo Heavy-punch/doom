@@ -189,6 +189,7 @@ body {
 
 .total {
   text-align: end;
+  width: 300px;
 }
 .total p {
   text-align: end;
@@ -334,4 +335,8 @@ input[type="number"] {
   min-height: 15rem;
   max-width: 20rem;
   max-height: 20rem;
+}
+
+.total table {
+  border: none;
 }
