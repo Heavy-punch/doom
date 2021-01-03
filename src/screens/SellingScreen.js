@@ -76,7 +76,7 @@ function SellingScreen(props) {
             setCart(newArr);
         }
     };
-    console.log(cart);
+    // console.log(cart);
 
     const findProductInCart = (fcart, fproduct) => {
         var index = -1;
@@ -121,6 +121,9 @@ function SellingScreen(props) {
     };
 
     const totalFunc = (a, b) => {
+        if (b.product.discount !== null) {
+            return a + b.product.sell_price * ((100 - b.product.discount.rate) / 100) * b.qty;
+        }
         return a + b.product.sell_price * b.qty;
     };
 
@@ -273,10 +276,10 @@ function SellingScreen(props) {
                                                     </div>
                                                 </td>
                                                 {/* <td><AdjustQuantity qty={cartItem.qty}></AdjustQuantity></td> */}
-                                                <td>{cartItem.product.sell_price}</td>
+                                                <td>{cartItem.product.sell_price} vnd</td>
                                                 {/* <td>{cartItem.product.end_date}</td> */}
-                                                <td>0</td>
-                                                <td>{cartItem.product.sell_price * cartItem.qty}</td>
+                                                <td>{cartItem.product.discount ? cartItem.product.discount.rate : 0}% </td>
+                                                <td>{cartItem.product.discount ? cartItem.product.sell_price * (1 - cartItem.product.discount.rate / 100) * cartItem.qty : cartItem.product.sell_price * cartItem.qty} vnd</td>
                                                 <td>
                                                     <button
                                                         type="button"
@@ -294,7 +297,7 @@ function SellingScreen(props) {
                                 <div className="total">
                                     <p className="total-raw">
                                         {/* <b>tong cong: {cart.reduce(totalFunc, 0)}</b> */}
-                                        <b>tổng cộng: {total}</b>
+                                        <b>tổng cộng: {total}</b> vnd
                                     </p>
                                     <hr />
                                     <button

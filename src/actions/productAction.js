@@ -10,7 +10,7 @@ export const listProducts = (name = '') => async (dispatch, getState) => {
     } = getState();
     try {
         const { data } = await Axios.get(
-            `/api/products?nameKeyword=${name}`,
+            `/api/products?name_keyword=${name}`,
             { headers: { 'x-access-token': `${userInfo.token}` } }
         );
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data.data });

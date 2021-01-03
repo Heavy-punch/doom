@@ -71,7 +71,7 @@ export const updateExport = (_export) => async (dispatch, getState) => {
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.put(`/api/exports/${_export.ShID}`, _export, {
+        const { data } = await Axios.put(`/api/exports/${_export.exportId}`, _export, {
             headers: {
                 "Content-Type": "application/json",
                 'x-access-token': `${userInfo.token}`

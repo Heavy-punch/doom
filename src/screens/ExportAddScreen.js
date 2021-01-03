@@ -268,7 +268,7 @@ function ExportAddScreen(props) {
                                                 <button
                                                     className="plus-btn"
                                                     type="button"
-                                                    disabled={cartItem.qty > cartItem.product.W_max_qtt - 1 - cartItem.product.warehouse_curr_qtt}
+                                                    disabled={cartItem.qty > cartItem.product.S_max_qtt - 1 - cartItem.product.store_curr_qtt}
                                                     onClick={() => addQty(index)}
                                                 >
                                                     <i className="fa fa-plus" aria-hidden="true"></i>
