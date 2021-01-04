@@ -13,6 +13,7 @@ function SellingScreen(props) {
     const [name, setName] = useState('');
     const [cusName, setCusName] = useState('');
     const [cart, setCart] = useState([]);
+    const [paying, setPaying] = useState('');
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -56,7 +57,7 @@ function SellingScreen(props) {
 
     const onSearchHandler = (e) => {
         e.preventDefault();
-        dispatch(listProducts(name));
+        dispatch(listProducts({ name_keyword: name }));
         setName('');
         // setName(null);
     };
@@ -72,7 +73,7 @@ function SellingScreen(props) {
         else {
             console.log("finded");
             let newArr = [...cart];
-            newArr[index].qty += quantity;
+            newArr[index].qty = newArr[index].qty >= newArr[index].product.store_curr_qtt ? newArr[index].qty : newArr[index].qty + quantity;
             setCart(newArr);
         }
     };
@@ -295,13 +296,46 @@ function SellingScreen(props) {
                                         ))}
                                     </tbody>
                                 </table>
-                                <hr />
-                                <div className="total">
-                                    <p className="total-raw">
-                                        {/* <b>tong cong: {cart.reduce(totalFunc, 0)}</b> */}
+                                <div className="total fr">
+                                    <div className="table-responsive">
+                                        <table className="table table-hover ">
+                                            <tbody>
+                                                <tr>
+                                                    <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3">tổng cộng:</td>
+                                                    <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3"><b>{total}</b> vnd</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style={{ paddingTop: "16px" }}>khách hàng đưa:</td>
+                                                    <td>
+                                                        <input
+                                                            type="number"
+                                                            className="form-control"
+                                                            value={paying}
+                                                            onChange={(e) => setPaying(e.target.value)}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>thối lại:</td>
+                                                    <td>
+                                                        <b>{(paying - total) < 0 ? 0 : paying - total}</b> vnd
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {/* <p className="total-raw">
                                         <b>tổng cộng: {total}</b> vnd
                                     </p>
-                                    <hr />
+                                    <div className="form-group row">
+                                        <label className="col-sm-2 form-label pd-0">khách hàng đưa:</label>
+                                        <input
+                                            type="text"
+                                            className="form-control col-sm-10 col-md-2 col-lg-2"
+                                            value={cusName}
+                                            onChange={(e) => setCusName(e.target.value)}
+                                        />
+                                    </div> */}
                                     <button
                                         type="reset"
                                         className="btn btn-warning mr-3"
@@ -327,6 +361,7 @@ function SellingScreen(props) {
 }
 
 export default SellingScreen;
+
 
 
 

@@ -40,8 +40,8 @@ function ImportAddScreen(props) {
     // console.log(importCreate);
 
     useEffect(() => {
-        // dispatch(listProducts());
-        dispatch({ type: PRODUCT_LIST_REQUEST });
+        dispatch(listProducts({ is_less_than_Wmin: true }));
+        // dispatch({ type: PRODUCT_LIST_REQUEST });
     }, []);
 
     useEffect(() => {
@@ -81,7 +81,7 @@ function ImportAddScreen(props) {
         else {
             console.log("finded");
             let newArr = [...cart];
-            newArr[index].qty += quantity;
+            newArr[index].qty = newArr[index].qty >= newArr[index].product.W_max_qtt - newArr[index].product.warehouse_curr_qtt ? newArr[index].qty : newArr[index].qty + quantity;
             setCart(newArr);
         }
     };
@@ -187,7 +187,7 @@ function ImportAddScreen(props) {
                                                 <th className="col-xs-1 col-md-1">id</th>
                                                 <th className="col-xs-2 col-md-2">ảnh</th>
                                                 <th className="col-xs-4 col-md-4">tên</th>
-                                                <th className="col-xs-3 col-md-3">giá bán</th>
+                                                <th className="col-xs-3 col-md-3">tồn kho</th>
                                                 <th className="col-xs-2 col-md-2">thêm</th>
                                             </tr>
                                         </thead>
@@ -197,11 +197,12 @@ function ImportAddScreen(props) {
                                                     <td>{product.PID}</td>
                                                     <td><img src={product.img_url} alt={product.name} className="product-img"></img></td>
                                                     <td>{product.name}</td>
-                                                    <td>{product.sell_price}</td>
+                                                    <td>{product.warehouse_curr_qtt}</td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-primary"
+                                                            disabled={product.warehouse_curr_qtt >= product.W_max_qtt}
                                                             onClick={() => addToCart(product, 1)}
                                                         >
                                                             <i className="fa fa-plus" aria-hidden="true"></i>

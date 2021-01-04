@@ -53,7 +53,11 @@ function ExportScreen(props) {
     };
 
     const editHandler = (editItem) => {
-        props.history.push(`/exports/${editItem}/edit`)
+        if ((editItem.state === 'close') && (window.confirm('đơn nhập hàng đã đóng, chỉ xem?'))) {
+            props.history.push(`/exports/${editItem.ExID}/edit`)
+        } else {
+            props.history.push(`/exports/${editItem.ExID}/edit`)
+        }
     };
     return (
         <div className="container-fluid">
@@ -98,7 +102,7 @@ function ExportScreen(props) {
                                             <tr>
                                                 <th className="col-sm-1 col-md-1">stt</th>
                                                 <th className="col-sm-1 col-md-1">id</th>
-                                                <th className="col-md-2">ngày</th>
+                                                <th className="col-md-2">ngày yêu cầu</th>
                                                 <th className="col-md-1">độ ưu tiên</th>
                                                 <th className="col-md-1">NV yêu cầu</th>
                                                 <th className="col-md-1">NV thực hiện</th>
@@ -112,17 +116,17 @@ function ExportScreen(props) {
                                                 <tr key={exp.ExID}>
                                                     <td>{index + 1}</td>
                                                     <td>{exp.ExID}</td>
-                                                    <td>{exp.request_export_date}</td>
+                                                    <td>{exp.request_export_date.slice(0, 10)}</td>
                                                     <td>{exp.urgent_level}</td>
                                                     <td>{exp.requesterId}</td>
                                                     <td>{exp.executorId}</td>
                                                     <td>{exp.checkerId}</td>
-                                                    <td>{exp.state}</td>
+                                                    <td><span className={exp.state === "request" ? "label label-info" : exp.state === "executed" ? "label label-success" : "label label-default"}>{exp.state}</span></td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(exp.ExID)}
+                                                            onClick={() => editHandler(exp)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button>
@@ -153,3 +157,7 @@ function ExportScreen(props) {
 }
 
 export default ExportScreen;
+
+
+
+<span class="label label-info">Label</span>

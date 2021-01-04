@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { createExport } from '../actions/exportActions';
 import { listProducts } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
@@ -34,8 +34,8 @@ function ExportAddScreen(props) {
     } = exportCreate;
 
     useEffect(() => {
-        // dispatch(listProducts());
-        dispatch({ type: PRODUCT_LIST_REQUEST });
+        dispatch(listProducts({ is_less_than_Smin: true }));
+        // dispatch({ type: PRODUCT_LIST_REQUEST });
     }, []);
 
     useEffect(() => {
@@ -64,18 +64,36 @@ function ExportAddScreen(props) {
         // setName(null);
     };
 
+    // const checkDisable = (product) => {
+    //     var index = findProductInCart([...cart], product);
+    //     if (product.store_curr_qtt >= product.S_max_qtt) {
+    //         return true;
+    //     }
+    //     if (index === 1) {
+    //         let newArr = [...cart];
+    //         if (newArr[index].qty >= newArr.product.S_max_qtt - newArr.product.store_curr_qtt) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // };
+
     const addToCart = (product, quantity) => {
         var index = findProductInCart([...cart], product);
         if (index === -1) {
             console.log("can't find");
             let newArr = [...cart];
-            newArr.push({ product, qty: quantity });
+            if (product.warehouse_curr_qtt > 0) {
+                newArr.push({ product, qty: quantity });
+            }
             setCart(newArr);
         }
         else {
             console.log("finded");
             let newArr = [...cart];
-            newArr[index].qty += quantity;
+            newArr[index].qty = ((newArr[index].qty >= product.warehouse_curr_qtt) || (newArr[index].qty >= product.S_max_qtt - product.store_curr_qtt))
+                ? newArr[index].qty
+                : newArr[index].qty + quantity;
             setCart(newArr);
         }
     };
@@ -175,23 +193,30 @@ function ExportAddScreen(props) {
                                         <thead>
                                             <tr>
                                                 <th className="col-xs-1 col-md-1">id</th>
-                                                <th className="col-xs-2 col-md-2">ảnh</th>
-                                                <th className="col-xs-4 col-md-4">tên</th>
-                                                <th className="col-xs-3 col-md-3">giá bán</th>
-                                                <th className="col-xs-2 col-md-2">thêm</th>
+                                                <th className="col-xs-2 col-md-1">ảnh</th>
+                                                <th className="col-xs-4 col-md-3">tên</th>
+                                                <th className="col-xs-3 col-md-2">cửa hàng</th>
+                                                <th className="col-xs-3 col-md-2">tồn kho</th>
+                                                <th className="col-xs-2 col-md-1">thêm</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {currentProducts.map((product, index) => (
                                                 <tr key={product.PID}>
-                                                    <td>{product.PID}</td>
+                                                    <td>
+                                                        <Link to={`/products/${product.PID}`}>
+                                                            {product.PID}
+                                                        </Link>
+                                                    </td>
                                                     <td><img src={product.img_url} alt={product.name} className="product-img"></img></td>
                                                     <td>{product.name}</td>
-                                                    <td>{product.sell_price}</td>
+                                                    <td>{product.store_curr_qtt}</td>
+                                                    <td>{product.warehouse_curr_qtt}</td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-primary"
+                                                            disabled={product.store_curr_qtt >= product.S_max_qtt || product.warehouse_curr_qtt === 0}
                                                             onClick={() => addToCart(product, 1)}
                                                         >
                                                             <i className="fa fa-plus" aria-hidden="true"></i>
@@ -268,7 +293,7 @@ function ExportAddScreen(props) {
                                                 <button
                                                     className="plus-btn"
                                                     type="button"
-                                                    disabled={cartItem.qty > cartItem.product.S_max_qtt - 1 - cartItem.product.store_curr_qtt}
+                                                    disabled={cartItem.qty >= cartItem.product.S_max_qtt - cartItem.product.store_curr_qtt || cartItem.qty >= cartItem.product.warehouse_curr_qtt}
                                                     onClick={() => addQty(index)}
                                                 >
                                                     <i className="fa fa-plus" aria-hidden="true"></i>

@@ -53,7 +53,11 @@ function ImportScreen(props) {
     };
 
     const editHandler = (editItem) => {
-        props.history.push(`/imports/${editItem}/edit`)
+        if ((editItem.state === 'close') && (window.confirm('đơn nhập hàng đã đóng, chỉ xem?'))) {
+            props.history.push(`/imports/${editItem.ImID}/edit`)
+        } else {
+            props.history.push(`/imports/${editItem.ImID}/edit`)
+        }
     };
     return (
         <div className="container-fluid">
@@ -98,7 +102,7 @@ function ImportScreen(props) {
                                             <tr>
                                                 <th className="col-sm-1 col-md-1">stt</th>
                                                 <th className="col-sm-1 col-md-1">id</th>
-                                                <th className="col-md-2">ngày</th>
+                                                <th className="col-md-2">ngày yêu cầu</th>
                                                 <th className="col-md-1">độ ưu tiên</th>
                                                 <th className="col-md-1">NV yêu cầu</th>
                                                 <th className="col-md-1">NV thực hiện</th>
@@ -113,18 +117,18 @@ function ImportScreen(props) {
                                                 <tr key={imp.ImID}>
                                                     <td>{index + 1}</td>
                                                     <td>{imp.ImID}</td>
-                                                    <td>{imp.request_import_date}</td>
+                                                    <td>{imp.request_import_date.slice(0, 10)}</td>
                                                     <td>{imp.urgent_level}</td>
                                                     <td>{imp.requesterId}</td>
                                                     <td>{imp.executorId}</td>
                                                     <td>{imp.checkerId}</td>
                                                     <td>{imp.supplierId}</td>
-                                                    <td>{imp.state}</td>
+                                                    <td><span className={imp.state === "request" ? "label label-info" : imp.state === "executed" ? "label label-success" : "label label-default"}>{imp.state}</span></td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(imp.ImID)}
+                                                            onClick={() => editHandler(imp)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button>

@@ -79,11 +79,12 @@ function InvoiceScreen(props) {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>stt</th>
-                                                <th>id</th>
-                                                <th>tên khách hàng</th>
-                                                <th className="flex">
-                                                    <span>ngày bán</span>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên khách hàng</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                    ngày bán
+                                                    {/* <span>ngày bán</span> */}
                                                     {/* <span>
                                                         <button type="button" className="btn btn-primary" onClick={() => { isUp ? setIsUp(false) : setIsUp(true) }}>
                                                             sắp xếp
@@ -93,9 +94,9 @@ function InvoiceScreen(props) {
                                                         </button>
                                                     </span> */}
                                                 </th>
-                                                <th>nhân viên thực hiện</th>
-                                                <th>thành tiền</th>
-                                                <th>thao tác</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">nhân viên thực hiện</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thành tiền</th>
+                                                <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
