@@ -91,11 +91,11 @@ function ProductScreen(props) {
     const onSort = () => {
         if (isUp) {
             setIsUp(false);
-            setSortName('DESC');
+            setSortName('ASC');
         }
         else {
             setIsUp(true);
-            setSortName('ASC');
+            setSortName('DESC');
         }
     }
 

@@ -115,7 +115,7 @@ function ExportEditScreen(props) {
         <div className="container-fluid">
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Cập Nhật Đơn Nhập Hàng</h2>
+                    <h2>Cập Nhật Đơn Xuất Hàng</h2>
                 </div>
             </div>
             <hr></hr>
@@ -259,7 +259,13 @@ function ExportEditScreen(props) {
                                                 </>
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-primary fr">cập nhật đơn nhập hàng</button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary fr"
+                                            disabled={_export.state === 'close'}
+                                        >
+                                            cập nhật đơn xuất hàng
+                                        </button>
                                         <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
                                         {loadingUpdate && <LoadingBox></LoadingBox>}
                                     </form>

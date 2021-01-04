@@ -42,6 +42,7 @@ import ImportEditScreen from '../screens/ImportEditScreen';
 import ExportScreen from '../screens/ExportScreen';
 import ExportAddScreen from '../screens/ExportAddScreen';
 import ExportEditScreen from '../screens/ExportEditScreen';
+import StatisticScreen from '../screens/StatisticScreen';
 // import LoadingBox from '../components/LoadingBox';
 
 
@@ -90,7 +91,7 @@ function PrivateLayout() {
                 <div className="content-wraper">
                     <PrivateRoute path="/" exact component={SellingScreen}></PrivateRoute>
                     <PrivateRoute path="/profile" exact component={ProfileScreen}></PrivateRoute>
-                    <PrivateRoute path="/statistic" component={SellingScreen}></PrivateRoute>
+                    <PrivateRoute path="/statistic" component={StatisticScreen}></PrivateRoute>
 
                     <PrivateRoute path="/management" component={ManagementScreen}></PrivateRoute>
 
