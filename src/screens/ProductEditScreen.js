@@ -30,6 +30,8 @@ function ProductEditScreen(props) {
     const [discountId, setDiscountId] = useState('');
     const [description, setDescription] = useState('description');
     const [otherDetail, setOtherDetail] = useState('otherDetail');
+    const [notice_days, setNotice_days] = useState('');
+
 
     const dispatch = useDispatch();
 
@@ -74,6 +76,7 @@ function ProductEditScreen(props) {
             product.discountId ? setDiscountId(product.discountId) : setDiscountId(discountId);
             setSell_price(product.sell_price);
             setVat(product.vat);
+            setNotice_days(product.notice_days);
         }
     }, [loading,]);
 
@@ -101,6 +104,8 @@ function ProductEditScreen(props) {
         formData.append('otherDetail', otherDetail);
         // formData.append('discountId', discountId);
         // formData.append('vat', vat);
+        formData.append('notice_days', notice_days);
+
         dispatch(
             updateProduct(
                 formData, productId
@@ -342,6 +347,16 @@ function ProductEditScreen(props) {
                                                 placeholder="thuế giá trị gia tăng"
                                                 value={vat}
                                                 onChange={(e) => setVat(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label">thời hạn thông báo thanh lý:</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                placeholder="nhập số ngày kích hoạt"
+                                                value={notice_days}
+                                                onChange={(e) => setNotice_days(e.target.value)}
                                             />
                                         </div>
                                         <button type="submit" className="btn btn-primary fr">sửa sản phẩm</button>

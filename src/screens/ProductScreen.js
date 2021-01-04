@@ -14,6 +14,9 @@ function ProductScreen(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     const [keyword, setKeyword] = useState('');
+    const [sortName, setSortName] = useState('ASC');
+    const [isUp, setIsUp] = useState(false);
+
     const productList = useSelector((state) => state.productList);
     const { loading, error, products } = productList;
 
@@ -29,8 +32,8 @@ function ProductScreen(props) {
         if (successDelete) {
             dispatch({ type: PRODUCT_DELETE_RESET });
         }
-        dispatch(listProducts({}));
-    }, [dispatch, successDelete]);
+        dispatch(listProducts({ sortByName: sortName }));
+    }, [dispatch, successDelete, sortName]);
 
     useEffect(() => {
         if (!loading) {
@@ -85,6 +88,17 @@ function ProductScreen(props) {
         setKeyword('');
     };
 
+    const onSort = () => {
+        if (isUp) {
+            setIsUp(false);
+            setSortName('DESC');
+        }
+        else {
+            setIsUp(true);
+            setSortName('ASC');
+        }
+    }
+
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -133,10 +147,20 @@ function ProductScreen(props) {
                                                 <th className="col-sm-1 col-md-1 col-lg-1">stt</th>
                                                 <th className="col-sm-1 col-md-1 col-lg-1">id</th>
                                                 <th className="col-sm-1 col-md-1 col-lg-1">hình ảnh</th>
-                                                <th className="col-sm-1 col-md-2 col-lg-2">tên</th>
-                                                <th className="col-sm-1 col-md-2 col-lg-2">ngành hàng</th>
+                                                <th className="col-sm-1 col-md-2 col-lg-2">
+                                                    <span>tên</span>
+                                                    <span>
+                                                        <button type="button" className="btn btn-primary fr" onClick={onSort}>
+                                                            <span>
+                                                                <i className={isUp ? "fa fa-arrow-up ml-3" : "fa fa-arrow-down ml-3"} aria-hidden="true"></i>
+                                                            </span>
+                                                        </button>
+                                                    </span>
+                                                </th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">ngành hàng</th>
                                                 <th className="col-sm-1 col-md-1 col-lg-1">thương hiệu</th>
                                                 <th className="col-sm-1 col-md-1 col-lg-1">tồn kho</th>
+                                                <th className="col-sm-1 col-md-1 col-lg-1">cửa hàng</th>
                                                 {/* <th>giá nhập</th> */}
                                                 <th className="col-sm-1 col-md-1 col-lg-1">giá bán</th>
                                                 <th className="col-sm-1 col-md-2 col-lg-2">thao tác</th>
@@ -160,7 +184,8 @@ function ProductScreen(props) {
                                                     </td>
                                                     <td>{product.category.name}</td>
                                                     <td>{product.brand}</td>
-                                                    <td>{product.W_max_qtt}</td>
+                                                    <td>{product.warehouse_curr_qtt}</td>
+                                                    <td>{product.store_curr_qtt}</td>
                                                     {/* <td>null</td> */}
                                                     <td>{product.sell_price}</td>
                                                     <td>

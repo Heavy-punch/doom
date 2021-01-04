@@ -23,7 +23,7 @@ function ProductAddScreen(props) {
     // const [import_price, setImport_price] = useState('');
     const [brand, setBrand] = useState('');
     const [categoryId, setCategoryId] = useState('');
-    // const [qtt_per_unit, setqQtt_per_unit] = useState(1);
+    const [notice_days, setNotice_days] = useState('');
     const [vat, setVat] = useState(0);
     const [discountId, setDiscountId] = useState('');
     const [description, setDescription] = useState('description');
@@ -55,10 +55,8 @@ function ProductAddScreen(props) {
         formData.append('image', image[image.length - 1]);
         formData.append('name', name);
         formData.append('barcode', barcode);
-        // formData.append('W_curr_qtt', W_curr_qtt);
         formData.append('W_min_qtt', W_min_qtt);
         formData.append('W_max_qtt', W_max_qtt);
-        // formData.append('S_curr_qtt', S_curr_qtt);
         formData.append('S_max_qtt', S_max_qtt);
         formData.append('S_min_qtt', S_min_qtt);
         // formData.append('import_price', import_price);
@@ -67,9 +65,13 @@ function ProductAddScreen(props) {
         formData.append('description', description);
         formData.append('otherDetail', otherDetail);
         formData.append('categoryId', categoryId);
+        formData.append('vat', vat);
         formData.append('discountId', discountId);
         formData.append('sell_price', sell_price);
-        formData.append('vat', vat);
+        // formData.append('warehouse_curr_qtt', W_curr_qtt);
+        // formData.append('store_curr_qtt', S_curr_qtt);
+        formData.append('notice_days', notice_days);
+
         dispatch(
             createProduct(
                 formData
@@ -295,6 +297,16 @@ function ProductAddScreen(props) {
                                 placeholder="thuế giá trị gia tăng"
                                 value={vat}
                                 onChange={(e) => setVat(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">thời hạn thông báo thanh lý:</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                placeholder="nhập số ngày kích hoạt"
+                                value={notice_days}
+                                onChange={(e) => setNotice_days(e.target.value)}
                             />
                         </div>
                         <button type="submit" className="btn btn-primary fr">thêm sản phẩm</button>

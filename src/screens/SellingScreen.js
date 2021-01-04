@@ -318,7 +318,7 @@ function SellingScreen(props) {
                                                 <tr>
                                                     <td>thối lại:</td>
                                                     <td>
-                                                        <b>{paying - total}</b> vnd
+                                                        <b>{(paying - total) < 0 ? 0 : paying - total}</b> vnd
                                                     </td>
                                                 </tr>
                                             </tbody>

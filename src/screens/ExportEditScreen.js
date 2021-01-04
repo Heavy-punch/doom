@@ -18,10 +18,10 @@ function ExportEditScreen(props) {
     const [export_date, setExport_date] = useState('');
     const [state, setState] = useState('');
     const [bonus, setBonus] = useState('');
-    const [requesterId, setRequesterId] = useState('');
-    const [executorId, setExecutorId] = useState('');
-    const [checkerId, setCheckerId] = useState('');
-    const [supplierId, setSupplierId] = useState('');
+    // const [requesterId, setRequesterId] = useState('');
+    // const [executorId, setExecutorId] = useState('');
+    // const [checkerId, setCheckerId] = useState('');
+    // const [supplierId, setSupplierId] = useState('');
     const [exportProducts, setExportProducts] = useState([]);
     const [productId, setProductId] = useState([]);
     const [request_total_unit, setRequest_total_unit] = useState([]);
@@ -39,7 +39,7 @@ function ExportEditScreen(props) {
 
     const dispatch = useDispatch();
 
-    console.log(_export);
+    console.log(exportDetails);
 
     useEffect(() => {
         if (successUpdate) {
@@ -56,14 +56,20 @@ function ExportEditScreen(props) {
     useEffect(() => {
         if (!loading) {
             setUrgent_level(_export.urgent_level);
-            setExport_date(new Date(_export.export_date).toISOString().slice(0, 10));
+            if (_export.export_date) {
+                setExport_date(_export.export_date.slice(0, 10));
+            }
             setState(_export.state);
-            setBonus(_export.bonus);
-            setRequesterId(_export.requesterId);
-            setExecutorId(_export.executorId);
-            setCheckerId(_export.checkerId);
-            setSupplierId(_export.supplierId);
-            setSupplierId(_export.supplierId);
+            if (_export.bonus) {
+                setBonus(_export.bonus);
+            }
+            // setRequesterId(_export.requesterId);
+            // if (_export.executorId) {
+            //     setExecutorId(_export.executorId);
+            // }
+            // if (_export.checkerId) {
+            //     setCheckerId(_export.checkerId);
+            // }
             setExportProducts(_export.products);
             var arr = [];
             var brr = [];
@@ -92,10 +98,9 @@ function ExportEditScreen(props) {
                 export_date,
                 state,
                 bonus,
-                requesterId,
-                executorId,
-                checkerId,
-                supplierId,
+                // requesterId,
+                // executorId,
+                // checkerId,
                 exportProducts,
             })
         );
@@ -177,10 +182,10 @@ function ExportEditScreen(props) {
                                                         >
                                                         </textarea>
                                                     </div>
-                                                    <div className="form-group">
+                                                    {/* <div className="form-group">
                                                         <label className="form-label">NV yêu cầu:</label>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             placeholder="nhân viên yêu cầu"
                                                             name="requesterId"
@@ -191,7 +196,7 @@ function ExportEditScreen(props) {
                                                     <div className="form-group">
                                                         <label className="form-label">NV thực hiện:</label>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             placeholder="nhân viên thực hiện"
                                                             name="executorId"
@@ -202,25 +207,14 @@ function ExportEditScreen(props) {
                                                     <div className="form-group">
                                                         <label className="form-label">NV kiểm tra:</label>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             placeholder="nhân viên kiểm tra"
                                                             name="checkerId"
                                                             value={checkerId}
                                                             onChange={(e) => setCheckerId(e.target.value)}
                                                         />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label">nhà cung cấp:</label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="nhà cung cấp"
-                                                            name="supplierId"
-                                                            value={supplierId}
-                                                            onChange={(e) => setSupplierId(e.target.value)}
-                                                        />
-                                                    </div>
+                                                    </div> */}
                                                 </>
                                             </div>
 

@@ -91,15 +91,15 @@ function ProductDetailScreen(props) {
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng cửa hàng tối đa dự kiến:</td>
-                                                    <td>{product.W_max_qtt}</td>
+                                                    <td>{product.S_max_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng cửa hàng tối thiểu dự kiến:</td>
-                                                    <td>{product.W_min_qtt}</td>
+                                                    <td>{product.S_min_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng cửa hàng hiện tại:</td>
-                                                    <td>{product.warehouse_curr_qtt}</td>
+                                                    <td>{product.store_curr_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>giá bán sản phẩm:</td>
@@ -124,6 +124,10 @@ function ProductDetailScreen(props) {
                                                 <tr>
                                                     <td>giảm giá:</td>
                                                     <td>{product.discount ? product.discount.rate : 0}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>thời hạn thông báo thanh lý:</td>
+                                                    <td>{product.notice_days} ngày</td>
                                                 </tr>
                                             </tbody>
                                         </table>

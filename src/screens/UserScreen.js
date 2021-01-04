@@ -99,15 +99,15 @@ function UserScreen(props) {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>stt</th>
-                                                <th>id</th>
-                                                <th>avatar</th>
-                                                <th>tên</th>
-                                                <th>email</th>
-                                                <th>địa chỉ</th>
-                                                <th>số điện thoại</th>
-                                                <th>loại người dùng</th>
-                                                <th>thao tác</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">avatar</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">email</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">loại người dùng</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
