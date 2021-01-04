@@ -43,6 +43,7 @@ import ExportScreen from '../screens/ExportScreen';
 import ExportAddScreen from '../screens/ExportAddScreen';
 import ExportEditScreen from '../screens/ExportEditScreen';
 import StatisticScreen from '../screens/StatisticScreen';
+import InvoiceDetailScreen from '../screens/InvoiceDetailScreen';
 // import LoadingBox from '../components/LoadingBox';
 
 
@@ -135,6 +136,7 @@ function PrivateLayout() {
 
                     <PrivateRoute path="/invoices" exact component={InvoiceScreen}></PrivateRoute>
                     <PrivateRoute path="/invoices/:id/edit" exact component={InvoiceEditScreen}></PrivateRoute>
+                    <PrivateRoute path="/invoices/:id" exact component={InvoiceDetailScreen}></PrivateRoute>
 
                 </div>
             </div>)
