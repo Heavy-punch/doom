@@ -116,7 +116,6 @@ function ExportEditScreen(props) {
             <hr></hr>
             <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    {loadingUpdate && <LoadingBox></LoadingBox>}
                     {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
                     {loading ? (
                         <LoadingBox></LoadingBox>
@@ -268,6 +267,7 @@ function ExportEditScreen(props) {
                                         </div>
                                         <button type="submit" className="btn btn-primary fr">cập nhật đơn nhập hàng</button>
                                         <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
+                                        {loadingUpdate && <LoadingBox></LoadingBox>}
                                     </form>
                                 </>
                             )}
