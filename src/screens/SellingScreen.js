@@ -26,6 +26,7 @@ function SellingScreen(props) {
     useEffect(() => {
         // dispatch(listProducts());
         dispatch({ type: PRODUCT_LIST_REQUEST });
+        dispatch({ type: INVOICE_CREATE_RESET });
     }, []);
 
     const invoiceCreate = useSelector((state) => state.invoiceCreate);

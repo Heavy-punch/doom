@@ -63,10 +63,10 @@ function ProductEditScreen(props) {
         if (!loading) {
             setName(product.name);
             product.barcode ? setBarcode(product.barcode) : setBarcode(barcode);
-            product.W_curr_qtt ? setW_curr_qtt(product.W_curr_qtt) : setW_curr_qtt(W_curr_qtt);
+            // product.W_curr_qtt ? setW_curr_qtt(product.W_curr_qtt) : setW_curr_qtt(W_curr_qtt);
             setW_min_qtt(product.W_min_qtt);
             setW_max_qtt(product.W_max_qtt);
-            product.S_curr_qtt ? setS_curr_qtt(product.S_curr_qtt) : setS_curr_qtt(S_curr_qtt);
+            // product.S_curr_qtt ? setS_curr_qtt(product.S_curr_qtt) : setS_curr_qtt(S_curr_qtt);
             setS_max_qtt(product.S_min_qtt);
             setS_min_qtt(product.S_max_qtt);
             setBrand(product.brand);
@@ -89,10 +89,10 @@ function ProductEditScreen(props) {
         }
         formData.append('name', name);
         formData.append('barcode', barcode);
-        formData.append('W_curr_qtt', W_curr_qtt);
+        // formData.append('W_curr_qtt', W_curr_qtt);
         formData.append('W_min_qtt', W_min_qtt);
         formData.append('W_max_qtt', W_max_qtt);
-        formData.append('S_curr_qtt', S_curr_qtt);
+        // formData.append('S_curr_qtt', S_curr_qtt);
         formData.append('S_max_qtt', S_max_qtt);
         formData.append('S_min_qtt', S_min_qtt);
         formData.append('sell_price', sell_price);
@@ -220,7 +220,7 @@ function ProductEditScreen(props) {
                                             >
                                             </textarea>
                                         </div>
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                             <label className="form-label">số lượng tồn kho hiện tại:</label>
                                             <input
                                                 type="text"
@@ -239,7 +239,7 @@ function ProductEditScreen(props) {
                                                 value={S_curr_qtt}
                                                 onChange={(e) => setS_curr_qtt(e.target.value)}
                                             />
-                                        </div>
+                                        </div> */}
                                         <div className="form-group">
                                             <label className="form-label">số lượng điều chỉnh:</label>
                                             <div className="form-group row">
@@ -247,7 +247,7 @@ function ProductEditScreen(props) {
                                                     <div className="input-group">
                                                         <span className="input-group-addon">tồn kho ít nhất</span>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             value={W_min_qtt}
                                                             onChange={(e) => setW_min_qtt(e.target.value)}
@@ -258,7 +258,7 @@ function ProductEditScreen(props) {
                                                     <div className="input-group">
                                                         <span className="input-group-addon">tồn kho nhiều nhất</span>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             value={W_max_qtt}
                                                             onChange={(e) => setW_max_qtt(e.target.value)}
@@ -271,7 +271,7 @@ function ProductEditScreen(props) {
                                                     <div className="input-group">
                                                         <span className="input-group-addon">cửa hàng ít nhất</span>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             value={S_min_qtt}
                                                             onChange={(e) => setS_min_qtt(e.target.value)}
@@ -282,7 +282,7 @@ function ProductEditScreen(props) {
                                                     <div className="input-group">
                                                         <span className="input-group-addon">cửa hàng nhiều nhất</span>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             className="form-control"
                                                             value={S_max_qtt}
                                                             onChange={(e) => setS_max_qtt(e.target.value)}
@@ -312,7 +312,7 @@ function ProductEditScreen(props) {
                                             <label className="form-label">mã vạch:</label>
                                             <div className="input-group">
                                                 <input
-                                                    type="text"
+                                                    type="number"
                                                     className="form-control"
                                                     placeholder="mã vạch"
                                                     value={barcode}

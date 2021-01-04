@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { useHistory } from 'react-router-dom';
-import { changePassword, profileUser } from '../actions/userActions';
+import { changePassword, profileUser, updateMe } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { USER_CHANGEPASSWORD_RESET } from '../constants/userConstants';
+import { USER_CHANGEPASSWORD_RESET, USER_UPDATE_ME_RESET } from '../constants/userConstants';
 
 
 
@@ -26,12 +26,19 @@ function ProfileScreen(props) {
         success: successChangePassword,
     } = userChangePassword;
 
-    console.log(userChangePassword);
+    const userUpdateMe = useSelector((state) => state.userUpdateMe);
+    const {
+        loading: loadingUpdateMe,
+        error: errorUpdateMe,
+        success: successUpdateMe,
+    } = userUpdateMe;
+
+    console.log(avatar);
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(profileUser());
-    }, [dispatch]
+    }, [dispatch, successUpdateMe]
     );
 
     useEffect(() => {
@@ -39,8 +46,13 @@ function ProfileScreen(props) {
             dispatch({ type: USER_CHANGEPASSWORD_RESET });
             props.history.goBack();
         }
+        if (successUpdateMe) {
+            dispatch({ type: USER_UPDATE_ME_RESET });
+            setAvatar([]);
+        }
+        dispatch({ type: USER_UPDATE_ME_RESET });
         dispatch({ type: USER_CHANGEPASSWORD_RESET });
-    }, [successChangePassword, dispatch, props.history]);
+    }, [successChangePassword, successUpdateMe, dispatch, props.history]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -50,10 +62,23 @@ function ProfileScreen(props) {
             confirmPassword: reNewPassword,
         }));
     };
+    const submitAvatar = (e) => {
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append('avatar', avatar[avatar.length - 1]);
+        dispatch(
+            updateMe(
+                formData
+            )
+        );
+
+    }
+    const onChangeAvatar = (e) => {
+        setAvatar([...avatar, e.target.files[0]]);
+    };
     return (
         <div className="container-fluid">
             <button type="button" className="btn btn-primary" onClick={() => props.history.goBack()}>quay lại</button>
-            {errorChangePassword && <MessageBox variant="danger">{errorChangePassword}</MessageBox>}
             {loading ? (<LoadingBox></LoadingBox>)
                 : error ? (<MessageBox variant="danger">{error}</MessageBox>)
                     : (
@@ -64,7 +89,16 @@ function ProfileScreen(props) {
                                 </div>
                                 <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                     <ul>
-                                        <li className="user">{(profile.avt_url !== null) ? <img src={profile.avt_url} alt={profile.FName} /> : <img src="./images/user1.png" alt="asfas" />}</li>
+                                        <li className="user avatar-lager">
+                                            {/* {(profile.avt_url !== null) ? <img src={profile.avt_url} alt={profile.FName} /> : <img src="./images/user1.png" alt="asfas" />} */}
+                                            <form onSubmit={submitAvatar}>
+                                                <label htmlFor="upload-photo">{(profile.avt_url !== null) ? <img src={profile.avt_url} alt={profile.FName} /> : <img src="./images/user1.png" alt="asfas" />}</label>
+                                                <input type="file" name="photo" id="upload-photo" onChange={onChangeAvatar} />
+                                                {avatar.length > 0 && <button type="submit">thay đổi?</button>}
+                                            </form>
+                                            {loadingUpdateMe && <LoadingBox></LoadingBox>}
+                                            {errorUpdateMe && <MessageBox variant="danger">{errorUpdateMe}</MessageBox>}
+                                        </li>
                                         <li>tên: {profile.FName}</li>
                                         <li>accountName: {profile.accountName}</li>
                                         <li>địa chỉ: {profile.Address}</li>
@@ -117,6 +151,7 @@ function ProfileScreen(props) {
                                             đổi password
                                         </button>
                                         {loadingChangePassword && <LoadingBox></LoadingBox>}
+                                        {errorChangePassword && <MessageBox variant="danger">{errorChangePassword}</MessageBox>}
                                     </form>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -132,6 +167,7 @@ function ProfileScreen(props) {
 }
 
 export default ProfileScreen;
+
 
 
 
