@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { deleteInvoice, listInvoices } from '../actions/invoiceActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -94,8 +94,8 @@ function InvoiceScreen(props) {
                                                         </button>
                                                     </span> */}
                                                 </th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">nhân viên thực hiện</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thành tiền</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">nhân viên thực hiện</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">thành tiền</th>
                                                 <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
                                             </tr>
                                         </thead>
@@ -103,7 +103,11 @@ function InvoiceScreen(props) {
                                             {currentInvoices.map((invoice, index) => (
                                                 <tr key={invoice.BID}>
                                                     <td>{index + 1}</td>
-                                                    <td>{invoice.BID}</td>
+                                                    <td>
+                                                        <Link to={`/invoices/${invoice.BID}`}>
+                                                            {invoice.BID}
+                                                        </Link>
+                                                    </td>
                                                     <td>{invoice.cus_name}</td>
                                                     <td>{invoice.createdAt}</td>
                                                     <td>{invoice.manager.LName + invoice.manager.FName + " - " + invoice.MngID}</td>

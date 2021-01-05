@@ -41,6 +41,7 @@ function SellingScreen(props) {
             dispatch({ type: INVOICE_CREATE_RESET });
             setCart([]);
             setCusName('');
+            setPaying('');
         }
     }, [successCreate, dispatch,]);
 
@@ -272,7 +273,7 @@ function SellingScreen(props) {
                                                         <button
                                                             className="plus-btn"
                                                             type="button"
-                                                            disabled={cartItem.product.warehouse_curr_qtt < cartItem.qty}
+                                                            disabled={cartItem.product.store_curr_qtt <= cartItem.qty}
                                                             onClick={() => addQty(index)}
                                                         >
                                                             <i className="fa fa-plus" aria-hidden="true"></i>

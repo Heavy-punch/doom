@@ -53,9 +53,10 @@ function ExportScreen(props) {
     };
 
     const editHandler = (editItem) => {
-        if ((editItem.state === 'close') && (window.confirm('đơn nhập hàng đã đóng, chỉ xem?'))) {
+        if ((editItem.state === 'close') && (window.alert('đơn nhập hàng đã đóng, chỉ xem?'))) {
             props.history.push(`/exports/${editItem.ExID}/edit`)
-        } else {
+        }
+        else {
             props.history.push(`/exports/${editItem.ExID}/edit`)
         }
     };

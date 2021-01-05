@@ -53,10 +53,11 @@ function ImportScreen(props) {
     };
 
     const editHandler = (editItem) => {
-        if ((editItem.state === 'close') && (window.confirm('đơn nhập hàng đã đóng, chỉ xem?'))) {
-            props.history.push(`/imports/${editItem.ImID}/edit`)
-        } else {
-            props.history.push(`/imports/${editItem.ImID}/edit`)
+        if ((editItem.state === 'close') && (window.alert('đơn nhập hàng đã đóng, chỉ xem?'))) {
+            props.history.push(`/imports/${editItem.ImID}/edit`);
+        }
+        else {
+            props.history.push(`/imports/${editItem.ImID}/edit`);
         }
     };
     return (

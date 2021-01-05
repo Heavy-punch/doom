@@ -6,7 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { detailsImport, updateImport } from '../actions/importActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { IMPORT_UPDATE_RESET } from '../constants/importConstants';
+import { IMPORT_DETAILS_RESET, IMPORT_UPDATE_RESET } from '../constants/importConstants';
 
 // import { Container } from './styles';
 
@@ -56,18 +56,20 @@ function ImportEditScreen(props) {
             dispatch(detailsImport(importId));
         }
         dispatch({ type: IMPORT_UPDATE_RESET });
+        // dispatch({ type: IMPORT_DETAILS_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
         if (!loading) {
             setUrgent_level(_import.urgent_level);
-            setImport_date(_import.import_date ? _import.import_date.slice(0, 10) : (new Date()).toISOString().slice(0, 10));
+            // setImport_date(_import.import_date ? _import.import_date.slice(0, 10) : (new Date()).toISOString().slice(0, 10));
+            setImport_date(_import.import_date ? _import.import_date.slice(0, 10) : '');
             setState(_import.state);
-            setBonus(_import.bonus);
+            setBonus(_import.bonus ? _import.bonus : '');
             // setRequesterId(_import.requesterId);
             // setExecutorId(_import.executorId);
             // setCheckerId(_import.checkerId);
-            // setSupplierId(_import.supplierId);
+            setSupplierId(_import.supplierId ? _import.supplierId : '');
             setImportProducts(_import.products);
             var arr = [];
             var brr = [];
@@ -80,9 +82,10 @@ function ImportEditScreen(props) {
             for (let i = 0; i < _import.products.length; i++) {
                 arr[i] = _import.products[i].PID;
                 brr[i] = _import.products[i].ProductInImport.request_total_unit;
-                if (_import.products[i].ProductInImport.real_total_unit) {
-                    crr[i] = _import.products[i].ProductInImport.real_total_unit;
-                }
+                // if (_import.products[i].ProductInImport.real_total_unit) {
+                //     crr[i] = _import.products[i].ProductInImport.real_total_unit;
+                // }
+                crr[i] = _import.products[i].ProductInImport.real_total_unit ? _import.products[i].ProductInImport.real_total_unit : '';
                 if (_import.products[i].lot) {
                     drr[i] = new Date(_import.products[i].lot.expires).toISOString().slice(0, 10);
                     err[i] = _import.products[i].lot.unit_name;

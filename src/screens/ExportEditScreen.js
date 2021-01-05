@@ -6,7 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { detailsExport, updateExport } from '../actions/exportActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { EXPORT_UPDATE_RESET } from '../constants/exportConstants';
+import { EXPORT_DETAILS_RESET, EXPORT_UPDATE_RESET } from '../constants/exportConstants';
 
 // import { Container } from './styles';
 
@@ -51,18 +51,21 @@ function ExportEditScreen(props) {
             dispatch(detailsExport(exportId));
         }
         dispatch({ type: EXPORT_UPDATE_RESET });
+        // dispatch({ type: EXPORT_DETAILS_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
         if (!loading) {
             setUrgent_level(_export.urgent_level);
-            if (_export.export_date) {
-                setExport_date(_export.export_date.slice(0, 10));
-            }
+            // if (_export.export_date) {
+            //     setExport_date(_export.export_date.slice(0, 10));
+            // }
+            setExport_date(_export.export_date ? _export.export_date.slice(0, 10) : '');
             setState(_export.state);
-            if (_export.bonus) {
-                setBonus(_export.bonus);
-            }
+            // if (_export.bonus) {
+            //     setBonus(_export.bonus);
+            // }
+            setBonus(_export.bonus);
             // setRequesterId(_export.requesterId);
             // if (_export.executorId) {
             //     setExecutorId(_export.executorId);
