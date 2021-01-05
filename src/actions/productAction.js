@@ -4,12 +4,12 @@ import { PRODUCT_CREATE_FAIL, PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_SUCCESS, PR
 export const listProducts = ({
     name_keyword = '',
     categoryId = '',
-    name = '',
     is_less_than_Wmin = '',
     is_less_than_Smin = '',
     sortByName = '',
     sortByCreatedAt = '',
     sortByUpdatedAt = '',
+    is_almost_expired = '',
 }) => async (dispatch, getState) => {
     dispatch({
         type: PRODUCT_LIST_REQUEST,
@@ -19,7 +19,7 @@ export const listProducts = ({
     } = getState();
     try {
         const { data } = await Axios.get(
-            `/api/products?name_keyword=${name_keyword}&categoryId=${categoryId}&is_less_than_Wmin=${is_less_than_Wmin}&is_less_than_Smin=${is_less_than_Smin}&sortByName=${sortByName}&sortByCreatedAt=${sortByCreatedAt}&sortByUpdatedAt=${sortByUpdatedAt}`,
+            `/api/products?name_keyword=${name_keyword}&categoryId=${categoryId}&is_less_than_Wmin=${is_less_than_Wmin}&is_less_than_Smin=${is_less_than_Smin}&sortByName=${sortByName}&sortByCreatedAt=${sortByCreatedAt}&sortByUpdatedAt=${sortByUpdatedAt}&is_almost_expired=${is_almost_expired}`,
             { headers: { 'x-access-token': `${userInfo.token}` } }
         );
         dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data.data });
