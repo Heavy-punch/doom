@@ -2,25 +2,25 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { detailsProduct } from '../actions/productAction';
+import { detailsInvoice } from '../actions/invoiceActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
 // import { Container } from './styles';
 
-function ProductDetailScreen(props) {
+function InvoiceDetailScreen(props) {
     // const history = useHistory();
     const dispatch = useDispatch();
-    const productId = props.match.params.id;
+    const invoiceId = props.match.params.id;
 
-    const productDetails = useSelector((state) => state.productDetails);
-    const { loading, error, product } = productDetails;
+    const invoiceDetails = useSelector((state) => state.invoiceDetails);
+    const { loading, error, invoice } = invoiceDetails;
     useEffect(() => {
-        dispatch(detailsProduct(productId))
+        dispatch(detailsInvoice(invoiceId))
     },
-        [dispatch, productId]
+        [dispatch, invoiceId]
     );
-    // console.log(product);
+    // console.log(invoice);
 
 
 
@@ -36,7 +36,7 @@ function ProductDetailScreen(props) {
                         <>
                             <div className="row center">
                                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <h2>{product.name}</h2>
+                                    <h2>{invoice.name}</h2>
                                 </div>
                             </div>
                             <hr></hr>
@@ -50,16 +50,16 @@ function ProductDetailScreen(props) {
 
                             <div className="row">
                                 <div className="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-                                    <img src={product.img_url} alt={product.name} className="product-img large"></img>
+                                    <img src={invoice.img_url} alt={invoice.name} className="invoice-img large"></img>
                                 </div>
                                 <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                                     <ul style={{ listStyleType: "none", lineHeight: "2rem" }}>
                                         <li>
-                                            {product.description}
+                                            {invoice.description}
                                         </li>
                                         <br></br>
                                         <li>
-                                            {product.otherDetail}
+                                            {invoice.otherDetail}
                                         </li>
                                     </ul>
                                     <div className="table-responsive">
@@ -67,74 +67,74 @@ function ProductDetailScreen(props) {
                                             <tbody>
                                                 <tr>
                                                     <td className="col-md-3">mã số SP:</td>
-                                                    <td className="col-md-8">{product.PID}</td>
+                                                    <td className="col-md-8">{invoice.PID}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>tên sản phẩm:</td>
-                                                    <td>{product.name}</td>
+                                                    <td>{invoice.name}</td>
                                                 </tr>
                                                 <tr>
                                                     <td> mã vạch:</td>
-                                                    <td>{product.barcode}</td>
+                                                    <td>{invoice.barcode}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng tồn kho tối đa dự kiến:</td>
-                                                    <td>{product.W_max_qtt}</td>
+                                                    <td>{invoice.W_max_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng tồn kho tối thiểu dự kiến:</td>
-                                                    <td>{product.W_min_qtt}</td>
+                                                    <td>{invoice.W_min_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng tồn kho hiện tại:</td>
-                                                    <td>{product.warehouse_curr_qtt}</td>
+                                                    <td>{invoice.warehouse_curr_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng cửa hàng tối đa dự kiến:</td>
-                                                    <td>{product.S_max_qtt}</td>
+                                                    <td>{invoice.S_max_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng cửa hàng tối thiểu dự kiến:</td>
-                                                    <td>{product.S_min_qtt}</td>
+                                                    <td>{invoice.S_min_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>số lượng cửa hàng hiện tại:</td>
-                                                    <td>{product.store_curr_qtt}</td>
+                                                    <td>{invoice.store_curr_qtt}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>giá bán sản phẩm:</td>
-                                                    <td>{product.sell_price}</td>
+                                                    <td>{invoice.sell_price}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>đơn vị tính:</td>
-                                                    <td>{product.unit_name}</td>
+                                                    <td>{invoice.unit_name}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>thuế giá trị gia tăng:</td>
-                                                    <td>{product.vat}</td>
+                                                    <td>{invoice.vat}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>thương hiệu:</td>
-                                                    <td>{product.brand}</td>
+                                                    <td>{invoice.brand}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>ngành hàng:</td>
-                                                    <td>{product.category.name}</td>
+                                                    <td>{invoice.category.name}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>giảm giá:</td>
-                                                    <td>{product.discount ? product.discount.rate : 0}</td>
+                                                    <td>{invoice.discount ? invoice.discount.rate : 0}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>thời hạn thông báo thanh lý:</td>
-                                                    <td>{product.notice_days} ngày</td>
+                                                    <td>{invoice.notice_days} ngày</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                    {product.lots ? (
+                                    {invoice.lots ? (
                                         <table className="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
@@ -145,12 +145,12 @@ function ProductDetailScreen(props) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {product.lots.map((lot, index) => (
+                                                {invoice.lots.map((lot, index) => (
                                                     <tr key={lot.lotId}>
                                                         <td >{lot.lotId}</td>
                                                         <td >{new Date(lot.expires).toISOString().slice(0, 10)}</td>
                                                         <td >{lot.qttLotInWarehouse}</td>
-                                                        <td >{lot.qttProductInStore}</td>
+                                                        <td >{lot.qttInvoiceInStore}</td>
                                                     </tr>
                                                 ))}
 
@@ -164,11 +164,11 @@ function ProductDetailScreen(props) {
                     )
             }
 
-        </div >
+        </div>
     );
 }
 
-export default ProductDetailScreen;
+export default InvoiceDetailScreen;
 
 
 

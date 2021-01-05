@@ -83,7 +83,8 @@ function InvoiceScreen(props) {
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên khách hàng</th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                    <span>ngày bán</span>
+                                                    ngày bán
+                                                    {/* <span>ngày bán</span> */}
                                                     {/* <span>
                                                         <button type="button" className="btn btn-primary" onClick={() => { isUp ? setIsUp(false) : setIsUp(true) }}>
                                                             sắp xếp

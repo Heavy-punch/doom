@@ -26,6 +26,7 @@ function SellingScreen(props) {
     useEffect(() => {
         // dispatch(listProducts());
         dispatch({ type: PRODUCT_LIST_REQUEST });
+        dispatch({ type: INVOICE_CREATE_RESET });
     }, []);
 
     const invoiceCreate = useSelector((state) => state.invoiceCreate);
@@ -318,7 +319,7 @@ function SellingScreen(props) {
                                                 <tr>
                                                     <td>thối lại:</td>
                                                     <td>
-                                                        <b>{paying - total}</b> vnd
+                                                        <b>{(paying - total) < 0 ? 0 : paying - total}</b> vnd
                                                     </td>
                                                 </tr>
                                             </tbody>

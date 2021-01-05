@@ -18,9 +18,9 @@ function ImportEditScreen(props) {
     const [import_date, setImport_date] = useState('');
     const [state, setState] = useState('');
     const [bonus, setBonus] = useState('');
-    const [requesterId, setRequesterId] = useState('');
-    const [executorId, setExecutorId] = useState('');
-    const [checkerId, setCheckerId] = useState('');
+    // const [requesterId, setRequesterId] = useState('');
+    // const [executorId, setExecutorId] = useState('');
+    // const [checkerId, setCheckerId] = useState('');
     const [supplierId, setSupplierId] = useState('');
     const [importProducts, setImportProducts] = useState([]);
     const [productId, setProductId] = useState([]);
@@ -61,14 +61,13 @@ function ImportEditScreen(props) {
     useEffect(() => {
         if (!loading) {
             setUrgent_level(_import.urgent_level);
-            setImport_date(new Date(_import.import_date).toISOString().slice(0, 10));
+            setImport_date(_import.import_date ? _import.import_date.slice(0, 10) : (new Date()).toISOString().slice(0, 10));
             setState(_import.state);
             setBonus(_import.bonus);
-            setRequesterId(_import.requesterId);
-            setExecutorId(_import.executorId);
-            setCheckerId(_import.checkerId);
-            setSupplierId(_import.supplierId);
-            setSupplierId(_import.supplierId);
+            // setRequesterId(_import.requesterId);
+            // setExecutorId(_import.executorId);
+            // setCheckerId(_import.checkerId);
+            // setSupplierId(_import.supplierId);
             setImportProducts(_import.products);
             var arr = [];
             var brr = [];
@@ -124,9 +123,9 @@ function ImportEditScreen(props) {
                 import_date,
                 state,
                 bonus,
-                requesterId,
-                executorId,
-                checkerId,
+                // requesterId,
+                // executorId,
+                // checkerId,
                 supplierId,
                 importProducts,
             })
@@ -178,6 +177,7 @@ function ImportEditScreen(props) {
 
                 </div> */}
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    {loadingUpdate && <LoadingBox></LoadingBox>}
                     {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
                     {loading ? (
                         <LoadingBox></LoadingBox>
@@ -239,7 +239,7 @@ function ImportEditScreen(props) {
                                                         >
                                                         </textarea>
                                                     </div>
-                                                    <div className="form-group">
+                                                    {/* <div className="form-group">
                                                         <label className="form-label">NV yêu cầu:</label>
                                                         <input
                                                             type="text"
@@ -271,7 +271,7 @@ function ImportEditScreen(props) {
                                                             value={checkerId}
                                                             onChange={(e) => setCheckerId(e.target.value)}
                                                         />
-                                                    </div>
+                                                    </div> */}
                                                     <div className="form-group">
                                                         <label className="form-label">nhà cung cấp:</label>
                                                         <input
@@ -289,97 +289,154 @@ function ImportEditScreen(props) {
                                             <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                                 <>
 
-                                                    <table className="table table-hover mt15">
-                                                        <thead>
-                                                            <tr>
-                                                                <th className="col-md-1">productId</th>
-                                                                <th className="col-md-1">request_total_unit</th>
-                                                                <th className="col-md-1">real_total_unit</th>
-                                                                <th className="col-md-2">expires</th>
-                                                                <th className="col-md-1">unit_name</th>
-                                                                <th className="col-md-1">conversionRate</th>
-                                                                <th className="col-md-2">import_price_unit</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {importProducts.map((product, index) => (
-                                                                <tr key={product.PID}>
-                                                                    {/* <td>{index + 1}</td> */}
-                                                                    <td>
-                                                                        <Link to={`/products/${productId[index]}`}>
-                                                                            {productId[index]}
-                                                                        </Link>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="form-group">
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-control"
-                                                                                // placeholder="nhân viên yêu cầu"
-                                                                                // name="request_total_unit"
-                                                                                value={request_total_unit[index]}
-                                                                                onChange={(e) => changeRequestTotalNumber(e, index)}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="form-group">
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-control"
-                                                                                // placeholder="nhân viên yêu cầu"
-                                                                                // name="request_total_unit"
-                                                                                value={real_total_unit[index]}
-                                                                                onChange={(e) => changeReal_total_unit(e, index)}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="form-group">
-                                                                            <input
-                                                                                type="date"
-                                                                                className="form-control"
-                                                                                // placeholder="nhân viên yêu cầu"
-                                                                                // name="request_total_unit"
-                                                                                value={expires[index]}
-                                                                                onChange={(e) => changeExpires(e, index)}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="form-group">
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-control"
-                                                                                value={unit_name[index]}
-                                                                                onChange={(e) => changeUnitName(e, index)}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="form-group">
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-control"
-                                                                                value={conversionRate[index]}
-                                                                                onChange={(e) => changeConvertRate(e, index)}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div className="form-group">
-                                                                            <input
-                                                                                type="text"
-                                                                                className="form-control"
-                                                                                value={import_price_unit[index]}
-                                                                                onChange={(e) => changeImport_price_unit(e, index)}
-                                                                            />
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
+                                                    {
+                                                        state === 'executed' || state === 'request'
+                                                            ? (
+                                                                <>
+                                                                    <table className="table table-hover mt15">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th className="col-md-1">productId</th>
+                                                                                <th className="col-md-1">request_total_unit</th>
+                                                                                <th className="col-md-1">real_total_unit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {importProducts.map((product, index) => (
+                                                                                <tr key={product.PID}>
+                                                                                    {/* <td>{index + 1}</td> */}
+                                                                                    <td>
+                                                                                        <Link to={`/products/${productId[index]}`}>
+                                                                                            {productId[index]}
+                                                                                        </Link>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                // placeholder="nhân viên yêu cầu"
+                                                                                                // name="request_total_unit"
+                                                                                                value={request_total_unit[index]}
+                                                                                                onChange={(e) => changeRequestTotalNumber(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                // placeholder="nhân viên yêu cầu"
+                                                                                                // name="request_total_unit"
+                                                                                                value={real_total_unit[index]}
+                                                                                                onChange={(e) => changeReal_total_unit(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            ))}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </>
+                                                            )
+                                                            : (
+                                                                <>
+                                                                    <table className="table table-hover mt15">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th className="col-md-1">productId</th>
+                                                                                <th className="col-md-1">request_total_unit</th>
+                                                                                <th className="col-md-1">real_total_unit</th>
+                                                                                <th className="col-md-2">expires</th>
+                                                                                <th className="col-md-1">unit_name</th>
+                                                                                <th className="col-md-1">conversionRate</th>
+                                                                                <th className="col-md-2">import_price_unit</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {importProducts.map((product, index) => (
+                                                                                <tr key={product.PID}>
+                                                                                    {/* <td>{index + 1}</td> */}
+                                                                                    <td>
+                                                                                        <Link to={`/products/${productId[index]}`}>
+                                                                                            {productId[index]}
+                                                                                        </Link>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                // placeholder="nhân viên yêu cầu"
+                                                                                                // name="request_total_unit"
+                                                                                                value={request_total_unit[index]}
+                                                                                                onChange={(e) => changeRequestTotalNumber(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                // placeholder="nhân viên yêu cầu"
+                                                                                                // name="request_total_unit"
+                                                                                                value={real_total_unit[index]}
+                                                                                                onChange={(e) => changeReal_total_unit(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="date"
+                                                                                                className="form-control"
+                                                                                                // placeholder="nhân viên yêu cầu"
+                                                                                                // name="request_total_unit"
+                                                                                                value={expires[index]}
+                                                                                                onChange={(e) => changeExpires(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                value={unit_name[index]}
+                                                                                                onChange={(e) => changeUnitName(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                value={conversionRate[index]}
+                                                                                                onChange={(e) => changeConvertRate(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div className="form-group">
+                                                                                            <input
+                                                                                                type="text"
+                                                                                                className="form-control"
+                                                                                                value={import_price_unit[index]}
+                                                                                                onChange={(e) => changeImport_price_unit(e, index)}
+                                                                                            />
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            ))}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </>
+                                                            )
+
+                                                    }
 
 
 
@@ -393,9 +450,14 @@ function ImportEditScreen(props) {
 
 
 
-                                        <button type="submit" className="btn btn-primary fr">cập nhật đơn nhập hàng</button>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary fr"
+                                            disabled={_import.state === 'close'}
+                                        >
+                                            cập nhật đơn nhập hàng
+                                        </button>
                                         <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
-                                        {loadingUpdate && <LoadingBox></LoadingBox>}
                                     </form>
                                 </>
                             )}
