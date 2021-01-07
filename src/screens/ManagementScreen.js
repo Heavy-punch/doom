@@ -1,9 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // import { Container } from './styles';
 
 function ManagementScreen() {
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
     return (
         <div className="container-fluid">
             <div className="row center">
@@ -20,6 +23,7 @@ function ManagementScreen() {
                     <Link to="/suppliers"><h5>nhà cung cấp</h5></Link>
                     <Link to="/discounts"><h5>khuyến mãi</h5></Link>
                     <Link to="/invoices"><h5>đơn hàng</h5></Link>
+                    {userInfo.managerType === "prime" ? <Link to="/users"><h5>người dùng</h5></Link> : ''}
                 </div>
             </div>
 

@@ -64,7 +64,7 @@ function CategoryScreen(props) {
             </div>
             <hr></hr>
             <div className="row" >
-                <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                {/* <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div className="input-group">
                         <input
                             type="text"
@@ -81,7 +81,7 @@ function CategoryScreen(props) {
                             </button>
                         </span>
                     </div>
-                </div>
+                </div> */}
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
                     {loadingDelete && <LoadingBox></LoadingBox>}
                     {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
@@ -95,12 +95,12 @@ function CategoryScreen(props) {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>stt</th>
-                                                <th>id</th>
-                                                <th>hình ảnh</th>
-                                                <th>tên</th>
-                                                <th>danh sách kệ hàng</th>
-                                                <th>thao tác</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">hình ảnh</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">danh sách kệ hàng</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>

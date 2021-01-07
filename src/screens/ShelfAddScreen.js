@@ -33,6 +33,7 @@ function ShelfAddScreen(props) {
             dispatch({ type: SHELF_CREATE_RESET });
             props.history.push('/shelves');
         }
+        dispatch({ type: SHELF_CREATE_RESET });
     }, [successCreate, dispatch, props.history]);
 
     const submitHandler = (e) => {

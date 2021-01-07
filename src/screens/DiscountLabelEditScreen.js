@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createDiscount, detailsDiscount, updateDiscount } from '../actions/discountLabelActions';
+import { detailsDiscount, updateDiscount } from '../actions/discountLabelActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { DISCOUNT_CREATE_RESET, DISCOUNT_UPDATE_RESET } from '../constants/discountLabelConstants';
+import { DISCOUNT_UPDATE_RESET } from '../constants/discountLabelConstants';
 
 function DiscountLabelAddScreen(props) {
     const history = useHistory();
@@ -30,12 +30,14 @@ function DiscountLabelAddScreen(props) {
 
     useEffect(() => {
         if (successUpdate) {
+            dispatch({ type: DISCOUNT_UPDATE_RESET });
             props.history.push('/discounts');
         }
         if (!discount || discount.ShID !== discountId) {
             dispatch({ type: DISCOUNT_UPDATE_RESET });
             dispatch(detailsDiscount(discountId));
         }
+        dispatch({ type: DISCOUNT_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {
@@ -66,7 +68,7 @@ function DiscountLabelAddScreen(props) {
         <div className="container-fluid">
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Thêm Nhãn Khuyến Mãi</h2>
+                    <h2>Sửa Nhãn Khuyến Mãi</h2>
                 </div>
             </div>
             <hr></hr>
@@ -137,7 +139,7 @@ function DiscountLabelAddScreen(props) {
                                                 />
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-primary fr">thêm nhãn khuyến mãi</button>
+                                        <button type="submit" className="btn btn-primary fr">sửa nhãn khuyến mãi</button>
                                         <button type="reset" className="btn btn-warning fr mr-3" onClick={() => history.goBack()}>hủy bỏ</button>
                                     </form>
                                 </>

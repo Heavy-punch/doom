@@ -133,8 +133,16 @@ body {
   max-width: 7rem;
   max-height: 7rem;
   border-radius: 50%;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
+.user a {
+  text-decoration: none;
+  color: black;
+}
+.user a:active {
+  text-decoration: none;
+}
+
 .content-wraper {
   width: 100%;
   height: calc(100vh - 100px);
@@ -181,6 +189,7 @@ body {
 
 .total {
   text-align: end;
+  width: 300px;
 }
 .total p {
   text-align: end;
@@ -219,13 +228,21 @@ body {
   text-align: center;
 }
 .mg-0 {
-  margin: 0;
+  margin: 0 !important;
+}
+.pd-0 {
+  padding: 0 !important;
 }
 
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+}
+
+.cus-name {
+  display: flex;
+  align-items: center;
 }
 
 .loading {
@@ -283,6 +300,12 @@ body {
 .invoice-info h1 {
   text-align: center;
 }
+.invoice-date {
+  text-align: center;
+}
+.invoice-mng {
+  text-align: center;
+}
 
 @media screen and (max-width: 700px) {
   .mng-entity {
@@ -293,4 +316,50 @@ body {
   .mng-entity a {
     margin-bottom: 0.5rem;
   }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.large {
+  min-width: 15rem;
+  min-height: 15rem;
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+.total table {
+  border: none;
+}
+
+label {
+  cursor: pointer;
+  /* Style as you please, it will become the visible UI component. */
+}
+
+#upload-photo {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+#upload-photo {
+  display: none;
+}
+
+.exp {
+  display: flex;
+  margin: 0 !important;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
 }

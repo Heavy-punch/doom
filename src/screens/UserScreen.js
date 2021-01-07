@@ -1,66 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteShelf, listShelves } from '../actions/shelfActions';
+import { deleteUser, listUsers } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { SHELF_DELETE_RESET } from '../constants/shelfConstants';
+import { USER_DELETE_RESET } from '../constants/userConstants';
 import Pagination from '../components/Pagination';
 
 
 // import { Container } from './styles';
 
-function ShelfScreen(props) {
+function UserScreen(props) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const shelfList = useSelector((state) => state.shelfList);
-    const { loading, error, shelves } = shelfList;
-    const shelfDelete = useSelector((state) => state.shelfDelete);
+    const userList = useSelector((state) => state.userList);
+    const { loading, error, users } = userList;
+    const userDelete = useSelector((state) => state.userDelete);
     const {
         loading: loadingDelete,
         error: errorDelete,
         success: successDelete,
-    } = shelfDelete;
+    } = userDelete;
 
     useEffect(() => {
         if (successDelete) {
-            dispatch({ type: SHELF_DELETE_RESET });
+            dispatch({ type: USER_DELETE_RESET });
         }
-        dispatch(listShelves());
+        dispatch(listUsers());
     }, [dispatch, successDelete]);
-    // console.log(shelves);
+    // console.log(users);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [shelvesPerPage] = useState(5);
+    const [usersPerPage] = useState(5);
 
-    const indexOfLastProduct = currentPage * shelvesPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - shelvesPerPage;
-    const currentShelves = shelves !== undefined ? shelves.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const indexOfLastProduct = currentPage * usersPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - usersPerPage;
+    const currentUserdeleteUsers = users !== undefined ? users.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
-    // console.log(currentShelves);
+    // console.log(currentUserdeleteUsers);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    // console.log(userDelete);
+
     const deleteHandler = (delItem) => {
         if (window.confirm('Are you sure to delete?')) {
             var delList = [];
             delList.push(delItem);
-            dispatch(deleteShelf(delList));
-            // console.log(delList);
+            dispatch(deleteUser(delList));
+            console.log(delList);
         }
     };
 
     const editHandler = (editItem) => {
-        props.history.push(`/shelves/${editItem}/edit`)
+        props.history.push(`/users/${editItem}/edit`)
     };
+
+
     return (
         <div className="container-fluid">
-
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Kệ Hàng</h2>
+                    <h2>Người dùng</h2>
                 </div>
             </div>
             <hr></hr>
@@ -92,40 +95,44 @@ function ShelfScreen(props) {
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
                                 <>
-                                    {shelves.length === 0 && <MessageBox>No shelf Found</MessageBox>}
+                                    {users.length === 0 && <MessageBox>No user Found</MessageBox>}
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">avatar</th>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">loại kệ</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">vị trí đặt</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">trạng thái</th>
-                                                <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">email</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">loại người dùng</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {currentShelves.map((shelf, index) => (
-                                                <tr key={shelf.ShID}>
+                                            {currentUserdeleteUsers.map((user, index) => (
+                                                <tr key={user.MngID}>
                                                     <td>{index + 1}</td>
-                                                    <td>{shelf.ShID}</td>
-                                                    <td>{shelf.name}</td>
-                                                    <td>{shelf.type === "small" ? "nhỏ" : shelf.type === "medium" ? "vừa" : "lớn"}</td>
-                                                    <td>{shelf.location === "store" ? "cửa hàng" : "nhà kho"}</td>
-                                                    <td>{shelf.state === "full" ? "đầy" : "còn trống"}</td>
+                                                    <td>{user.MngID}</td>
+                                                    <td><img src={user.avt_url} alt={user.name} className="product-img"></img></td>
+                                                    <td>{user.LName + " " + user.FName}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.Address}</td>
+                                                    <td>{user.telephoneNumber}</td>
+                                                    <td>{user.managerType}</td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(shelf.ShID)}
+                                                            onClick={() => editHandler(user.MngID)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button>
                                                         <button
                                                             type="button"
                                                             className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(shelf.ShID)}
+                                                            onClick={() => deleteHandler(user.MngID)}
                                                         >
                                                             <i className="fa fa-trash" aria-hidden="true"></i> xóa
                                                         </button>
@@ -134,17 +141,16 @@ function ShelfScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <Pagination itemsPerPage={shelvesPerPage} totalItems={shelves.length} paginate={paginate}></Pagination>
+                                    <Pagination itemsPerPage={usersPerPage} totalItems={users.length} paginate={paginate}></Pagination>
                                 </>
                             )}
                 </div>
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/shelves/add`))}>thêm kệ hàng</button>
+                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/users/add`))}>thêm người dùng</button>
                 </div>
             </div>
-
         </div>
     );
 }
 
-export default ShelfScreen;
+export default UserScreen;

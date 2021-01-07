@@ -34,12 +34,14 @@ function SupplierAddScreen(props) {
 
     useEffect(() => {
         if (successUpdate) {
+            dispatch({ type: SUPPLIER_UPDATE_RESET });
             props.history.push('/suppliers');
         }
         if (!supplier || supplier.ShID !== supplierId) {
             dispatch({ type: SUPPLIER_UPDATE_RESET });
             dispatch(detailsSupplier(supplierId));
         }
+        dispatch({ type: SUPPLIER_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
     useEffect(() => {

@@ -1,43 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { deleteShelf, listShelves } from '../actions/shelfActions';
+import { deleteExport, listExports } from '../actions/exportActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { SHELF_DELETE_RESET } from '../constants/shelfConstants';
+import { EXPORT_DELETE_RESET } from '../constants/exportConstants';
 import Pagination from '../components/Pagination';
 
 
 // import { Container } from './styles';
 
-function ShelfScreen(props) {
+function ExportScreen(props) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const shelfList = useSelector((state) => state.shelfList);
-    const { loading, error, shelves } = shelfList;
-    const shelfDelete = useSelector((state) => state.shelfDelete);
+    const exportList = useSelector((state) => state.exportList);
+    const { loading, error, exports } = exportList;
+    const exportDelete = useSelector((state) => state.exportDelete);
     const {
         loading: loadingDelete,
         error: errorDelete,
         success: successDelete,
-    } = shelfDelete;
+    } = exportDelete;
 
     useEffect(() => {
         if (successDelete) {
-            dispatch({ type: SHELF_DELETE_RESET });
+            dispatch({ type: EXPORT_DELETE_RESET });
         }
-        dispatch(listShelves());
+        dispatch(listExports());
     }, [dispatch, successDelete]);
-    // console.log(shelves);
+    // console.log(exports);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [shelvesPerPage] = useState(5);
+    const [exportsPerPage] = useState(5);
 
-    const indexOfLastProduct = currentPage * shelvesPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - shelvesPerPage;
-    const currentShelves = shelves !== undefined ? shelves.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const indexOfLastProduct = currentPage * exportsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - exportsPerPage;
+    const currentExports = exports !== undefined ? exports.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
-    // console.log(currentShelves);
+    // console.log(currentExports);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -47,20 +47,25 @@ function ShelfScreen(props) {
         if (window.confirm('Are you sure to delete?')) {
             var delList = [];
             delList.push(delItem);
-            dispatch(deleteShelf(delList));
+            dispatch(deleteExport(delList));
             // console.log(delList);
         }
     };
 
     const editHandler = (editItem) => {
-        props.history.push(`/shelves/${editItem}/edit`)
+        if ((editItem.state === 'close') && (window.alert('đơn nhập hàng đã đóng, chỉ xem?'))) {
+            props.history.push(`/exports/${editItem.ExID}/edit`)
+        }
+        else {
+            props.history.push(`/exports/${editItem.ExID}/edit`)
+        }
     };
     return (
         <div className="container-fluid">
 
             <div className="row center">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Kệ Hàng</h2>
+                    <h2>Xuất Hàng</h2>
                 </div>
             </div>
             <hr></hr>
@@ -92,40 +97,44 @@ function ShelfScreen(props) {
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
                                 <>
-                                    {shelves.length === 0 && <MessageBox>No shelf Found</MessageBox>}
+                                    {exports.length === 0 && <MessageBox>No export Found</MessageBox>}
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">loại kệ</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">vị trí đặt</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">trạng thái</th>
-                                                <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
+                                                <th className="col-sm-1 col-md-1">stt</th>
+                                                <th className="col-sm-1 col-md-1">id</th>
+                                                <th className="col-md-2">ngày yêu cầu</th>
+                                                <th className="col-md-1">độ ưu tiên</th>
+                                                <th className="col-md-1">NV yêu cầu</th>
+                                                <th className="col-md-1">NV thực hiện</th>
+                                                <th className="col-md-1">NV kiểm hàng</th>
+                                                <th className="col-md-1">trạng thái</th>
+                                                <th className="col-md-2">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {currentShelves.map((shelf, index) => (
-                                                <tr key={shelf.ShID}>
+                                            {currentExports.map((exp, index) => (
+                                                <tr key={exp.ExID}>
                                                     <td>{index + 1}</td>
-                                                    <td>{shelf.ShID}</td>
-                                                    <td>{shelf.name}</td>
-                                                    <td>{shelf.type === "small" ? "nhỏ" : shelf.type === "medium" ? "vừa" : "lớn"}</td>
-                                                    <td>{shelf.location === "store" ? "cửa hàng" : "nhà kho"}</td>
-                                                    <td>{shelf.state === "full" ? "đầy" : "còn trống"}</td>
+                                                    <td>{exp.ExID}</td>
+                                                    <td>{exp.request_export_date.slice(0, 10)}</td>
+                                                    <td>{exp.urgent_level}</td>
+                                                    <td>{exp.requesterId}</td>
+                                                    <td>{exp.executorId}</td>
+                                                    <td>{exp.checkerId}</td>
+                                                    <td><span className={exp.state === "request" ? "label label-info" : exp.state === "executed" ? "label label-success" : "label label-default"}>{exp.state}</span></td>
                                                     <td>
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(shelf.ShID)}
+                                                            onClick={() => editHandler(exp)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button>
                                                         <button
                                                             type="button"
                                                             className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(shelf.ShID)}
+                                                            onClick={() => deleteHandler(exp.ExID)}
                                                         >
                                                             <i className="fa fa-trash" aria-hidden="true"></i> xóa
                                                         </button>
@@ -134,17 +143,22 @@ function ShelfScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <Pagination itemsPerPage={shelvesPerPage} totalItems={shelves.length} paginate={paginate}></Pagination>
+                                    <Pagination itemsPerPage={exportsPerPage} totalItems={exports.length} paginate={paginate}></Pagination>
                                 </>
-                            )}
-                </div>
+                            )
+                    }
+                </div >
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/shelves/add`))}>thêm kệ hàng</button>
+                    <button type="button" className="btn btn-primary fr" onClick={() => (history.push(`/exports/add`))}>tạo đơn xuất hàng</button>
                 </div>
-            </div>
+            </div >
 
-        </div>
+        </div >
     );
 }
 
-export default ShelfScreen;
+export default ExportScreen;
+
+
+
+<span class="label label-info">Label</span>
