@@ -67,6 +67,7 @@ function InvoiceDetailScreen(props) {
                                             <tr>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1 center">stt</th>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1 center">id sản phẩm</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">hình ảnh </th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">tên sản phẩm </th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">số lượng</th>
                                             </tr>
@@ -78,6 +79,11 @@ function InvoiceDetailScreen(props) {
                                                     <td>
                                                         <Link to={`/products/${product.PID}`}>
                                                             {product.PID}
+                                                        </Link>
+                                                    </td>
+                                                    <td>
+                                                        <Link to={`/products/${product.PID}`}>
+                                                            <img src={product.img_url} alt={product.name} className="product-img"></img>
                                                         </Link>
                                                     </td>
                                                     <td>{product.name}</td>

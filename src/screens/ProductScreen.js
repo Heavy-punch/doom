@@ -147,7 +147,7 @@ function ProductScreen(props) {
                                                 <th className="col-sm-1 col-md-1 col-lg-1">stt</th>
                                                 <th className="col-sm-1 col-md-1 col-lg-1">id</th>
                                                 <th className="col-sm-1 col-md-1 col-lg-1">hình ảnh</th>
-                                                <th className="col-sm-1 col-md-2 col-lg-2">
+                                                <th className="col-sm-1 col-md-2 col-lg-2 center">
                                                     <span>tên</span>
                                                     <span>
                                                         <button type="button" className="btn btn-primary fr" onClick={onSort}>

@@ -39,6 +39,7 @@ function SellingScreen(props) {
     useEffect(() => {
         if (successCreate) {
             dispatch({ type: INVOICE_CREATE_RESET });
+            dispatch({ type: PRODUCT_LIST_REQUEST });
             setCart([]);
             setCusName('');
             setPaying('');
@@ -105,7 +106,8 @@ function SellingScreen(props) {
     const onChangeQty = (event, index) => {
         console.log("change qty");
         let newArr = [...cart];
-        newArr[index].qty = parseInt(event.target.value, 10);
+        // newArr[index].qty = parseInt(event.target.value, 10);
+        newArr[index].qty = event.target.value < 1 ? 1 : event.target.value > newArr[index].product.store_curr_qtt ? newArr[index].product.store_curr_qtt : parseInt(event.target.value, 10);
         setCart(newArr);
     };
 

@@ -108,10 +108,13 @@ function ExportEditScreen(props) {
             })
         );
     };
-    const changeRequestTotalNumber = (e, index) => {
+    const changeRequestTotalNumber = (e, index, product) => {
         let arr = [...request_total_unit];
         arr[index] = parseInt(e.target.value, 10);
+        // arr[index] = e.target.value < 1 ? 1 : e.target.value >= product.S_max_qtt - product.store_curr_qty ? product.S_max_qtt - product.store_curr_qty : e.target.value;
+        // console.log(product);
         setRequest_total_unit(arr);
+
     };
 
     return (
@@ -160,7 +163,41 @@ function ExportEditScreen(props) {
                                                             onChange={(e) => setExport_date(e.target.value)}
                                                         />
                                                     </div>
-                                                    <div className="form-group">
+                                                    {_export.state === "request"
+                                                        ? (
+                                                            <div className="form-group">
+                                                                <label className="form-label" >tình trạng:</label>
+                                                                <select
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    name="state"
+                                                                    value={state}
+                                                                    onChange={(e) => setState(e.target.value)}
+                                                                >
+                                                                    <option value="request">yêu cầu</option>
+                                                                    <option value="executed">đã thực hiện</option>
+                                                                </select>
+                                                            </div>
+                                                        )
+                                                        : (
+                                                            <div className="form-group">
+                                                                <label className="form-label" >tình trạng:</label>
+                                                                <select
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    name="state"
+                                                                    value={state}
+                                                                    onChange={(e) => setState(e.target.value)}
+                                                                >
+                                                                    <option value="request">yêu cầu</option>
+                                                                    <option value="executed">đã thực hiện</option>
+                                                                    <option value="close">đóng</option>
+                                                                </select>
+                                                            </div>
+                                                        )
+
+                                                    }
+                                                    {/* <div className="form-group">
                                                         <label className="form-label" >tình trạng:</label>
                                                         <select
                                                             type="text"
@@ -173,7 +210,7 @@ function ExportEditScreen(props) {
                                                             <option value="executed">đã thực hiện</option>
                                                             <option value="close">đóng</option>
                                                         </select>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="form-group">
                                                         <label className="form-label">ghi chú:</label>
                                                         <textarea
@@ -227,8 +264,8 @@ function ExportEditScreen(props) {
                                                     <table className="table table-hover mt15">
                                                         <thead>
                                                             <tr>
-                                                                <th className="col-md-1">productId</th>
-                                                                <th className="col-md-1">request_total_unit</th>
+                                                                <th className="col-md-1">mã số SP</th>
+                                                                <th className="col-md-1">số lượng</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -243,12 +280,10 @@ function ExportEditScreen(props) {
                                                                     <td>
                                                                         <div className="form-group">
                                                                             <input
-                                                                                type="text"
+                                                                                type="number"
                                                                                 className="form-control"
-                                                                                // placeholder="nhân viên yêu cầu"
-                                                                                // name="request_total_unit"
                                                                                 value={request_total_unit[index]}
-                                                                                onChange={(e) => changeRequestTotalNumber(e, index)}
+                                                                                onChange={(e) => changeRequestTotalNumber(e, index, product)}
                                                                             />
                                                                         </div>
                                                                     </td>

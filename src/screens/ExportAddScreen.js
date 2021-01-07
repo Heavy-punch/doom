@@ -128,7 +128,8 @@ function ExportAddScreen(props) {
     const onChangeQty = (event, index) => {
         console.log("change qty");
         let newArr = [...cart];
-        newArr[index].qty = parseInt(event.target.value, 10);
+        // newArr[index].qty = parseInt(event.target.value, 10);
+        newArr[index].qty = event.target.value < 1 ? 1 : event.target.value > newArr[index].product.S_max_qtt - newArr[index].product.store_curr_qtt ? newArr[index].product.S_max_qtt - newArr[index].product.store_curr_qtt : parseInt(event.target.value, 10);
         setCart(newArr);
     };
 
@@ -203,7 +204,7 @@ function ExportAddScreen(props) {
                         </div>
                     </div>
                     {loading ? (
-                        <hr></hr>
+                        <LoadingBox></LoadingBox>
                     ) : error ? (
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
