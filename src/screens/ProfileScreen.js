@@ -99,7 +99,7 @@ function ProfileScreen(props) {
                                             {loadingUpdateMe && <LoadingBox></LoadingBox>}
                                             {errorUpdateMe && <MessageBox variant="danger">{errorUpdateMe}</MessageBox>}
                                         </li>
-                                        <li>tên: {profile.FName}</li>
+                                        <li>tên: {profile.LName + " " + profile.FName}</li>
                                         <li>accountName: {profile.accountName}</li>
                                         <li>địa chỉ: {profile.Address}</li>
                                         <li>email: {profile.email}</li>

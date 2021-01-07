@@ -180,7 +180,6 @@ function ProductScreen(props) {
                                                         <Link to={`/products/${product.PID}`}>
                                                             {product.name}
                                                         </Link>
-
                                                     </td>
                                                     <td>{product.category.name}</td>
                                                     <td>{product.brand}</td>
