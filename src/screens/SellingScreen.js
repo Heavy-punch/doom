@@ -8,12 +8,15 @@ import Pagination from '../components/Pagination';
 import { createInvoice } from '../actions/invoiceActions';
 import { INVOICE_CREATE_RESET } from '../constants/invoiceConstants';
 import { PRODUCT_LIST_REQUEST } from '../constants/productConstants';
+import FormatCurrency from '../components/FormatCurrency';
+import { listCategories } from '../actions/categoryActions';
 
 function SellingScreen(props) {
     const [name, setName] = useState('');
     const [cusName, setCusName] = useState('');
     const [cart, setCart] = useState([]);
     const [paying, setPaying] = useState('');
+    const [cate, setCate] = useState('');
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -23,11 +26,17 @@ function SellingScreen(props) {
     const productList = useSelector((state) => state.productList);
     const { loading, error, products } = productList;
 
+    const categoryList = useSelector((state) => state.categoryList);
+    const { loading: loadingCategory, error: errorCategory, categories } = categoryList;
+
     useEffect(() => {
         // dispatch(listProducts());
+        dispatch(listCategories());
         dispatch({ type: PRODUCT_LIST_REQUEST });
         dispatch({ type: INVOICE_CREATE_RESET });
-    }, []);
+    }, [dispatch]);
+
+    console.log(categoryList);
 
     const invoiceCreate = useSelector((state) => state.invoiceCreate);
     const {
@@ -60,7 +69,7 @@ function SellingScreen(props) {
 
     const onSearchHandler = (e) => {
         e.preventDefault();
-        dispatch(listProducts({ name_keyword: name }));
+        dispatch(listProducts({ name_keyword: name, categoryId: cate }));
         setName('');
         // setName(null);
     };
@@ -132,6 +141,7 @@ function SellingScreen(props) {
         return a + b.product.sell_price * b.qty;
     };
 
+    // var total = cart.reduce(totalFunc, 0);
     var total = cart.reduce(totalFunc, 0);
 
     const submitInvoice = (e) => {
@@ -155,27 +165,58 @@ function SellingScreen(props) {
         <div className="container-fluid">
             <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-5 col-lg-4">
-                    <form onSubmit={onSearchHandler}>
-                        <div className="input-group">
-                            <input
-                                className="form-control"
-                                type="text"
-                                name="search-bar"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                            <span className="input-group-btn">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                >
-                                    <i className="fa fa-search mr-3" aria-hidden="true"></i>
-                                tìm kiếm
-                            </button>
-                            </span>
+                    <div className="row">
+                        <form onSubmit={onSearchHandler}>
+                            <div className="input-group">
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    name="search-bar"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                                <span className="input-group-btn">
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        <i className="fa fa-search mr-3" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                        <div className="col-xs-1 col-sm-1 col-md-4 col-lg-4">
+                            {/* <button
+                                type="submit"
+                                className="btn btn-default"
+                            >
+                                <i className="fa fa-hourglass-half" aria-hidden="true"></i>
+                            </button> */}
+                            {loadingCategory ? (
+                                <LoadingBox></LoadingBox>
+                            ) : errorCategory ? (
+                                <MessageBox variant="danger">{errorCategory}</MessageBox>
+                            ) : (
+                                        <>
+                                            <select
+                                                type="text"
+                                                className="form-control"
+                                                name="status"
+                                                value={cate}
+                                                onChange={(e) => setCate(e.target.value)}
+                                            >
+                                                <option value="">tất cả</option>
+                                                {
+                                                    categories.map((cate, index) => (
+                                                        <option key={cate.CID} value={cate.CID}>{cate.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </>
+                                    )
+                            }
                         </div>
-                    </form>
-
+                    </div>
                     {loading ? (
                         <hr></hr>
                     ) : error ? (
@@ -199,7 +240,7 @@ function SellingScreen(props) {
                                                     <td>{product.PID}</td>
                                                     <td><img src={product.img_url} alt={product.name} className="product-img"></img></td>
                                                     <td>{product.name}</td>
-                                                    <td>{product.sell_price}</td>
+                                                    <td>{ }<FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
                                                     <td>
                                                         <button
                                                             type="button"
@@ -306,7 +347,9 @@ function SellingScreen(props) {
                                             <tbody>
                                                 <tr>
                                                     <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3">tổng cộng:</td>
-                                                    <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3"><b>{total}</b> vnd</td>
+                                                    <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                                        <b><FormatCurrency number={total.toString()}></FormatCurrency></b>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style={{ paddingTop: "16px" }}>khách hàng đưa:</td>
@@ -322,7 +365,8 @@ function SellingScreen(props) {
                                                 <tr>
                                                     <td>thối lại:</td>
                                                     <td>
-                                                        <b>{(paying - total) < 0 ? 0 : paying - total}</b> vnd
+                                                        <b>{(paying - total) < 0 ? 0 : <FormatCurrency number={(paying - total).toString()}></FormatCurrency>}</b>
+                                                        {/* <b>{(paying - total) < 0 ? 0 : paying - total}</b> vnd */}
                                                     </td>
                                                 </tr>
                                             </tbody>

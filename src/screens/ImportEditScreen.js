@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { detailsImport, updateImport } from '../actions/importActions';
+import { listsuppliers } from '../actions/supplierActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { IMPORT_DETAILS_RESET, IMPORT_UPDATE_RESET } from '../constants/importConstants';
@@ -42,6 +43,9 @@ function ImportEditScreen(props) {
         success: successUpdate,
     } = importUpdate;
 
+    const supplierList = useSelector((state) => state.supplierList);
+    const { loading: loadingSupplier, error: errorSupplier, suppliers } = supplierList;
+
     const dispatch = useDispatch();
 
     console.log(importDetails);
@@ -56,6 +60,7 @@ function ImportEditScreen(props) {
             dispatch(detailsImport(importId));
         }
         dispatch({ type: IMPORT_UPDATE_RESET });
+        dispatch(listsuppliers());
         // dispatch({ type: IMPORT_DETAILS_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
@@ -263,63 +268,33 @@ function ImportEditScreen(props) {
                                                         >
                                                         </textarea>
                                                     </div>
-                                                    {/* <div className="form-group">
-                                                        <label className="form-label">NV yêu cầu:</label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="nhân viên yêu cầu"
-                                                            name="requesterId"
-                                                            value={requesterId}
-                                                            onChange={(e) => setRequesterId(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label">NV thực hiện:</label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="nhân viên thực hiện"
-                                                            name="executorId"
-                                                            value={executorId}
-                                                            onChange={(e) => setExecutorId(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label">NV kiểm tra:</label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="nhân viên kiểm tra"
-                                                            name="checkerId"
-                                                            value={checkerId}
-                                                            onChange={(e) => setCheckerId(e.target.value)}
-                                                        />
-                                                    </div> */}
                                                     {state !== 'request' &&
                                                         <div className="form-group">
                                                             <label className="form-label">nhà cung cấp:</label>
-                                                            <input
-                                                                type="text"
-                                                                className="form-control"
-                                                                placeholder="nhà cung cấp"
-                                                                name="supplierId"
-                                                                value={supplierId}
-                                                                onChange={(e) => setSupplierId(e.target.value)}
-                                                            />
+                                                            {loadingSupplier ? (
+                                                                <LoadingBox></LoadingBox>
+                                                            ) : errorSupplier ? (
+                                                                <MessageBox variant="danger">{errorSupplier}</MessageBox>
+                                                            ) : (
+                                                                        <>
+                                                                            <select
+                                                                                type="text"
+                                                                                className="form-control"
+                                                                                name="status"
+                                                                                value={supplierId}
+                                                                                onChange={(e) => setSupplierId(e.target.value)}
+                                                                            >
+                                                                                <option value=""></option>
+                                                                                {
+                                                                                    suppliers.map((sup, index) => (
+                                                                                        <option key={sup.SupID} value={sup.SupID}>{sup.name}</option>
+                                                                                    ))
+                                                                                }
+                                                                            </select>
+                                                                        </>
+                                                                    )}
                                                         </div>
                                                     }
-                                                    {/* <div className="form-group">
-                                                        <label className="form-label">nhà cung cấp:</label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            placeholder="nhà cung cấp"
-                                                            name="supplierId"
-                                                            value={supplierId}
-                                                            onChange={(e) => setSupplierId(e.target.value)}
-                                                        />
-                                                    </div> */}
                                                 </>
                                             </div>
 
@@ -552,7 +527,7 @@ function ImportEditScreen(props) {
                             )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

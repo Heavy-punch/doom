@@ -14,11 +14,12 @@ function UserEditScreen(props) {
 
     const [avatar, setavatar] = useState([]);
     const [gender, setGender] = useState('');
+    const [is_active, setIs_active] = useState('');
 
     const userDetails = useSelector((state) => state.userDetails);
     const { loading, error, user } = userDetails;
 
-    console.log(userId);
+    console.log(is_active);
 
     const userUpdate = useSelector((state) => state.userUpdate);
     const {
@@ -44,6 +45,7 @@ function UserEditScreen(props) {
     useEffect(() => {
         if (!loading) {
             setGender(user.gender);
+            setIs_active(user.is_active);
         }
     }, [loading,]);
 
@@ -53,11 +55,12 @@ function UserEditScreen(props) {
         if (avatar.length > 0) {
             formData.append('avatar', avatar[avatar.length - 1]);
         }
-        formData.append('gender', gender)
+        formData.append('gender', gender);
+        formData.append('is_active', is_active ? 1 : 0);
         dispatch(
             updateUser(
                 formData,
-                userId
+                userId,
             )
         );
 
@@ -118,6 +121,17 @@ function UserEditScreen(props) {
                                                     khác
                                                 </label>
                                             </div>
+                                        </div>
+
+                                        <div className="form-group chkb">
+                                            <input
+                                                type="checkbox"
+                                                name="is_active"
+                                                value={is_active}
+                                                checked={is_active}
+                                                onChange={(e) => setIs_active(e.target.checked)}
+                                            />
+                                            <label htmlFor="is_active" className="form-label">kích hoạt</label>
                                         </div>
 
                                         <button type="submit" className="btn btn-primary fr">sửa thông tin người dùng</button>

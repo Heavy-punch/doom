@@ -152,17 +152,20 @@ function ExportEditScreen(props) {
                                                             <option value="prior">ưu tiên</option>
                                                         </select>
                                                     </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label">ngày xuất hàng:</label>
-                                                        <input
-                                                            type="date"
-                                                            className="form-control"
-                                                            placeholder="ngày nhập hàng"
-                                                            name="export_date"
-                                                            value={export_date}
-                                                            onChange={(e) => setExport_date(e.target.value)}
-                                                        />
-                                                    </div>
+                                                    {state !== "request"
+                                                        ? (<div className="form-group">
+                                                            <label className="form-label">ngày xuất hàng:</label>
+                                                            <input
+                                                                type="date"
+                                                                className="form-control"
+                                                                placeholder="ngày nhập hàng"
+                                                                name="export_date"
+                                                                value={export_date}
+                                                                onChange={(e) => setExport_date(e.target.value)}
+                                                            />
+                                                        </div>)
+                                                        : ""
+                                                    }
                                                     {_export.state === "request"
                                                         ? (
                                                             <div className="form-group">

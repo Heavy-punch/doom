@@ -15,7 +15,7 @@ function ManagementScreen() {
                 </div>
             </div>
             <hr></hr>
-            <div className="row" >
+            <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-al-center mng-entity">
                     <Link to="/products"><h5>sản phẩm</h5></Link>
                     <Link to="/categories"><h5>ngành hàng</h5></Link>

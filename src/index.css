@@ -307,7 +307,7 @@ body {
   text-align: center;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1080px) {
   .mng-entity {
     display: block;
     align-items: center;
@@ -368,4 +368,8 @@ label {
 .list-no-style {
   list-style-type: none;
   line-height: 2rem;
+}
+.chkb input {
+  margin: 1rem;
+  margin-left: 0;
 }
