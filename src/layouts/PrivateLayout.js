@@ -36,6 +36,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import UserScreen from '../screens/UserScreen';
 import UserAddScreen from '../screens/UserAddScreen';
 import UserEditScreen from '../screens/UserEditScreen';
+import UserDetailScreen from '../screens/UserDetailScreen';
 import ImportScreen from '../screens/ImportScreen';
 import ImportAddScreen from '../screens/ImportAddScreen';
 import ImportEditScreen from '../screens/ImportEditScreen';
@@ -76,7 +77,7 @@ function PrivateLayout() {
                             {(userInfo.avt_url !== null) ? <img src={userInfo.avt_url} alt={userInfo.FName} /> : <img src="./images/user1.png" alt="asfas" />}
                         </Link>
                         <Link to="/profile">
-                            {userInfo.FName + " " + userInfo.LName}
+                            {userInfo.LName + " " + userInfo.FName}
                         </Link>
                         {/* {(userInfo.avt_url !== null) ? <img src={userInfo.avt_url} alt={userInfo.FName} /> : <img src="./images/user1.png" alt="asfas" />}
                         {userInfo.FName + " " + userInfo.LName} */}
@@ -103,12 +104,12 @@ function PrivateLayout() {
                         <PrivateRoute path="/products/:id" exact component={ProductDetailScreen}></PrivateRoute>
                     </Switch>
 
-
-                    <PrivateRoute path="/users" exact component={UserScreen}></PrivateRoute>
-                    <PrivateRoute path="/users/add" exact component={UserAddScreen}></PrivateRoute>
-                    <PrivateRoute path="/users/:id/edit" exact component={UserEditScreen}></PrivateRoute>
-                    {/* <PrivateRoute path="/users/:id" exact component={ProductDetailScreen}></PrivateRoute> */}
-
+                    <Switch>
+                        <PrivateRoute path="/users" exact component={UserScreen}></PrivateRoute>
+                        <PrivateRoute path="/users/add" exact component={UserAddScreen}></PrivateRoute>
+                        <PrivateRoute path="/users/:id/edit" exact component={UserEditScreen}></PrivateRoute>
+                        <PrivateRoute path="/users/:id" exact component={UserDetailScreen}></PrivateRoute>
+                    </Switch>
 
                     <PrivateRoute path="/imports" exact component={ImportScreen}></PrivateRoute>
                     <PrivateRoute path="/imports/add" component={ImportAddScreen}></PrivateRoute>

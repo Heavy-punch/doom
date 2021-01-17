@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { listCategories } from '../actions/categoryActions';
 import { createProduct } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -38,13 +39,17 @@ function ProductAddScreen(props) {
         success: successCreate,
     } = productCreate;
 
-    // console.log(productCreate);
+    const categoryList = useSelector((state) => state.categoryList);
+    const { loading: loadingCategory, error: errorCategory, categories } = categoryList;
+
+    console.log(categoryId);
 
     useEffect(() => {
         if (successCreate) {
             dispatch({ type: PRODUCT_CREATE_RESET });
             props.history.push('/products');
         }
+        dispatch(listCategories());
         dispatch({ type: PRODUCT_CREATE_RESET });
     }, [successCreate, dispatch, props.history]);
 
@@ -151,6 +156,31 @@ function ProductAddScreen(props) {
                             />
                         </div>
                         <div className="form-group">
+                            <label className="form-label">ngành hàng:</label>
+                            {loadingCategory ? (
+                                <LoadingBox></LoadingBox>
+                            ) : errorCategory ? (
+                                <MessageBox variant="danger">{errorCategory}</MessageBox>
+                            ) : (
+                                        <>
+                                            <select
+                                                type="text"
+                                                className="form-control"
+                                                value={categoryId}
+                                                onChange={(e) => setCategoryId(e.target.value)}
+                                            >
+                                                <option value=""></option>
+                                                {
+                                                    categories.map((cate, index) => (
+                                                        <option key={cate.CID} value={cate.CID}>{cate.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </>
+                                    )
+                            }
+                        </div>
+                        {/* <div className="form-group">
                             <label className="form-label">mã số ngành hàng:</label>
                             <input
                                 type="text"
@@ -159,7 +189,7 @@ function ProductAddScreen(props) {
                                 value={categoryId}
                                 onChange={(e) => setCategoryId(e.target.value)}
                             />
-                        </div>
+                        </div> */}
                         <div className="form-group">
                             <label className="form-label">mô tả :</label>
                             <textarea

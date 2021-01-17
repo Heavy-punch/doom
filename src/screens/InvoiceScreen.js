@@ -5,6 +5,7 @@ import { deleteInvoice, listInvoices } from '../actions/invoiceActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { INVOICE_DELETE_RESET } from '../constants/invoiceConstants';
+import FormatCurrency from '../components/FormatCurrency';
 import Pagination from '../components/Pagination';
 
 
@@ -109,9 +110,9 @@ function InvoiceScreen(props) {
                                                         </Link>
                                                     </td>
                                                     <td>{invoice.cus_name}</td>
-                                                    <td>{invoice.createdAt}</td>
-                                                    <td>{invoice.manager.LName + invoice.manager.FName + " - " + invoice.MngID}</td>
-                                                    <td>{invoice.total}</td>
+                                                    <td>{invoice.createdAt.slice(0, 10).split("-").reverse().join("-")}</td>
+                                                    <td>{invoice.manager.LName + " " + invoice.manager.FName + " - " + invoice.MngID}</td>
+                                                    <td><FormatCurrency number={invoice.total.toString()}></FormatCurrency></td>
                                                     <td>
                                                         {/* <button
                                                             type="button"

@@ -7,6 +7,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Pagination from '../components/Pagination';
 import { PRODUCT_DELETE_RESET } from '../constants/productConstants';
+import FormatCurrency from '../components/FormatCurrency';
+
 
 // import { Container } from './styles';
 
@@ -180,14 +182,13 @@ function ProductScreen(props) {
                                                         <Link to={`/products/${product.PID}`}>
                                                             {product.name}
                                                         </Link>
-
                                                     </td>
                                                     <td>{product.category.name}</td>
                                                     <td>{product.brand}</td>
                                                     <td>{product.warehouse_curr_qtt}</td>
                                                     <td>{product.store_curr_qtt}</td>
                                                     {/* <td>null</td> */}
-                                                    <td>{product.sell_price}</td>
+                                                    <td><FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
                                                     <td>
                                                         <button
                                                             type="button"
