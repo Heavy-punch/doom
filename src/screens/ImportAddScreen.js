@@ -65,7 +65,7 @@ function ImportAddScreen(props) {
 
     const onSearchHandler = (e) => {
         e.preventDefault();
-        dispatch(listProducts(keyword));
+        dispatch(listProducts({ name_keyword: keyword }));
         setKeyword('');
         // setName(null);
     };
@@ -110,7 +110,8 @@ function ImportAddScreen(props) {
     const onChangeQty = (event, index) => {
         console.log("change qty");
         let newArr = [...cart];
-        newArr[index].qty = parseInt(event.target.value, 10);
+        // newArr[index].qty = parseInt(event.target.value, 10);
+        newArr[index].qty = event.target.value < 1 ? 1 : event.target.value > newArr[index].product.W_max_qtt - newArr[index].product.warehouse_curr_qtt ? newArr[index].product.W_max_qtt - newArr[index].product.warehouse_curr_qtt : parseInt(event.target.value, 10);
         setCart(newArr);
     };
 
@@ -175,7 +176,7 @@ function ImportAddScreen(props) {
                         </div>
                     </form>
                     {loading ? (
-                        <hr></hr>
+                        <LoadingBox></LoadingBox>
                     ) : error ? (
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (

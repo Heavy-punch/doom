@@ -307,7 +307,7 @@ body {
   text-align: center;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1080px) {
   .mng-entity {
     display: block;
     align-items: center;
@@ -330,11 +330,12 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-.large {
-  min-width: 15rem;
-  min-height: 15rem;
-  max-width: 20rem;
-  max-height: 20rem;
+.avatar-large img {
+  min-width: 10rem;
+  min-height: 10rem;
+  max-width: 15rem;
+  max-height: 15rem;
+  padding-bottom: 2rem;
 }
 
 .total table {
@@ -354,4 +355,31 @@ label {
 
 #upload-photo {
   display: none;
+}
+
+.exp {
+  display: flex;
+  margin: 0 !important;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-no-style {
+  list-style-type: none;
+  line-height: 2rem;
+}
+.chkb input {
+  margin: 1rem;
+  margin-left: 0;
+}
+
+/* .statistic {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+} */
+
+.no-mg div {
+  margin: 0;
 }

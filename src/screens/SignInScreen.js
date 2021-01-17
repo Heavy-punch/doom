@@ -21,7 +21,7 @@ function SignInScreen(props) {
         <div className="signin-form-wraper">
             <form className="form" onSubmit={submitHandler}>
                 <div>
-                    <h1><b>Sign In</b></h1>
+                    <h1><b>Đăng nhập</b></h1>
                 </div>
                 {loading && <LoadingBox></LoadingBox>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
@@ -49,7 +49,7 @@ function SignInScreen(props) {
                 </div>
                 <div className="ali-end">
                     <button className="btn btn-primary mt-3" type="submit">
-                        Sign In
+                        Đăng nhập
                     </button>
                 </div>
             </form>

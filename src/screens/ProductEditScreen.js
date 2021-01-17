@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { detailsProduct, updateProduct } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
+import { PRODUCT_DETAILS_RESET, PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 // import { Container } from './styles';
 

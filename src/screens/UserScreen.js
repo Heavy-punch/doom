@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { deleteUser, listUsers } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -103,10 +103,11 @@ function UserScreen(props) {
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">avatar</th>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">email</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">email</th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
                                                 <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">loại người dùng</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">phân loại</th>
+                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">trạng thái</th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                             </tr>
                                         </thead>
@@ -114,13 +115,18 @@ function UserScreen(props) {
                                             {currentUserdeleteUsers.map((user, index) => (
                                                 <tr key={user.MngID}>
                                                     <td>{index + 1}</td>
-                                                    <td>{user.MngID}</td>
+                                                    <td>
+                                                        <Link to={`/users/${user.MngID}`}>
+                                                            {user.MngID}
+                                                        </Link>
+                                                    </td>
                                                     <td><img src={user.avt_url} alt={user.name} className="product-img"></img></td>
                                                     <td>{user.LName + " " + user.FName}</td>
                                                     <td>{user.email}</td>
                                                     <td>{user.Address}</td>
                                                     <td>{user.telephoneNumber}</td>
-                                                    <td>{user.managerType}</td>
+                                                    <td>{user.managerType === "prime" ? "nâng cao" : "bình thường"}</td>
+                                                    <td><span className={user.is_active === 0 ? "label label-default" : "label label-primary"}>{user.is_active === 1 ? "kích hoạt" : "vô hiệu"}</span></td>
                                                     <td>
                                                         <button
                                                             type="button"

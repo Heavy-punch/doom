@@ -22,6 +22,9 @@ function UserAddScreen(props) {
     const [date_start_working, setDate_start_working] = useState('');
     const [managerType, setManagerType] = useState('normal');
     const [email, setEmail] = useState('');
+    const [is_active, setIs_active] = useState('');
+
+    console.log(is_active);
 
     const dispatch = useDispatch();
     const userCreate = useSelector((state) => state.userCreate);
@@ -55,6 +58,7 @@ function UserAddScreen(props) {
                 date_start_working,
                 managerType,
                 email,
+                is_active: is_active ? 1 : 0
             })
         );
 
@@ -216,7 +220,15 @@ function UserAddScreen(props) {
                                 <option value="normal">bình thường</option>
                             </select>
                         </div>
-
+                        <div className="form-group chkb">
+                            <input
+                                type="checkbox"
+                                name="is_active"
+                                value={is_active}
+                                onChange={(e) => setIs_active(e.target.checked)}
+                            />
+                            <label htmlFor="is_active" className="form-label">kích hoạt</label>
+                        </div>
 
 
                         <button type="submit" className="btn btn-primary fr">thêm người dùng</button>

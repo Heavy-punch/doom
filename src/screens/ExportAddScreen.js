@@ -59,8 +59,14 @@ function ExportAddScreen(props) {
 
     const onSearchHandler = (e) => {
         e.preventDefault();
-        dispatch(listProducts(keyword));
+        dispatch(listProducts({ name_keyword: keyword }));
         setKeyword('');
+        // setName(null);
+    };
+
+    const onSearchExpHandler = (e) => {
+        e.preventDefault();
+        dispatch(listProducts({ is_almost_expired: true }));
         // setName(null);
     };
 
@@ -122,7 +128,8 @@ function ExportAddScreen(props) {
     const onChangeQty = (event, index) => {
         console.log("change qty");
         let newArr = [...cart];
-        newArr[index].qty = parseInt(event.target.value, 10);
+        // newArr[index].qty = parseInt(event.target.value, 10);
+        newArr[index].qty = event.target.value < 1 ? 1 : event.target.value > newArr[index].product.S_max_qtt - newArr[index].product.store_curr_qtt ? newArr[index].product.S_max_qtt - newArr[index].product.store_curr_qtt : parseInt(event.target.value, 10);
         setCart(newArr);
     };
 
@@ -162,28 +169,42 @@ function ExportAddScreen(props) {
             <hr></hr>
             <div className="row">
                 <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                    <form onSubmit={onSearchHandler}>
-                        <div className="input-group">
-                            <input
-                                className="form-control"
-                                type="text"
-                                name="search-bar"
-                                value={keyword}
-                                onChange={(e) => setKeyword(e.target.value)}
-                            />
-                            <span className="input-group-btn">
+                    <div className="row">
+                        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                            <form onSubmit={onSearchHandler}>
+                                <div className="input-group">
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        name="search-bar"
+                                        value={keyword}
+                                        onChange={(e) => setKeyword(e.target.value)}
+                                    />
+                                    <span className="input-group-btn">
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                        >
+                                            <i className="fa fa-search mr-3" aria-hidden="true"></i>
+                                    tìm kiếm
+                                </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 exp">
+                            <form onSubmit={onSearchExpHandler}>
                                 <button
                                     type="submit"
-                                    className="btn btn-primary"
+                                    className="btn btn-warning"
                                 >
-                                    <i className="fa fa-search mr-3" aria-hidden="true"></i>
-                                tìm kiếm
-                            </button>
-                            </span>
+                                    <i className="fa fa-hourglass-half" aria-hidden="true"></i>
+                                </button>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                     {loading ? (
-                        <hr></hr>
+                        <LoadingBox></LoadingBox>
                     ) : error ? (
                         <MessageBox variant="danger">{error}</MessageBox>
                     ) : (
@@ -324,3 +345,4 @@ function ExportAddScreen(props) {
 }
 
 export default ExportAddScreen;
+

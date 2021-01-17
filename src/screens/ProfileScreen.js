@@ -99,13 +99,13 @@ function ProfileScreen(props) {
                                             {loadingUpdateMe && <LoadingBox></LoadingBox>}
                                             {errorUpdateMe && <MessageBox variant="danger">{errorUpdateMe}</MessageBox>}
                                         </li>
-                                        <li>tên: {profile.FName}</li>
+                                        <li>tên: {profile.LName + " " + profile.FName}</li>
                                         <li>accountName: {profile.accountName}</li>
                                         <li>địa chỉ: {profile.Address}</li>
                                         <li>email: {profile.email}</li>
                                         <li>số điện thoại: {profile.telephoneNumber}</li>
                                         <li>loại người dùng: {profile.managerType}</li>
-                                        <li>ngày bắt đầu làm việc: {profile.date_start_working}</li>
+                                        <li>ngày bắt đầu làm việc: {(profile.date_start_working).split("-").reverse().join("-")}</li>
                                     </ul>
                                 </div>
 
@@ -144,6 +144,7 @@ function ProfileScreen(props) {
                                                 onChange={(e) => setReNewPassword(e.target.value)}
                                             />
                                         </div>
+                                        {errorChangePassword && <MessageBox variant="danger">{errorChangePassword}</MessageBox>}
                                         <button
                                             type="submit"
                                             className="btn btn-primary fr"
@@ -151,7 +152,6 @@ function ProfileScreen(props) {
                                             đổi password
                                         </button>
                                         {loadingChangePassword && <LoadingBox></LoadingBox>}
-                                        {errorChangePassword && <MessageBox variant="danger">{errorChangePassword}</MessageBox>}
                                     </form>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
