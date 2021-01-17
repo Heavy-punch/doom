@@ -373,3 +373,13 @@ label {
   margin: 1rem;
   margin-left: 0;
 }
+
+/* .statistic {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+} */
+
+.no-mg div {
+  margin: 0;
+}

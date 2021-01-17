@@ -19,26 +19,6 @@ export const listCategories = () => async (dispatch, getState) => {
     }
 };
 
-// export const detailsCategory = (categoryId) => async (dispatch) => {
-//     dispatch({ type: CATEGORY_DETAILS_REQUEST, payload: categoryId });
-//     const {
-//         userSignin: { userInfo },
-//     } = getState();
-//     try {
-//         const { data } = await Axios.get(`/api/categories/${categoryId}`,
-//             { headers: { 'x-access-token': `${userInfo.token}` } }
-//         );
-//         dispatch({ type: CATEGORY_DETAILS_SUCCESS, payload: data.data });
-//     } catch (error) {
-//         dispatch({
-//             type: CATEGORY_DETAILS_FAIL,
-//             payload:
-//                 error.response && error.response.data.message
-//                     ? error.response.data.message
-//                     : error.message,
-//         });
-//     }
-// };
 export const detailsCategory = (categoryId) => async (dispatch, getState) => {
     dispatch({ type: CATEGORY_DETAILS_REQUEST, payload: categoryId });
     const {
