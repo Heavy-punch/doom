@@ -194,7 +194,7 @@ function ImportEditScreen(props) {
                                 <>
                                     <form onSubmit={submitHandler}>
 
-                                        <div className="row">
+                                        <div className="row mg-div-0">
                                             <div className="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                                 <>
                                                     <div className="form-group">
@@ -298,7 +298,7 @@ function ImportEditScreen(props) {
                                                 </>
                                             </div>
 
-                                            <div className="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                            <div className="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                                                 <>
 
                                                     {
@@ -309,6 +309,7 @@ function ImportEditScreen(props) {
                                                                         <thead>
                                                                             <tr>
                                                                                 <th className="col-md-1">ID sản phẩm</th>
+                                                                                <th className="col-md-1">tên sản phẩm</th>
                                                                                 <th className="col-md-1">số lượng yêu cầu</th>
                                                                                 {/* <th className="col-md-1">số lượng đặt hàng</th> */}
                                                                             </tr>
@@ -321,6 +322,9 @@ function ImportEditScreen(props) {
                                                                                         <Link to={`/products/${productId[index]}`}>
                                                                                             {productId[index]}
                                                                                         </Link>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {product.name}
                                                                                     </td>
                                                                                     <td>
                                                                                         <div className="form-group">
@@ -359,6 +363,7 @@ function ImportEditScreen(props) {
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th className="col-md-1">ID sản phẩm</th>
+                                                                                    <th className="col-md-1">tên sản phẩm</th>
                                                                                     <th className="col-md-1">số lượng yêu cầu</th>
                                                                                     <th className="col-md-1">số lượng đặt hàng</th>
                                                                                 </tr>
@@ -371,6 +376,9 @@ function ImportEditScreen(props) {
                                                                                             <Link to={`/products/${productId[index]}`}>
                                                                                                 {productId[index]}
                                                                                             </Link>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {product.name}
                                                                                         </td>
                                                                                         <td>
                                                                                             <div className="form-group">
@@ -409,11 +417,12 @@ function ImportEditScreen(props) {
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th className="col-md-1">ID SP</th>
+                                                                                    <th className="col-md-2">tên SP</th>
                                                                                     <th className="col-md-2">SL yêu cầu</th>
                                                                                     <th className="col-md-2">SL đặt hàng</th>
                                                                                     <th className="col-md-1">ngày hết hạn</th>
-                                                                                    <th className="col-md-2">đơn vị</th>
-                                                                                    <th className="col-md-2">HS chuyển đổi</th>
+                                                                                    <th className="col-md-1">đơn vị</th>
+                                                                                    <th className="col-md-1">hệ số</th>
                                                                                     <th className="col-md-2">giá nhập</th>
                                                                                 </tr>
                                                                             </thead>
@@ -425,6 +434,9 @@ function ImportEditScreen(props) {
                                                                                             <Link to={`/products/${productId[index]}`}>
                                                                                                 {productId[index]}
                                                                                             </Link>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {product.name}
                                                                                         </td>
                                                                                         <td>
                                                                                             <div className="form-group">

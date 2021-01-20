@@ -4,25 +4,29 @@ import { Bar } from 'react-chartjs-2'
 // import { Container } from './styles';
 
 function BarChart(props) {
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var backgroundColor = [];
+    var borderColor = [];
+    const myFunc = (() => {
+        for (let i = 0; i < props.barChartData.length; i++) {
+            let r = Math.ceil(Math.random() * 255);
+            let g = Math.ceil(Math.random() * 255);
+            let b = Math.ceil(Math.random() * 255);
+            backgroundColor.push('rgba(' + r + ',' + g + ',' + b + ',0.2)');
+            borderColor.push('rgba(' + r + ',' + g + ',' + b + ',1)');
+        }
+    })();
     return (
         <div>
             <Bar
                 data={{
-                    labels: ['a', 'b', 'c'],
+                    labels: props.barChartData.map(x => months[(new Date(x.time).getMonth())]),
                     datasets: [
                         {
-                            label: 'abc',
-                            data: [1, 4, 6],
-                            backgroundColor: [
-                                'rgba(255,99,132,0.2)',
-                                'rgba(54,162,235,0.2)',
-                                'rgba(255,206,86,0.2)',
-                            ],
-                            borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54,162,235,1)',
-                                'rgba(255,206,86,1)',
-                            ],
+                            label: 'vnd',
+                            data: props.barChartData.map((x, index) => index + 10),
+                            backgroundColor: backgroundColor,
+                            borderColor: borderColor,
                             borderWidth: 1,
                         },
                     ],
