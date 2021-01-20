@@ -70,6 +70,7 @@ function InvoiceDetailScreen(props) {
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">hình ảnh </th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">tên sản phẩm </th>
                                                 <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">số lượng</th>
+                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">đơn giá</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,6 +89,7 @@ function InvoiceDetailScreen(props) {
                                                     </td>
                                                     <td>{product.name}</td>
                                                     <td>{product.ProductOnBill.quantity}</td>
+                                                    <td>{product.sell_price.toLocaleString() + " vnd"}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

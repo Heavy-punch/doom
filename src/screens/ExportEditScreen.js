@@ -39,7 +39,7 @@ function ExportEditScreen(props) {
 
     const dispatch = useDispatch();
 
-    console.log(exportDetails);
+    // console.log(exportDetails);
 
     useEffect(() => {
         if (successUpdate) {
@@ -74,6 +74,7 @@ function ExportEditScreen(props) {
             //     setCheckerId(_export.checkerId);
             // }
             setExportProducts(_export.products);
+
             var arr = [];
             var brr = [];
             for (let i = 0; i < _export.products.length; i++) {
@@ -84,9 +85,11 @@ function ExportEditScreen(props) {
             setRequest_total_unit(brr);
         }
     }, [loading,]);
+    // console.log(exportProducts);
 
 
     const submitHandler = (e) => {
+        // console.log(exportProducts);
         e.preventDefault();
         for (let i = 0; i < exportProducts.length; i++) {
             exportProducts[i] = {
@@ -94,6 +97,7 @@ function ExportEditScreen(props) {
                 request_total_unit: request_total_unit[i],
             };
         }
+        // console.log(exportProducts);
         dispatch(
             updateExport({
                 exportId,
@@ -268,6 +272,7 @@ function ExportEditScreen(props) {
                                                         <thead>
                                                             <tr>
                                                                 <th className="col-md-1">mã số SP</th>
+                                                                <th className="col-md-1">tên SP</th>
                                                                 <th className="col-md-1">số lượng</th>
                                                             </tr>
                                                         </thead>
@@ -279,6 +284,9 @@ function ExportEditScreen(props) {
                                                                         <Link to={`/products/${productId[index]}`}>
                                                                             {productId[index]}
                                                                         </Link>
+                                                                    </td>
+                                                                    <td>
+                                                                        {product.name}
                                                                     </td>
                                                                     <td>
                                                                         <div className="form-group">
