@@ -42,7 +42,7 @@ function ProductAddScreen(props) {
     const categoryList = useSelector((state) => state.categoryList);
     const { loading: loadingCategory, error: errorCategory, categories } = categoryList;
 
-    console.log(categoryId);
+    // console.log(categoryId);
 
     useEffect(() => {
         if (successCreate) {

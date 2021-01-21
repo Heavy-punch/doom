@@ -85,7 +85,7 @@ function UserDetailScreen(props) {
                                                 </tr>
                                                 <tr>
                                                     <td>ngày sinh:</td>
-                                                    <td>{user.BDay}</td>
+                                                    <td>{(new Date(user.BDay)).toLocaleDateString()}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>email:</td>

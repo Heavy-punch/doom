@@ -24,7 +24,7 @@ function BarChart(props) {
                     datasets: [
                         {
                             label: 'vnd',
-                            data: props.barChartData.map((x, index) => index + 10),
+                            data: props.barChartData.map((x, index) => x.profit),
                             backgroundColor: backgroundColor,
                             borderColor: borderColor,
                             borderWidth: 1,
