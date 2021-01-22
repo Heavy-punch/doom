@@ -225,37 +225,39 @@ function SellingScreen(props) {
                     ) : (
                                 <>
                                     {products.length === 0 && <MessageBox>No product Found</MessageBox>}
-                                    <table className="table table-bordered table-hover mt15">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-md-1">id</th>
-                                                <th className="col-xs-2 col-md-2">ảnh</th>
-                                                <th className="col-xs-4 col-md-4">tên</th>
-                                                <th className="col-xs-3 col-md-3">giá bán</th>
-                                                <th className="col-xs-2 col-md-2">thêm</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentProducts.map((product, index) => (
-                                                <tr key={product.PID}>
-                                                    <td>{product.PID}</td>
-                                                    <td><img src={product.img_url} alt={product.name} className="product-img"></img></td>
-                                                    <td>{product.name}</td>
-                                                    <td>{ }<FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-primary"
-                                                            disabled={product.store_curr_qtt <= 0}
-                                                            onClick={() => addToCart(product, 1)}
-                                                        >
-                                                            <i className="fa fa-plus" aria-hidden="true"></i>
-                                                        </button>
-                                                    </td>
+                                    <div className="search-result">
+                                        <table className="table table-bordered table-hover mt15">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-md-1">id</th>
+                                                    <th className="col-xs-2 col-md-2">ảnh</th>
+                                                    <th className="col-xs-4 col-md-4">tên</th>
+                                                    <th className="col-xs-3 col-md-3">giá bán</th>
+                                                    <th className="col-xs-2 col-md-2">thêm</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {currentProducts.map((product, index) => (
+                                                    <tr key={product.PID}>
+                                                        <td>{product.PID}</td>
+                                                        <td><img src={product.img_url} alt={product.name} className="product-img"></img></td>
+                                                        <td>{product.name}</td>
+                                                        <td>{ }<FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-primary"
+                                                                disabled={product.store_curr_qtt <= 0}
+                                                                onClick={() => addToCart(product, 1)}
+                                                            >
+                                                                <i className="fa fa-plus" aria-hidden="true"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     {products.length > productsPerPage ? <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination> : <br></br>}
                                 </>
                             )}

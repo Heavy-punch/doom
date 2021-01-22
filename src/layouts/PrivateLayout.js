@@ -186,7 +186,7 @@ function PrivateLayout() {
 
                 </div>
             </div> */}
-            <div className="footer">this is footer</div>
+            <div className="footer">contact</div>
         </div>
     );
 }

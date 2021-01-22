@@ -93,48 +93,50 @@ function ShelfScreen(props) {
                     ) : (
                                 <>
                                     {shelves.length === 0 && <MessageBox>No shelf Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">loại kệ</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">vị trí đặt</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">trạng thái</th>
-                                                <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentShelves.map((shelf, index) => (
-                                                <tr key={shelf.ShID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{shelf.ShID}</td>
-                                                    <td>{shelf.name}</td>
-                                                    <td>{shelf.type === "small" ? "nhỏ" : shelf.type === "medium" ? "vừa" : "lớn"}</td>
-                                                    <td>{shelf.location === "store" ? "cửa hàng" : "nhà kho"}</td>
-                                                    <td>{shelf.state === "full" ? "đầy" : "còn trống"}</td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(shelf.ShID)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(shelf.ShID)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
-                                                        </button>
-                                                    </td>
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">loại kệ</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">vị trí đặt</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">trạng thái</th>
+                                                    <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    <Pagination itemsPerPage={shelvesPerPage} totalItems={shelves.length} paginate={paginate}></Pagination>
+                                            </thead>
+                                            <tbody>
+                                                {currentShelves.map((shelf, index) => (
+                                                    <tr key={shelf.ShID}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{shelf.ShID}</td>
+                                                        <td>{shelf.name}</td>
+                                                        <td>{shelf.type === "small" ? "nhỏ" : shelf.type === "medium" ? "vừa" : "lớn"}</td>
+                                                        <td>{shelf.location === "store" ? "cửa hàng" : "nhà kho"}</td>
+                                                        <td>{shelf.state === "full" ? "đầy" : "còn trống"}</td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-warning m-10"
+                                                                onClick={() => editHandler(shelf.ShID)}
+                                                            >
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(shelf.ShID)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {currentShelves.length > shelvesPerPage ? <Pagination itemsPerPage={shelvesPerPage} totalItems={shelves.length} paginate={paginate}></Pagination> : <br />}
                                 </>
                             )}
                 </div>

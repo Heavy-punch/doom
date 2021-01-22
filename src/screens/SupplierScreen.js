@@ -96,50 +96,52 @@ function SupplierScreen(props) {
                     ) : (
                                 <>
                                     {suppliers.length === 0 && <MessageBox>No supplier Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">email</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">mã số thuế</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentSuppliers.map((supplier, index) => (
-                                                <tr key={supplier.SupID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{supplier.SupID}</td>
-                                                    <td>{supplier.name}</td>
-                                                    <td>{supplier.Email}</td>
-                                                    <td>{supplier.Address}</td>
-                                                    <td>{supplier.telephoneNumber}</td>
-                                                    <td>{supplier.Tax_ID}</td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(supplier.SupID)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(supplier.SupID)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
-                                                        </button>
-                                                    </td>
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">email</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">mã số thuế</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    <Pagination itemsPerPage={suppliersPerPage} totalItems={suppliers.length} paginate={paginate}></Pagination>
+                                            </thead>
+                                            <tbody>
+                                                {currentSuppliers.map((supplier, index) => (
+                                                    <tr key={supplier.SupID}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{supplier.SupID}</td>
+                                                        <td>{supplier.name}</td>
+                                                        <td>{supplier.Email}</td>
+                                                        <td>{supplier.Address}</td>
+                                                        <td>{supplier.telephoneNumber}</td>
+                                                        <td>{supplier.Tax_ID}</td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-warning m-10"
+                                                                onClick={() => editHandler(supplier.SupID)}
+                                                            >
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(supplier.SupID)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {currentSuppliers.length > suppliersPerPage ? <Pagination itemsPerPage={suppliersPerPage} totalItems={suppliers.length} paginate={paginate}></Pagination> : <br />}
                                 </>
                             )}
                 </div>

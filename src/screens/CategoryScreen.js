@@ -92,49 +92,52 @@ function CategoryScreen(props) {
                     ) : (
                                 <>
                                     {categories.length === 0 && <MessageBox>No Category Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">hình ảnh</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">danh sách kệ hàng</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentCategories.map((category, index) => (
-                                                <tr key={category.CID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{category.CID}</td>
-                                                    <td><img src={category.img_url} alt={category.name} className="cat-img"></img></td>
-                                                    <td>{category.name}</td>
-                                                    <td>
-                                                        <ul>{category.shelves.map((shelf, index) => (
-                                                            <li key={shelf.ShID}>{shelf.ShID}</li>
-                                                        ))}</ul>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(category.CID)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(category.CID)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
-                                                        </button>
-                                                    </td>
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">hình ảnh</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">danh sách kệ hàng</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {currentCategories.map((category, index) => (
+                                                    <tr key={category.CID}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{category.CID}</td>
+                                                        <td><img src={category.img_url} alt={category.name} className="cat-img"></img></td>
+                                                        <td>{category.name}</td>
+                                                        <td>
+                                                            <ul>{category.shelves.map((shelf, index) => (
+                                                                <li key={shelf.ShID}>{shelf.ShID}</li>
+                                                            ))}</ul>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-warning m-10"
+                                                                onClick={() => editHandler(category.CID)}
+                                                            >
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(category.CID)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                     <Pagination itemsPerPage={categoriesPerPage} totalItems={categories.length} paginate={paginate}></Pagination>
                                 </>
                             )}

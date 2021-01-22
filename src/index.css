@@ -394,7 +394,29 @@ label {
   width: 100%;
   align-items: center;
 }
+.OP-state select {
+  padding: 1px;
+}
 
 .pagination li {
   cursor: pointer;
+}
+
+.search-result {
+  height: calc(36px + 5 * 72px);
+}
+
+.table-list {
+  height: 410px;
+}
+.table-list td {
+  height: 71px;
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.alert {
+  padding: 5px;
 }

@@ -144,72 +144,75 @@ function ProductScreen(props) {
                                 </div>
                                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
                                     {products.length === 0 && <MessageBox>No Product Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">hình ảnh</th>
-                                                <th className="col-sm-1 col-md-2 col-lg-2 center">
-                                                    <span>tên</span>
-                                                    <span>
-                                                        <button type="button" className="btn btn-primary fr" onClick={onSort}>
-                                                            <span>
-                                                                <i className={isUp ? "fa fa-arrow-up ml-3" : "fa fa-arrow-down ml-3"} aria-hidden="true"></i>
-                                                            </span>
-                                                        </button>
-                                                    </span>
-                                                </th>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">ngành hàng</th>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">thương hiệu</th>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">tồn kho</th>
-                                                <th className="col-sm-1 col-md-1 col-lg-1">cửa hàng</th>
-                                                {/* <th>giá nhập</th> */}
-                                                <th className="col-sm-1 col-md-1 col-lg-1">giá bán</th>
-                                                <th className="col-sm-1 col-md-2 col-lg-2">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentProducts.map((product, index) => (
-                                                <tr key={product.PID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{product.PID}</td>
-                                                    <td>
-                                                        <Link to={`/products/${product.PID}`}>
-                                                            <img src={product.img_url} alt={product.name} className="product-img"></img>
-                                                        </Link>
-                                                    </td>
-                                                    <td>
-                                                        <Link to={`/products/${product.PID}`}>
-                                                            {product.name}
-                                                        </Link>
-                                                    </td>
-                                                    <td>{product.category.name}</td>
-                                                    <td>{product.brand}</td>
-                                                    <td>{product.warehouse_curr_qtt}</td>
-                                                    <td>{product.store_curr_qtt}</td>
-                                                    {/* <td>null</td> */}
-                                                    <td><FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(product.PID)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(product.PID)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
-                                                        </button>
-                                                    </td>
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">hình ảnh</th>
+                                                    <th className="col-sm-1 col-md-2 col-lg-2 center">
+                                                        <span>tên</span>
+                                                        <span>
+                                                            <button type="button" className="btn btn-primary fr" onClick={onSort}>
+                                                                <span>
+                                                                    <i className={isUp ? "fa fa-arrow-up ml-3" : "fa fa-arrow-down ml-3"} aria-hidden="true"></i>
+                                                                </span>
+                                                            </button>
+                                                        </span>
+                                                    </th>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">ngành hàng</th>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">thương hiệu</th>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">tồn kho</th>
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">cửa hàng</th>
+                                                    {/* <th>giá nhập</th> */}
+                                                    <th className="col-sm-1 col-md-1 col-lg-1">giá bán</th>
+                                                    <th className="col-sm-1 col-md-2 col-lg-2">thao tác</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {currentProducts.map((product, index) => (
+                                                    <tr key={product.PID}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{product.PID}</td>
+                                                        <td>
+                                                            <Link to={`/products/${product.PID}`}>
+                                                                <img src={product.img_url} alt={product.name} className="product-img"></img>
+                                                            </Link>
+                                                        </td>
+                                                        <td>
+                                                            <Link to={`/products/${product.PID}`}>
+                                                                {product.name}
+                                                            </Link>
+                                                        </td>
+                                                        <td>{product.category.name}</td>
+                                                        <td>{product.brand}</td>
+                                                        <td>{product.warehouse_curr_qtt}</td>
+                                                        <td>{product.store_curr_qtt}</td>
+                                                        {/* <td>null</td> */}
+                                                        <td><FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-warning m-10"
+                                                                onClick={() => editHandler(product.PID)}
+                                                            >
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(product.PID)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                     {/* <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination> */}
                                     {result.length > productsPerPage ? <Pagination itemsPerPage={productsPerPage} totalItems={result.length} paginate={paginate}></Pagination> : <br />}
                                 </div>

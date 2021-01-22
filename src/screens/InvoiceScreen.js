@@ -77,16 +77,17 @@ function InvoiceScreen(props) {
                     ) : (
                                 <>
                                     {invoices.length === 0 && <MessageBox>No invoice Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên khách hàng</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                    ngày bán
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tên khách hàng</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        ngày bán
                                                     {/* <span>ngày bán</span> */}
-                                                    {/* <span>
+                                                        {/* <span>
                                                         <button type="button" className="btn btn-primary" onClick={() => { isUp ? setIsUp(false) : setIsUp(true) }}>
                                                             sắp xếp
                                             <span>
@@ -94,46 +95,47 @@ function InvoiceScreen(props) {
                                                             </span>
                                                         </button>
                                                     </span> */}
-                                                </th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">nhân viên thực hiện</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">thành tiền</th>
-                                                <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentInvoices.map((invoice, index) => (
-                                                <tr key={invoice.BID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>
-                                                        <Link to={`/invoices/${invoice.BID}`}>
-                                                            {invoice.BID}
-                                                        </Link>
-                                                    </td>
-                                                    <td>{invoice.cus_name}</td>
-                                                    <td>{invoice.createdAt.slice(0, 10).split("-").reverse().join("-")}</td>
-                                                    <td>{invoice.manager.LName + " " + invoice.manager.FName + " - " + invoice.MngID}</td>
-                                                    <td><FormatCurrency number={invoice.total.toString()}></FormatCurrency></td>
-                                                    <td>
-                                                        {/* <button
+                                                    </th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">nhân viên thực hiện</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">thành tiền</th>
+                                                    <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {currentInvoices.map((invoice, index) => (
+                                                    <tr key={invoice.BID}>
+                                                        <td>{index + 1}</td>
+                                                        <td>
+                                                            <Link to={`/invoices/${invoice.BID}`}>
+                                                                {invoice.BID}
+                                                            </Link>
+                                                        </td>
+                                                        <td>{invoice.cus_name}</td>
+                                                        <td>{invoice.createdAt.slice(0, 10).split("-").reverse().join("-")}</td>
+                                                        <td>{invoice.manager.LName + " " + invoice.manager.FName + " - " + invoice.MngID}</td>
+                                                        <td><FormatCurrency number={invoice.total.toString()}></FormatCurrency></td>
+                                                        <td>
+                                                            {/* <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
                                                             onClick={() => editHandler(invoice.BID)}
                                                         >
                                                             <i className="fa fa-pencil" aria-hidden="true"></i> sửa
                                                         </button> */}
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(invoice.BID)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(invoice.BID)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
                                                         </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    <Pagination itemsPerPage={invoicesPerPage} totalItems={invoices.length} paginate={paginate}></Pagination>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {currentInvoices.length > invoicesPerPage ? <Pagination itemsPerPage={invoicesPerPage} totalItems={invoices.length} paginate={paginate}></Pagination> : <br />}
                                 </>
                             )}
                 </div>
