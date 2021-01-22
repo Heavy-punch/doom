@@ -387,3 +387,14 @@ label {
 .mg-div-0 div {
   margin: 0;
 }
+
+.OP-state {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+}
+
+.pagination li {
+  cursor: pointer;
+}

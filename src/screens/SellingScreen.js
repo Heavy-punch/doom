@@ -69,6 +69,7 @@ function SellingScreen(props) {
 
     const onSearchHandler = (e) => {
         e.preventDefault();
+        paginate(1);
         dispatch(listProducts({ name_keyword: name, categoryId: cate }));
         setName('');
         // setName(null);

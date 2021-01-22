@@ -30,12 +30,38 @@ function ExportScreen(props) {
     }, [dispatch, successDelete]);
     // console.log(exports);
 
+    const [EXstate, setEXState] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [exportsPerPage] = useState(5);
 
     const indexOfLastProduct = currentPage * exportsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - exportsPerPage;
-    const currentExports = exports !== undefined ? exports.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    // const currentExports = exports !== undefined ? exports.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const [currentExports, setCurrentExports] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
+
+    useEffect(() => {
+        if (!loading) {
+            switch (EXstate) {
+                case 'request':
+                    setFilteredList(exports.filter(im => im.state === 'request'));
+                    setCurrentExports(exports.filter(im => im.state === 'request').slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+                case 'executed':
+                    setFilteredList(exports.filter(im => im.state === 'executed'));
+                    setCurrentExports(exports.filter(im => im.state === 'executed').slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+                case 'close':
+                    setFilteredList(exports.filter(im => im.state === 'close'));
+                    setCurrentExports(exports.filter(im => im.state === 'close').slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+                default:
+                    setFilteredList(exports);
+                    setCurrentExports(exports.slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+            }
+        }
+    }, [dispatch, loading, currentPage, EXstate]);
 
     // console.log(currentExports);
 
@@ -59,6 +85,10 @@ function ExportScreen(props) {
         else {
             props.history.push(`/exports/${editItem.ExID}/edit`)
         }
+    };
+    const onChangeState = (e) => {
+        setEXState(e.target.value)
+        paginate(1);
     };
     return (
         <div className="container-fluid">
@@ -101,29 +131,49 @@ function ExportScreen(props) {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th className="col-sm-1 col-md-1">stt</th>
-                                                <th className="col-sm-1 col-md-1">id</th>
-                                                <th className="col-md-2">ngày yêu cầu</th>
-                                                <th className="col-md-1">độ ưu tiên</th>
-                                                <th className="col-md-1">NV yêu cầu</th>
-                                                <th className="col-md-1">NV thực hiện</th>
-                                                <th className="col-md-1">NV kiểm hàng</th>
-                                                <th className="col-md-1">trạng thái</th>
-                                                <th className="col-md-2">thao tác</th>
+                                                <th className="col-sm-1 col-md-1 center">stt</th>
+                                                <th className="col-sm-1 col-md-1 center">id</th>
+                                                <th className="col-md-2 center">ngày yêu cầu</th>
+                                                <th className="col-md-1 center">độ ưu tiên</th>
+                                                <th className="col-md-1 center">NV yêu cầu</th>
+                                                <th className="col-md-1 center">NV thực hiện</th>
+                                                <th className="col-md-1 center">NV kiểm hàng</th>
+                                                {/* <th className="col-md-1">trạng thái</th> */}
+                                                <th className="col-md-2">
+                                                    <div className="OP-state">
+                                                        <span>trạng thái</span>
+                                                        <span>
+                                                            <select
+                                                                type="text"
+                                                                className="form-control"
+                                                                name="state"
+                                                                value={EXstate}
+                                                                // onChange={(e) => setIMState(e.target.value)}
+                                                                onChange={onChangeState}
+                                                            >
+                                                                <option value="">tất cả</option>
+                                                                <option value="request">yêu cầu</option>
+                                                                <option value="executed">đã thực hiện</option>
+                                                                <option value="close">đóng</option>
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                                <th className="col-md-2 center">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {currentExports.map((exp, index) => (
                                                 <tr key={exp.ExID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{exp.ExID}</td>
-                                                    <td>{exp.request_export_date.slice(0, 10)}</td>
-                                                    <td>{exp.urgent_level}</td>
-                                                    <td>{exp.requesterId}</td>
-                                                    <td>{exp.executorId}</td>
-                                                    <td>{exp.checkerId}</td>
-                                                    <td><span className={exp.state === "request" ? "label label-info" : exp.state === "executed" ? "label label-success" : "label label-default"}>{exp.state}</span></td>
-                                                    <td>
+                                                    <td className="center">{index + 1}</td>
+                                                    <td className="center">{exp.ExID}</td>
+                                                    <td className="center">{(new Date(exp.request_export_date)).toLocaleDateString()}</td>
+                                                    <td className="center">{exp.urgent_level}</td>
+                                                    <td className="center">{exp.requesterId}</td>
+                                                    <td className="center">{exp.executorId}</td>
+                                                    <td className="center">{exp.checkerId}</td>
+                                                    <td className="center"><span className={exp.state === "request" ? "label label-info" : exp.state === "executed" ? "label label-success" : "label label-default"}>{exp.state}</span></td>
+                                                    <td className="center">
                                                         <button
                                                             type="button"
                                                             className="btn btn-warning m-10"
@@ -143,7 +193,8 @@ function ExportScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <Pagination itemsPerPage={exportsPerPage} totalItems={exports.length} paginate={paginate}></Pagination>
+                                    {/* <Pagination itemsPerPage={exportsPerPage} totalItems={exports.length} paginate={paginate}></Pagination> */}
+                                    {filteredList.length > exportsPerPage ? (<Pagination itemsPerPage={exportsPerPage} totalItems={filteredList.length} paginate={paginate}></Pagination>) : <br />}
                                 </>
                             )
                     }

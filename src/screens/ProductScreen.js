@@ -88,6 +88,7 @@ function ProductScreen(props) {
         var searchList = [...products].filter((item) => removeVietnameseTones(item.name.toLowerCase()).indexOf(keyword) !== -1);
         setResult(searchList);
         setKeyword('');
+        paginate(1);
     };
 
     const onSort = () => {
@@ -210,7 +211,7 @@ function ProductScreen(props) {
                                         </tbody>
                                     </table>
                                     {/* <Pagination itemsPerPage={productsPerPage} totalItems={products.length} paginate={paginate}></Pagination> */}
-                                    <Pagination itemsPerPage={productsPerPage} totalItems={result.length} paginate={paginate}></Pagination>
+                                    {result.length > productsPerPage ? <Pagination itemsPerPage={productsPerPage} totalItems={result.length} paginate={paginate}></Pagination> : <br />}
                                 </div>
                             </>
                         )}
