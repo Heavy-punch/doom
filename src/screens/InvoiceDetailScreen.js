@@ -89,7 +89,7 @@ function InvoiceDetailScreen(props) {
                                                     </td>
                                                     <td>{product.name}</td>
                                                     <td>{product.ProductOnBill.quantity}</td>
-                                                    <td>{product.sell_price.toLocaleString() + " vnd"}</td>
+                                                    <td>{product.ProductOnBill.static_price.toLocaleString() + " vnd"}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

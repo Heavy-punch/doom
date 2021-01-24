@@ -94,50 +94,52 @@ function DiscountLabelScreen(props) {
                     ) : (
                                 <>
                                     {discounts.length === 0 && <MessageBox>No discount Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tiêu đề</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">độ giảm giá</th>
-                                                <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">mô tả</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">ngày bắt đầu</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">ngày kết thúc</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentDiscounts.map((discount, index) => (
-                                                <tr key={discount.discountId}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{discount.discountId}</td>
-                                                    <td>{discount.title}</td>
-                                                    <td>{discount.rate}</td>
-                                                    <td className="discount-description">{discount.description}</td>
-                                                    <td>{discount.start_date}</td>
-                                                    <td>{discount.end_date}</td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(discount.discountId)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(discount.discountId)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
-                                                        </button>
-                                                    </td>
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">tiêu đề</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">độ giảm giá</th>
+                                                    <th className="col-xs-3 col-sm-3 col-md-3 col-lg-3">mô tả</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">ngày bắt đầu</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">ngày kết thúc</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    <Pagination itemsPerPage={discountsPerPage} totalItems={discounts.length} paginate={paginate}></Pagination>
+                                            </thead>
+                                            <tbody>
+                                                {currentDiscounts.map((discount, index) => (
+                                                    <tr key={discount.discountId}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{discount.discountId}</td>
+                                                        <td>{discount.title}</td>
+                                                        <td>{discount.rate}</td>
+                                                        <td className="discount-description">{discount.description}</td>
+                                                        <td>{discount.start_date}</td>
+                                                        <td>{discount.end_date}</td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-warning m-10"
+                                                                onClick={() => editHandler(discount.discountId)}
+                                                            >
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(discount.discountId)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {currentDiscounts.length > discountsPerPage ? <Pagination itemsPerPage={discountsPerPage} totalItems={discounts.length} paginate={paginate}></Pagination> : <br />}
                                 </>
                             )}
                 </div>

@@ -35,7 +35,7 @@ function UserScreen(props) {
 
     const indexOfLastProduct = currentPage * usersPerPage;
     const indexOfFirstProduct = indexOfLastProduct - usersPerPage;
-    const currentUserdeleteUsers = users !== undefined ? users.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const currentUsers = users !== undefined ? users.slice(indexOfFirstProduct, indexOfLastProduct) : [];
 
     // console.log(currentUserdeleteUsers);
 
@@ -96,58 +96,60 @@ function UserScreen(props) {
                     ) : (
                                 <>
                                     {users.length === 0 && <MessageBox>No user Found</MessageBox>}
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">avatar</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">email</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">phân loại</th>
-                                                <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">trạng thái</th>
-                                                <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {currentUserdeleteUsers.map((user, index) => (
-                                                <tr key={user.MngID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>
-                                                        <Link to={`/users/${user.MngID}`}>
-                                                            {user.MngID}
-                                                        </Link>
-                                                    </td>
-                                                    <td><img src={user.avt_url} alt={user.name} className="product-img"></img></td>
-                                                    <td>{user.LName + " " + user.FName}</td>
-                                                    <td>{user.email}</td>
-                                                    <td>{user.Address}</td>
-                                                    <td>{user.telephoneNumber}</td>
-                                                    <td>{user.managerType === "prime" ? "nâng cao" : "bình thường"}</td>
-                                                    <td><span className={user.is_active === 0 ? "label label-default" : "label label-primary"}>{user.is_active === 1 ? "kích hoạt" : "vô hiệu"}</span></td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(user.MngID)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-danger m-10"
-                                                            onClick={() => deleteHandler(user.MngID)}
-                                                        >
-                                                            <i className="fa fa-trash" aria-hidden="true"></i> xóa
-                                                        </button>
-                                                    </td>
+                                    <div className="table-list">
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">stt</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">id</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">avatar</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">tên</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">email</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">địa chỉ</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">số điện thoại</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">phân loại</th>
+                                                    <th className="col-xs-1 col-sm-1 col-md-1 col-lg-1">trạng thái</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2">thao tác</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    <Pagination itemsPerPage={usersPerPage} totalItems={users.length} paginate={paginate}></Pagination>
+                                            </thead>
+                                            <tbody>
+                                                {currentUsers.map((user, index) => (
+                                                    <tr key={user.MngID}>
+                                                        <td>{index + 1}</td>
+                                                        <td>
+                                                            <Link to={`/users/${user.MngID}`}>
+                                                                {user.MngID}
+                                                            </Link>
+                                                        </td>
+                                                        <td><img src={user.avt_url} alt={user.name} className="product-img"></img></td>
+                                                        <td>{user.LName + " " + user.FName}</td>
+                                                        <td>{user.email}</td>
+                                                        <td>{user.Address}</td>
+                                                        <td>{user.telephoneNumber}</td>
+                                                        <td>{user.managerType === "prime" ? "nâng cao" : "bình thường"}</td>
+                                                        <td><span className={user.is_active === 0 ? "label label-default" : "label label-primary"}>{user.is_active === 1 ? "kích hoạt" : "vô hiệu"}</span></td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-warning m-10"
+                                                                onClick={() => editHandler(user.MngID)}
+                                                            >
+                                                                <i className="fa fa-pencil" aria-hidden="true"></i> sửa
+                                                        </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-danger m-10"
+                                                                onClick={() => deleteHandler(user.MngID)}
+                                                            >
+                                                                <i className="fa fa-trash" aria-hidden="true"></i> xóa
+                                                        </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {currentUsers.length > usersPerPage ? <Pagination itemsPerPage={usersPerPage} totalItems={users.length} paginate={paginate}></Pagination> : <br />}
                                 </>
                             )}
                 </div>

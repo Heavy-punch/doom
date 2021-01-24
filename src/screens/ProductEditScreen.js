@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { listCategories } from '../actions/categoryActions';
 import { detailsProduct, updateProduct } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -38,6 +39,9 @@ function ProductEditScreen(props) {
     const productDetails = useSelector((state) => state.productDetails);
     const { loading, error, product } = productDetails;
 
+    const categoryList = useSelector((state) => state.categoryList);
+    const { loading: loadingCategory, error: errorCategory, categories } = categoryList;
+
     const productUpdate = useSelector((state) => state.productUpdate);
     const {
         loading: loadingUpdate,
@@ -45,7 +49,7 @@ function ProductEditScreen(props) {
         success: successUpdate,
     } = productUpdate;
 
-    // console.log(productCreate);
+    console.log(catID);
 
     useEffect(() => {
         if (successUpdate) {
@@ -56,6 +60,7 @@ function ProductEditScreen(props) {
             dispatch({ type: PRODUCT_UPDATE_RESET });
             dispatch(detailsProduct(productId));
         }
+        dispatch(listCategories());
         dispatch({ type: PRODUCT_UPDATE_RESET });
     }, [dispatch, successUpdate, props.history,]);
 
@@ -98,7 +103,7 @@ function ProductEditScreen(props) {
         formData.append('sell_price', sell_price);
         formData.append('import_price', import_price);
         formData.append('brand', brand);
-        formData.append('catID', catID);
+        formData.append('categoryId', catID);
         formData.append('qtt_per_unit', qtt_per_unit);
         formData.append('description', description);
         formData.append('otherDetail', otherDetail);
@@ -190,7 +195,7 @@ function ProductEditScreen(props) {
                                                 onChange={(e) => setBrand(e.target.value)}
                                             />
                                         </div>
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                             <label className="form-label">mã số ngành hàng:</label>
                                             <input
                                                 type="text"
@@ -199,6 +204,31 @@ function ProductEditScreen(props) {
                                                 value={catID}
                                                 onChange={(e) => setCatID(e.target.value)}
                                             />
+                                        </div> */}
+                                        <div className="form-group">
+                                            <label className="form-label">ngành hàng:</label>
+                                            {loadingCategory ? (
+                                                <LoadingBox></LoadingBox>
+                                            ) : errorCategory ? (
+                                                <MessageBox variant="danger">{errorCategory}</MessageBox>
+                                            ) : (
+                                                        <>
+                                                            <select
+                                                                type="text"
+                                                                className="form-control"
+                                                                value={catID}
+                                                                onChange={(e) => setCatID(e.target.value)}
+                                                            >
+                                                                <option value=""></option>
+                                                                {
+                                                                    categories.map((cate, index) => (
+                                                                        <option key={cate.CID} value={cate.CID}>{cate.name}</option>
+                                                                    ))
+                                                                }
+                                                            </select>
+                                                        </>
+                                                    )
+                                            }
                                         </div>
                                         <div className="form-group">
                                             <label className="form-label">mô tả :</label>
@@ -339,7 +369,7 @@ function ProductEditScreen(props) {
                                                 onChange={(e) => setDiscountId(e.target.value)}
                                             />
                                         </div>
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                             <label className="form-label">thuế giá trị gia tăng:</label>
                                             <input
                                                 type="number"
@@ -348,7 +378,7 @@ function ProductEditScreen(props) {
                                                 value={vat}
                                                 onChange={(e) => setVat(e.target.value)}
                                             />
-                                        </div>
+                                        </div> */}
                                         <div className="form-group">
                                             <label className="form-label">thời hạn thông báo thanh lý:</label>
                                             <input

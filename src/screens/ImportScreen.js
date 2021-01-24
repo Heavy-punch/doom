@@ -30,12 +30,39 @@ function ImportScreen(props) {
     }, [dispatch, successDelete]);
     // console.log(imports);
 
+    const [IMstate, setIMState] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [importsPerPage] = useState(5);
 
     const indexOfLastProduct = currentPage * importsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - importsPerPage;
-    const currentImports = imports !== undefined ? imports.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    // const currentImports = imports !== undefined ? imports.slice(indexOfFirstProduct, indexOfLastProduct) : [];
+    const [currentImports, setCurrentImports] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
+
+
+    useEffect(() => {
+        if (!loading) {
+            switch (IMstate) {
+                case 'request':
+                    setFilteredList(imports.filter(im => im.state === 'request'));
+                    setCurrentImports(imports.filter(im => im.state === 'request').slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+                case 'executed':
+                    setFilteredList(imports.filter(im => im.state === 'executed'));
+                    setCurrentImports(imports.filter(im => im.state === 'executed').slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+                case 'close':
+                    setFilteredList(imports.filter(im => im.state === 'close'));
+                    setCurrentImports(imports.filter(im => im.state === 'close').slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+                default:
+                    setFilteredList(imports);
+                    setCurrentImports(imports.slice(indexOfFirstProduct, indexOfLastProduct));
+                    break;
+            }
+        }
+    }, [dispatch, loading, currentPage, IMstate,]);
 
     // console.log(currentImports);
 
@@ -59,6 +86,10 @@ function ImportScreen(props) {
         else {
             props.history.push(`/imports/${editItem.ImID}/edit`);
         }
+    };
+    const onChangeState = (e) => {
+        setIMState(e.target.value)
+        paginate(1);
     };
     return (
         <div className="container-fluid">
@@ -101,30 +132,52 @@ function ImportScreen(props) {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th className="col-sm-1 col-md-1">stt</th>
-                                                <th className="col-sm-1 col-md-1">id</th>
-                                                <th className="col-md-2">ngày yêu cầu</th>
-                                                <th className="col-md-1">độ ưu tiên</th>
-                                                <th className="col-md-1">NV yêu cầu</th>
-                                                <th className="col-md-1">NV thực hiện</th>
-                                                <th className="col-md-1">NV kiểm hàng</th>
-                                                <th className="col-md-1">nhà cung cấp</th>
-                                                <th className="col-md-1">trạng thái</th>
-                                                <th className="col-md-2">thao tác</th>
+                                                <th className="col-sm-1 col-md-1 center">stt</th>
+                                                <th className="col-sm-1 col-md-1 center">id</th>
+                                                <th className="col-md-1 center">ngày yêu cầu</th>
+                                                <th className="col-md-1 center">độ ưu tiên</th>
+                                                <th className="col-md-1 center">NV yêu cầu</th>
+                                                <th className="col-md-1 center">NV thực hiện</th>
+                                                <th className="col-md-1 center">NV kiểm hàng</th>
+                                                <th className="col-md-1 center">nhà cung cấp</th>
+
+                                                {/* <th className="col-md-1">trạng thái</th> */}
+                                                <th className="col-md-2">
+                                                    <div className="OP-state">
+                                                        <span>trạng thái</span>
+                                                        <span>
+                                                            <select
+                                                                type="text"
+                                                                className="form-control"
+                                                                name="state"
+                                                                value={IMstate}
+                                                                // onChange={(e) => setIMState(e.target.value)}
+                                                                onChange={onChangeState}
+                                                            >
+                                                                <option value="">tất cả</option>
+                                                                <option value="request">yêu cầu</option>
+                                                                <option value="executed">đã thực hiện</option>
+                                                                <option value="close">đóng</option>
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </th>
+
+                                                <th className="col-md-2 center">thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {currentImports.map((imp, index) => (
                                                 <tr key={imp.ImID}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{imp.ImID}</td>
-                                                    <td>{imp.request_import_date.slice(0, 10)}</td>
-                                                    <td>{imp.urgent_level}</td>
-                                                    <td>{imp.requesterId}</td>
-                                                    <td>{imp.executorId}</td>
-                                                    <td>{imp.checkerId}</td>
-                                                    <td>{imp.supplierId}</td>
-                                                    <td><span className={imp.state === "request" ? "label label-info" : imp.state === "executed" ? "label label-success" : "label label-default"}>{imp.state}</span></td>
+                                                    <td className="center">{index + 1}</td>
+                                                    <td className="center">{imp.ImID}</td>
+                                                    <td className="center">{(new Date(imp.request_import_date)).toLocaleDateString()}</td>
+                                                    <td className="center">{imp.urgent_level}</td>
+                                                    <td className="center">{imp.requesterId}</td>
+                                                    <td className="center">{imp.executorId}</td>
+                                                    <td className="center">{imp.checkerId}</td>
+                                                    <td className="center">{imp.supplierId}</td>
+                                                    <td className="center"><span className={imp.state === "request" ? "label label-info" : imp.state === "executed" ? "label label-success" : "label label-default"}>{imp.state}</span></td>
                                                     <td>
                                                         <button
                                                             type="button"
@@ -145,7 +198,7 @@ function ImportScreen(props) {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <Pagination itemsPerPage={importsPerPage} totalItems={imports.length} paginate={paginate}></Pagination>
+                                    {filteredList.length > importsPerPage ? (<Pagination itemsPerPage={importsPerPage} totalItems={filteredList.length} paginate={paginate}></Pagination>) : <br />}
                                 </>
                             )}
                 </div>
