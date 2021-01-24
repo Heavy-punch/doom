@@ -37,6 +37,8 @@ function StatisticScreen(props) {
     const [doughnutTimeFilter, setDoughnutTimeFilter] = useState(1);
     const [lineMonths, setLineMonths] = useState(6);
     const [paymentImport, setPaymentImport] = useState(0);
+    const [dailyTotal, setDailyTotal] = useState(0);
+    const [dailyProfit, setDailyProfit] = useState(0);
 
     useEffect(() => {
         if (!loadingCategory && !loadingInvoice) {
@@ -90,8 +92,23 @@ function StatisticScreen(props) {
                         }
                     }
                 }
-                console.log(newArr2);
+                // console.log(newArr2);
                 // ****************END data for line chart*******************************
+
+                // ****************START data for daily report*******************************
+                let newArr3 = invoices.filter((x) => (((new Date(x.createdAt))).getTime() > (new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime())));
+                let total = 0;
+                let profit = 0;
+                for (let i = 0; i < newArr3.length; i++) {
+                    total += newArr3[i].total;
+                    profit += newArr3[i].total - newArr3[i].products.reduce((a, b) => (a + b.ProductOnBill.quantity * b.ProductOnBill.static_import_price), 0);
+                }
+                setDailyTotal(total);
+                setDailyProfit(profit);
+                console.log(total, " ", profit);
+                console.log(dailyTotal, " ", dailyProfit);
+                // ****************END data for daily report*******************************
+
             }
 
         }
@@ -112,7 +129,7 @@ function StatisticScreen(props) {
             }
             // console.log(total);
             setPaymentImport(total);
-            console.log(paymentImport);
+            // console.log(paymentImport);
         }
     }, [dispatch, loadingCategory, loadingInvoice, loadingImports]);
 
@@ -201,13 +218,46 @@ function StatisticScreen(props) {
                                                             </Link>
                                                         </td>
                                                         <td>{invoice.cus_name}</td>
-                                                        <td>{invoice.createdAt.slice(0, 10).split("-").reverse().join("-")}</td>
+                                                        {/* <td>{invoice.createdAt.slice(0, 10).split("-").reverse().join("-")}</td> */}
+                                                        <td>{(new Date(invoice.createdAt)).toLocaleDateString() + " " + (new Date(invoice.createdAt)).toLocaleTimeString()}</td>
                                                         <td>{invoice.manager.LName + " " + invoice.manager.FName + " - " + invoice.MngID}</td>
-                                                        <td>{invoice.total.toLocaleString()}</td>
+                                                        <td>{invoice.total.toLocaleString()} vnd</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
+                                        <div className="total fr">
+                                            <div className="table-responsive">
+                                                <table className="table table-hover ">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center"><b>tổng thu:</b></td>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center">
+                                                                <b>{dailyTotal.toLocaleString()} vnd</b>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center"><b>lợi nhuận:</b></td>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center">
+                                                                <b>{dailyProfit.toLocaleString()} vnd</b>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center"><b>tổng chi:</b></td>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center">
+                                                                <b>{paymentImport.toLocaleString()} vnd</b>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center"><b>còn lại:</b></td>
+                                                            <td className="col-xs-6 col-sm-6 col-md-3 col-lg-3 center">
+                                                                <b>{(dailyTotal - paymentImport).toLocaleString()} vnd</b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </>

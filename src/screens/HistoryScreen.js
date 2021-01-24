@@ -68,8 +68,8 @@ function HistoryScreen(props) {
                                                     <th className="col-xs-1 col-sm-1 col-md-1 col-lg-2 center">thời gian</th>
                                                     <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">thao tác</th>
                                                     <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">bảng</th>
-                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">đối tượng</th>
-                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">tác nhân</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">nhân viên thực hiện</th>
+                                                    <th className="col-xs-2 col-sm-2 col-md-2 col-lg-2 center">đối tượng ảnh hưởng</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -77,11 +77,11 @@ function HistoryScreen(props) {
                                                     <tr key={history.id}>
                                                         <td className="center">{index + 1}</td>
                                                         <td className="center">{history.id}</td>
-                                                        <td className="center">{(new Date(history.createdAt)).toGMTString()}</td>
+                                                        <td className="center">{(new Date(history.createdAt)).toLocaleDateString() + " " + (new Date(history.createdAt)).toLocaleTimeString()}</td>
                                                         <td className="center">{history.action}</td>
                                                         <td className="center">{history.tableOfAction}</td>
-                                                        <td className="center">{history.affectedRowID}</td>
-                                                        <td className="center">{history.nameInRow + " " + history.MngID}</td>
+                                                        <td className="center">{history.MngID}</td>
+                                                        <td className="center">ID:{history.affectedRowID} *** tên: {history.nameInRow}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
