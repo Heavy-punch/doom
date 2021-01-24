@@ -45,6 +45,7 @@ import ExportAddScreen from '../screens/ExportAddScreen';
 import ExportEditScreen from '../screens/ExportEditScreen';
 import StatisticScreen from '../screens/StatisticScreen';
 import InvoiceDetailScreen from '../screens/InvoiceDetailScreen';
+import HistoryScreen from '../screens/HistoryScreen';
 // import LoadingBox from '../components/LoadingBox';
 
 
@@ -57,6 +58,7 @@ function PrivateLayout() {
     const signoutHandler = () => {
         dispatch(signout());
     };
+
     // console.log(userInfo);
     return (
         <div className="grid-container">
@@ -88,11 +90,13 @@ function PrivateLayout() {
                         <NavLink to="/exports" activeClassName="active">Xuất Hàng</NavLink>
                         <NavLink to="/imports" activeClassName="active">Nhập Hàng</NavLink>
                         <NavLink to="/management" activeClassName="active">Quản Lý</NavLink>
+                        {userInfo.managerType === "prime" && <NavLink to="/history" activeClassName="active">Lịch sử</NavLink>}
                     </div>
                 </div>
                 <div className="content-wraper">
                     <PrivateRoute path="/" exact component={SellingScreen}></PrivateRoute>
                     <PrivateRoute path="/profile" exact component={ProfileScreen}></PrivateRoute>
+                    <PrivateRoute path="/history" exact component={HistoryScreen}></PrivateRoute>
                     <PrivateRoute path="/statistic" component={StatisticScreen}></PrivateRoute>
 
                     <PrivateRoute path="/management" component={ManagementScreen}></PrivateRoute>

@@ -115,13 +115,6 @@ function InvoiceScreen(props) {
                                                         <td>{invoice.manager.LName + " " + invoice.manager.FName + " - " + invoice.MngID}</td>
                                                         <td><FormatCurrency number={invoice.total.toString()}></FormatCurrency></td>
                                                         <td>
-                                                            {/* <button
-                                                            type="button"
-                                                            className="btn btn-warning m-10"
-                                                            onClick={() => editHandler(invoice.BID)}
-                                                        >
-                                                            <i className="fa fa-pencil" aria-hidden="true"></i> sửa
-                                                        </button> */}
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-danger m-10"

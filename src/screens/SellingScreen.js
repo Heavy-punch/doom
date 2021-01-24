@@ -173,6 +173,7 @@ function SellingScreen(props) {
                                     className="form-control"
                                     type="text"
                                     name="search-bar"
+                                    autoComplete="off"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
@@ -268,7 +269,7 @@ function SellingScreen(props) {
                         <div className="invoice">
                             <div className="invoice-info">
                                 <h1>Hóa Đơn</h1>
-                                <p className="invoice-date">Ngày: {getCurrentDate().toDateString()}</p>
+                                <p className="invoice-date">Ngày: {getCurrentDate().toLocaleDateString()}</p>
                                 <p className="invoice-mng">Nhân viên bán hàng: {userInfo.FName + " " + userInfo.LName + " - " + userInfo.MngID}</p>
 
                                 <div className="form-group mg-0 cus-name">

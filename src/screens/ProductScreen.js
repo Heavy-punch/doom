@@ -191,6 +191,7 @@ function ProductScreen(props) {
                                                         <td>{product.store_curr_qtt}</td>
                                                         {/* <td>null</td> */}
                                                         <td><FormatCurrency number={product.sell_price.toString()}></FormatCurrency></td>
+                                                        {/* <td>{product.sell_price.toLocaleString()}</td> */}
                                                         <td>
                                                             <button
                                                                 type="button"
